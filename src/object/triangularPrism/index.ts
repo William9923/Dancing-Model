@@ -1,7 +1,7 @@
-import Base from "../base";
+import Node from "../node";
 import { buildTriangularPrismDatas } from "./initialPoints";
 
-class TriangularPrism extends Base {
+class TriangularPrism extends Node {
   constructor(gl: WebGL2RenderingContext, program: WebGLProgram, baseTransformMatrix: number[]) {
     super(gl, program);
     this.setupPoints();

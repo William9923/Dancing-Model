@@ -1,5 +1,5 @@
 import Light from "../light";
-import BaseObject from "../object";
+import Node from "../object";
 
 export enum UniformMatrix {
   "PROJ" = "mProj",
@@ -182,7 +182,7 @@ class WebGLWrapper {
     );
   }
 
-  private applyMaterialProperties(object: BaseObject) {
+  private applyMaterialProperties(object: Node) {
     const { gl, program } = this;
 
     gl.uniform3fv(gl.getUniformLocation(program, "Kd"), new Float32Array(object.Kd));

@@ -1,11 +1,11 @@
 import { mat4 } from "../../util/matrix";
 
-abstract class Base {
+abstract class Node {
   // Webgl properties
   protected gl: WebGL2RenderingContext;
   protected program: WebGLProgram;
 
-  // Base properties
+  // Node properties
   protected dimension: number = 3;
   protected points: number[] = [];
   protected normals: number[] = [];
@@ -145,4 +145,4 @@ abstract class Base {
   public abstract render(): void;
 }
 
-export default Base;
+export default Node;
