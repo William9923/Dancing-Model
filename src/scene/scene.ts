@@ -9,9 +9,9 @@ class Scene {
   private program: WebGLProgram;
 
   // Object, camera, and light used
-  private objects: Object[] = new Array();
-  private camera: Camera = new Camera();
-  private light: Light = new Light();
+  private _objects: Object[] = new Array();
+  private _camera: Camera = new Camera(this.setViewMatrix.bind(this));
+  private _light: Light = new Light();
 
   // Matrices used
   private transformMatrix: number[] = mat4.identity();
@@ -43,7 +43,7 @@ class Scene {
     this.applyWorldMatrix();
     this.applyProjectionMatrix();
 
-    this.setLight(this.light);
+    this.setLight(this._light);
     this.setUseShading(true);
   }
 
@@ -178,22 +178,8 @@ class Scene {
     );
   }
 
-  public setCameraPosition(cameraSettingType: CameraSetting, newValue: number) {
-    // Notes: newValue can be radius, theta (in degree), and phi (in degree)
-    switch (cameraSettingType) {
-      case "radius":
-        this.camera.position[0] = newValue;
-        break;
-      case "theta":
-        this.camera.position[1] = newValue;
-        break;
-      case "phi":
-        this.camera.position[2] = newValue;
-        break;
-      default:
-        throw `shape.setCamera: invalid camera setting type '${cameraSettingType}'`;
-    }
-    this.viewMatrix = mat4.lookAt(toCartesian(this.camera.position) as Point);
+  private setViewMatrix(viewMatrix: number[]) {
+    this.viewMatrix = viewMatrix;
     this.applyViewMatrix();
   }
 
@@ -230,27 +216,32 @@ class Scene {
 
 
   /*
-   * Property setter
+   * Property getter and setter
    */
 
+  public get camera() {
+    return this._camera;
+  }
+
   public setCamera(camera: Camera) {
-    this.camera = camera;
-    this.viewMatrix = mat4.lookAt(toCartesian(this.camera.position) as Point);
+    this._camera = camera;
+    this._camera.positionChangedCallback = this.setViewMatrix.bind(this);
+    this.viewMatrix = this._camera.viewMatrix();
     this.applyViewMatrix();
   }
 
   public setLight(light: Light) {
     const { gl, program } = this;
 
-    this.light = light;
+    this._light = light;
 
-    gl.uniform3fv(gl.getUniformLocation(program, "Id"), new Float32Array(this.light.Id));
-    gl.uniform3fv(gl.getUniformLocation(program, "Is"), new Float32Array(this.light.Is));
-    gl.uniform3fv(gl.getUniformLocation(program, "Ia"), new Float32Array(this.light.Ia));
+    gl.uniform3fv(gl.getUniformLocation(program, "Id"), new Float32Array(this._light.Id));
+    gl.uniform3fv(gl.getUniformLocation(program, "Is"), new Float32Array(this._light.Is));
+    gl.uniform3fv(gl.getUniformLocation(program, "Ia"), new Float32Array(this._light.Ia));
 
     gl.uniform3fv(
       gl.getUniformLocation(program, "lightPosition"),
-      new Float32Array(this.light.position),
+      new Float32Array(this._light.position),
     );
   }
 
@@ -270,7 +261,7 @@ class Scene {
     const { gl, program } = this;
     object.setGl(gl);
     object.setProgram(program);
-    this.objects.push(object);
+    this._objects.push(object);
   }
 
 
@@ -282,7 +273,7 @@ class Scene {
     const gl = this.gl;
 
     // TODO: traverse objects to be drawn
-    this.objects[0].render();
+    this._objects[0].render();
   }
 }
 
