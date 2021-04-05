@@ -136,14 +136,21 @@ class Scene extends WebGLWrapper {
    * Add and clear object
    */
 
-  public add(object: Node, clearObjects: boolean = false) {
-    if (clearObjects)
-      this.clear();
-
+  private setCallbacks(object: Node) {
     object.materialChangedCallback = this.applyMaterialProperties.bind(this);
     object.transformMatrixChangedCallback = this.setTransformMatrix.bind(this);
     object.drawCallback = this.draw.bind(this);
     object.applyAttrCallback = this.applyAttributeVector.bind(this);
+
+    if (object.child) this.setCallbacks(object.child);
+    if (object.sibling) this.setCallbacks(object.sibling);
+  }
+
+  public add(object: Node, clearObjects: boolean = false) {
+    if (clearObjects)
+      this.clear();
+
+    this.setCallbacks(object);
     this._objects.push(object);
   }
 

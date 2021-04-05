@@ -18,12 +18,9 @@ class TriangularPrism extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    const vertexData = this.points;
-    const normalData = this.normals;
-
     this.applyMaterialProperties();
-    this.applyPosition(vertexData);
-    this.applyNormal(normalData);
+    this.applyPosition();
+    this.applyNormal();
     this._transformMatrixChangedCallback(mat4.multiply(this.transformMatrix, baseTransformMatrix));
 
     // render each rectangle separately
