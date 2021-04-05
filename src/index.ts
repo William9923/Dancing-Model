@@ -31,6 +31,23 @@ blockBtn.addEventListener("click", () => {
   app.setShape(initShape("block"));
 });
 
+// Perspective buttons event handler
+const orthographicBtn = document.getElementById("orthographic") as HTMLElement;
+orthographicBtn.addEventListener("click", () => {
+  app.setSceneProjection("orthographic");
+});
+
+const obliqueBtn = document.getElementById("oblique") as HTMLElement;
+obliqueBtn.addEventListener("click", () => {
+  app.setSceneProjection("oblique");
+});
+
+const perspectiveBtn = document.getElementById("perspective") as HTMLElement;
+perspectiveBtn.addEventListener("click", () => {
+  app.setSceneProjection("perspective");
+});
+
+// Toggle shading event handler
 const shadingToggle = document.getElementById("shading") as HTMLInputElement;
 shadingToggle.addEventListener("change", () => {
   app.toggleShading(shadingToggle.checked);
