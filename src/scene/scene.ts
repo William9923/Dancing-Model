@@ -6,7 +6,7 @@ import { mat4 } from "../util/matrix";
 
 class Scene extends WebGLWrapper {
   // Object, camera, and light used
-  private _objects: Object[] = new Array();
+  private _objects: Node[] = new Array();
   private _camera: Camera;
   private _light: Light;
 
@@ -136,10 +136,10 @@ class Scene extends WebGLWrapper {
    * Add and clear object
    */
 
-  public add(object: Object, clearObjects: boolean = false) {
+  public add(object: Node, clearObjects: boolean = false) {
     if (clearObjects)
       this.clear();
-    
+
     object.materialChangedCallback = this.applyMaterialProperties.bind(this);
     object.transformMatrixChangedCallback = this.setTransformMatrix.bind(this);
     object.drawCallback = this.draw.bind(this);
@@ -157,8 +157,10 @@ class Scene extends WebGLWrapper {
    */
 
   public render() {
+    // Draw all objects
     for (const object of this._objects) {
-      object.render();
+      // Traverse sibling and child of an object
+      object.traverse();
     }
   }
 }

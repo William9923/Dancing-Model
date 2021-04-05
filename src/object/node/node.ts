@@ -131,12 +131,25 @@ abstract class Node {
 
 
   /*
+   * Traverse tree and render each node
+   */
+
+  public traverse(baseTransformMatrix: number[] = null) {
+    const btMatrix = baseTransformMatrix | this.baseTransformMatrix;
+
+    this.render(btMatrix);
+    this.child()?.traverse(btMatrix);
+    this.sibling()?.traverse(btMatrix);
+  }
+
+
+  /*
    * Abstract methods
    */
 
   public abstract setupPoints(): void;
 
-  public abstract render(): void;
+  public abstract render(baseTransformMatrix: number[] = null): void;
 
   public abstract sibling(): Node | null;  // next sibling
 
