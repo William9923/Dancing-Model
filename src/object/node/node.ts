@@ -1,10 +1,12 @@
 import { mat4 } from "../../util/matrix";
+import { AttributeVector } from "../../scene/webglWrapper";
+
+type materialChangedCallbackType = (object: Node) => void;
+type transformMatrixChangedCallbackType = (transformMatrix: number[]) => void;
+type drawCallbackType = (mode: number, startingIdx: number, size: number) => void;
+type applyAttrCallbackType = (label: AttributeVector, vectorData: number[], dimension: number) => void;
 
 abstract class Node {
-  // Webgl properties
-  protected gl: WebGL2RenderingContext;
-  protected program: WebGLProgram;
-
   // Node properties
   protected dimension: number = 3;
   protected points: number[] = [];
@@ -25,19 +27,14 @@ abstract class Node {
   protected baseTransformMatrix: number[] = mat4.identity();
   protected transformMatrix: number[] = mat4.identity();
 
-  constructor(gl: WebGL2RenderingContext, program: WebGLProgram, baseTransformMatrix: number[]) {
-    this.gl = gl || null;
-    this.program = program || null;
+  // Callback methods
+  private _materialChangedCallback: materialChangedCallbackType = null;
+  private _transformMatrixChangedCallback: transformMatrixChangedCallbackType = null;
+  private _drawCallback: drawCallbackType = null;
+  private _applyAttrCallback: applyAttrCallbackType = null;
 
+  constructor(program: WebGLProgram, baseTransformMatrix: number[]) {
     this.baseTransformMatrix = baseTransformMatrix || mat4.identity();
-  }
-
-  public setGl(gl: WebGL2RenderingContext) {
-    this.gl = gl;
-  }
-
-  public setProgram(program: WebGLProgram) {
-    this.program = program;
   }
 
   public setTransformation(transformationType: Transformation, newArr: Point) {
@@ -78,13 +75,14 @@ abstract class Node {
       mat4.scale(...this.scale),
       mat4.translation(...this.translate),
     );
-    const gl = this.gl;
 
-    const transformMatrixPos = gl.getUniformLocation(this.program, "mTransform");
+    if (this._transformMatrixChangedCallback)
+      this._transformMatrixChangedCallback(this.transformMatrix);
+  }
 
-    const transformMatrix = new Float32Array(this.transformMatrix);
-
-    this.gl.uniformMatrix4fv(transformMatrixPos, false, transformMatrix);
+  public setPhongProperties() {
+    if (this._materialChangedCallback)
+      this._materialChangedCallback(this);
   }
 
   public setPoints(...points: number[]) {
@@ -96,43 +94,39 @@ abstract class Node {
   }
 
   public changePosition(vertexData: number[]) {
-    const { gl, program } = this;
-    const buffer = gl.createBuffer();
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexData), gl.STATIC_DRAW);
-
-    const positionPos = gl.getAttribLocation(program, "position");
-    gl.enableVertexAttribArray(positionPos);
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.vertexAttribPointer(positionPos, this.dimension, gl.FLOAT, false, 0, 0);
-
-    return buffer;
+    if (this._applyAttrCallback)
+      this._applyAttrCallback(AttributeVector.POSITION, vertexData, this.dimension);
   }
 
   public changeNormal(normalData: number[]) {
-    const { gl, program } = this;
-    const buffer = gl.createBuffer();
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalData), gl.STATIC_DRAW);
-
-    const normalPos = gl.getAttribLocation(program, "vertNormal");
-    gl.enableVertexAttribArray(normalPos);
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.vertexAttribPointer(normalPos, this.dimension, gl.FLOAT, false, 0, 0);
-
-    return buffer;
+    if (this._applyAttrCallback)
+      this._applyAttrCallback(AttributeVector.NORMAL, normalData, this.dimension);
   }
 
-  setPhongProperties() {
-    const { gl, program } = this;
+  public draw(mode: number, startingIdx: number, size: number) {
+    if (this._drawCallback)
+      this._drawCallback(mode, startingIdx, size);
+  }
 
-    gl.uniform3fv(gl.getUniformLocation(program, "Kd"), new Float32Array(this.Kd));
-    gl.uniform3fv(gl.getUniformLocation(program, "Ks"), new Float32Array(this.Ks));
-    gl.uniform3fv(gl.getUniformLocation(program, "Ka"), new Float32Array(this.Ka));
 
-    gl.uniform1f(gl.getUniformLocation(program, "shininess"), this.shininess);
+  /*
+   * Setter and getter
+   */
+
+  public set materialChangedCallback(callback: materialChangedCallbackType) {
+    this._materialChangedCallback = callback;
+  }
+
+  public set transformMatrixChangedCallback(callback: transformMatrixChangedCallbackType) {
+    this._transformMatrixChangedCallback = callback;
+  }
+
+  public set drawCallback(callback: drawCallbackType) {
+    this._drawCallback = callback;
+  }
+
+  public set applyAttrCallback(callback: applyAttrCallbackType) {
+    this._applyAttrCallback = callback;
   }
 
 
@@ -143,6 +137,10 @@ abstract class Node {
   public abstract setupPoints(): void;
 
   public abstract render(): void;
+
+  public abstract sibling(): Node | null;  // next sibling
+
+  public abstract child(): Node | null;  // child of this node
 }
 
 export default Node;

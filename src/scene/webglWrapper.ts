@@ -1,6 +1,11 @@
 import Light from "../light";
 import Node from "../object";
 
+export enum AttributeVector {
+  "POSITION" = "position",
+  "NORMAL" = "vertNormal"
+}
+
 export enum UniformMatrix {
   "PROJ" = "mProj",
   "VIEW" = "mView",
@@ -134,6 +139,19 @@ class WebGLWrapper {
    * GLSL value apply helpers
    */
 
+  private applyAttributeVector(label: AttributeVector, vectorData: number[], dimension: number = 3) {
+    const { gl, program } = this;
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vectorData), gl.STATIC_DRAW);
+
+    const attrPos = gl.getAttribLocation(program, label);
+    gl.enableVertexAttribArray(attrPos);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.vertexAttribPointer(attrPos, dimension, gl.FLOAT, false, 0, 0);
+  }
+
   private applyPosition(vertexData: number[]) {
     const { gl, program } = this;
 
@@ -195,6 +213,14 @@ class WebGLWrapper {
   private applyUseShading(useShading: boolean) {
     const { gl, program } = this;
     gl.uniform1i(gl.getUniformLocation(program, "useShading"), this.useShading);
+  }
+
+
+  /*
+   * Draw array wrapper method
+   */
+  private draw(mode: number, startingIdx: number, size: number) {
+    this.gl.drawArrays(mode, startingIdx, size);
   }
 }
 

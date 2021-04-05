@@ -133,14 +133,22 @@ class Scene extends WebGLWrapper {
 
 
   /*
-   * Add object
+   * Add and clear object
    */
 
-  public add(object: Object) {
-    const { gl, program } = this;
-    object.setGl(gl);
-    object.setProgram(program);
+  public add(object: Object, clearObjects: boolean = false) {
+    if (clearObjects)
+      this.clear();
+    
+    object.materialChangedCallback = this.applyMaterialProperties.bind(this);
+    object.transformMatrixChangedCallback = this.setTransformMatrix.bind(this);
+    object.drawCallback = this.draw.bind(this);
+    object.applyAttrCallback = this.applyAttributeVector.bind(this);
     this._objects.push(object);
+  }
+
+  public clear() {
+    this._objects = new Array();
   }
 
 
@@ -149,10 +157,9 @@ class Scene extends WebGLWrapper {
    */
 
   public render() {
-    const gl = this.gl;
-
-    // TODO: traverse objects to be drawn
-    this._objects[0].render();
+    for (const object of this._objects) {
+      object.render();
+    }
   }
 }
 

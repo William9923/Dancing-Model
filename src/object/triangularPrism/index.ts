@@ -1,5 +1,6 @@
 import Node from "../node";
 import { buildTriangularPrismDatas } from "./initialPoints";
+import DrawMode from "../../util/drawMode";
 
 class TriangularPrism extends Node {
   constructor(gl: WebGL2RenderingContext, program: WebGLProgram, baseTransformMatrix: number[]) {
@@ -25,8 +26,18 @@ class TriangularPrism extends Node {
 
     // render each rectangle separately
     for (let i = 0; i < this.points.length / (this.dimension * 4); i++) {
-      this.gl.drawArrays(this.gl.TRIANGLE_FAN, 4 * i, 4);
+      this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
     }
+  }
+
+  // override
+  public sibling() {
+    return null;
+  }
+
+  // override
+  public child() {
+    return null;
   }
 }
 
