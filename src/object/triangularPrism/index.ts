@@ -4,8 +4,8 @@ import DrawMode from "../../util/drawMode";
 import { mat4 } from "../../util/matrix";
 
 class TriangularPrism extends Node {
-  constructor(gl: WebGL2RenderingContext, program: WebGLProgram, baseTransformMatrix: number[]) {
-    super(gl, program);
+  constructor() {
+    super();
     this.setupPoints();
   }
 
@@ -17,31 +17,19 @@ class TriangularPrism extends Node {
   }
 
   // override
-  public render(baseTransformMatrix: number[] = null) {
-    const btMatrix = baseTransformMatrix || this.baseTransformMatrix;
-
+  public render(baseTransformMatrix: number[] = mat4.identity()) {
     const vertexData = this.points;
     const normalData = this.normals;
 
-    this.setPhongProperties();
-    this.changePosition(vertexData);
-    this.changeNormal(normalData);
-    this._transformMatrixChangedCallback(mat4.multiply(this.transformMatrix, btMatrix));
+    this.applyMaterialProperties();
+    this.applyPosition(vertexData);
+    this.applyNormal(normalData);
+    this._transformMatrixChangedCallback(mat4.multiply(this.transformMatrix, baseTransformMatrix));
 
     // render each rectangle separately
     for (let i = 0; i < this.points.length / (this.dimension * 4); i++) {
       this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
     }
-  }
-
-  // override
-  public sibling() {
-    return null;
-  }
-
-  // override
-  public child() {
-    return null;
   }
 }
 

@@ -24,8 +24,11 @@ abstract class Node {
   protected scale: Point = [1, 1, 1];
 
   // Transformation matrices used
-  protected baseTransformMatrix: number[] = mat4.identity();
-  protected transformMatrix: number[] = mat4.identity();
+  protected transformMatrix: number[];
+
+  // Tree properties
+  private _sibling: Node;
+  private _child: Node;
 
   // Callback methods
   private _materialChangedCallback: materialChangedCallbackType = null;
@@ -33,9 +36,22 @@ abstract class Node {
   private _drawCallback: drawCallbackType = null;
   private _applyAttrCallback: applyAttrCallbackType = null;
 
-  constructor(program: WebGLProgram, baseTransformMatrix: number[]) {
-    this.baseTransformMatrix = baseTransformMatrix || mat4.identity();
+
+  /*
+   * Constructor
+   */
+
+  constructor(transformMatrix: number[] = mat4.identity(), sibling: Node = null,
+              child: Node = null) {
+    this.transformMatrix = transformMatrix;
+    this._sibling = sibling;
+    this._child = child;
   }
+
+
+  /*
+   * Transformation methods
+   */
 
   public setTransformation(transformationType: Transformation, newArr: Point) {
     switch (transformationType) {
@@ -75,15 +91,12 @@ abstract class Node {
       mat4.scale(...this.scale),
       mat4.translation(...this.translate),
     );
-
-    if (this._transformMatrixChangedCallback)
-      this._transformMatrixChangedCallback(this.transformMatrix);
   }
 
-  public setPhongProperties() {
-    if (this._materialChangedCallback)
-      this._materialChangedCallback(this);
-  }
+
+  /*
+   * Setter and getter
+   */
 
   public setPoints(...points: number[]) {
     this.points = points;
@@ -93,25 +106,21 @@ abstract class Node {
     this.normals = normals;
   }
 
-  public changePosition(vertexData: number[]) {
-    if (this._applyAttrCallback)
-      this._applyAttrCallback(AttributeVector.POSITION, vertexData, this.dimension);
+  public get sibling() {
+    return this._sibling;
   }
 
-  public changeNormal(normalData: number[]) {
-    if (this._applyAttrCallback)
-      this._applyAttrCallback(AttributeVector.NORMAL, normalData, this.dimension);
+  public set sibling(sibling: Node) {
+    this._sibling = sibling;
   }
 
-  public draw(mode: number, startingIdx: number, size: number) {
-    if (this._drawCallback)
-      this._drawCallback(mode, startingIdx, size);
+  public get child() {
+    return this._child;
   }
 
-
-  /*
-   * Setter and getter
-   */
+  public set child(child: Node) {
+    this._child = child;
+  }
 
   public set materialChangedCallback(callback: materialChangedCallbackType) {
     this._materialChangedCallback = callback;
@@ -131,15 +140,43 @@ abstract class Node {
 
 
   /*
+   * Webgl apply helpers
+   */
+
+  public applyMaterialProperties() {
+    if (this._materialChangedCallback)
+      this._materialChangedCallback(this);
+  }
+
+  public applyPosition() {
+    if (this._applyAttrCallback)
+      this._applyAttrCallback(AttributeVector.POSITION, this.points, this.dimension);
+  }
+
+  public applyNormal() {
+    if (this._applyAttrCallback)
+      this._applyAttrCallback(AttributeVector.NORMAL, this.normals, this.dimension);
+  }
+
+
+  /*
+   * gl.drawArrays wrapper
+   */
+
+  public draw(mode: number, startingIdx: number, size: number) {
+    if (this._drawCallback)
+      this._drawCallback(mode, startingIdx, size);
+  }
+
+
+  /*
    * Traverse tree and render each node
    */
 
-  public traverse(baseTransformMatrix: number[] = null) {
-    const btMatrix = baseTransformMatrix | this.baseTransformMatrix;
-
-    this.render(btMatrix);
-    this.child()?.traverse(btMatrix);
-    this.sibling()?.traverse(btMatrix);
+  public traverse(baseTransformMatrix: number[] = mat4.identity()) {
+    this.render(baseTransformMatrix);
+    this.child?.traverse(baseTransformMatrix);
+    this.sibling?.traverse(baseTransformMatrix);
   }
 
 
@@ -149,11 +186,7 @@ abstract class Node {
 
   public abstract setupPoints(): void;
 
-  public abstract render(baseTransformMatrix: number[] = null): void;
-
-  public abstract sibling(): Node | null;  // next sibling
-
-  public abstract child(): Node | null;  // child of this node
+  public abstract render(baseTransformMatrix: number[] = mat4.identity()): void;
 }
 
 export default Node;
