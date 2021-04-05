@@ -1,9 +1,6 @@
 import App from "./app";
-import TriangularPrism from "./object/triangularPrism";
-import Shape from "./shapes/shape";
-import Light from "./light";
-import Camera from "./camera";
 import Scene from "./scene";
+import TriangularPrism from "./object/triangularPrism";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 

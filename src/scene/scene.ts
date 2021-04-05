@@ -32,7 +32,7 @@ class Scene extends WebGLWrapper {
     this.applyWorldMatrix();
     this.applyProjMatrix();
 
-    this.setCamera(new Camera(this.setViewMatrix.bind(this)));
+    this.setCamera(new Camera());
     this.setLight(new Light());
     this.setUseShading(true);
   }
@@ -101,6 +101,7 @@ class Scene extends WebGLWrapper {
 
   public setLight(light: Light) {
     this._light = light;
+    this._light.propertyChangedCallback = this.applyLightProperties.bind(this);
     this.applyLightProperties(this._light);
   }
 
