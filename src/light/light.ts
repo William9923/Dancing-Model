@@ -15,13 +15,15 @@ class Light {
    * Constructor
    */
 
-  constructor(propertyChangedCallback: (light: Light) => void,
-              Id: Color, Is: Color, Ia: Color, position: number[]) {
+  constructor(propertyChangedCallback?: (light: Light) => void,
+              Id?: Color, Is?: Color, Ia?: Color, position?: number[]) {
     this._Id = Id || [0.1953125, 0.50390625, 0.65625];
     this._Is = Is || [0.6171875, 0.87109375, 0.99609375];
     this._Ia = Ia || [0.1953125, 0.50390625, 0.65625];
     this._position = position || [1.0, 1.0, 1.0];
-    this._propertyChangedCallback = propertyChangedCallback;
+
+    if (!!propertyChangedCallback)
+      this._propertyChangedCallback = propertyChangedCallback;
   }
 
 
