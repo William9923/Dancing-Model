@@ -17,10 +17,6 @@ class App {
       return;
     }
 
-    const changeCameraPositionOf = (cameraSettingType: CameraSetting, newValue: number) => {
-      this.scene?.setCameraPosition(cameraSettingType, newValue);
-    };
-
     SliderManager.assignInputEvent("cam-radius", (val: number) => {
       this.scene?.camera?.setRadius(val);
     });

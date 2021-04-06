@@ -139,7 +139,7 @@ class WebGLWrapper {
    * GLSL value apply helpers
    */
 
-  private applyAttributeVector(label: AttributeVector, vectorData: number[], dimension: number = 3) {
+  protected applyAttributeVector(label: AttributeVector, vectorData: number[], dimension: number = 3) {
     const { gl, program } = this;
 
     const buffer = gl.createBuffer();
@@ -152,33 +152,7 @@ class WebGLWrapper {
     gl.vertexAttribPointer(attrPos, dimension, gl.FLOAT, false, 0, 0);
   }
 
-  private applyPosition(vertexData: number[]) {
-    const { gl, program } = this;
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexData), gl.STATIC_DRAW);
-
-    const positionPos = gl.getAttribLocation(program, "position");
-    gl.enableVertexAttribArray(positionPos);
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.vertexAttribPointer(positionPos, this.dimension, gl.FLOAT, false, 0, 0);
-  }
-
-  private applyNormal(normalData: number[]) {
-    const { gl, program } = this;
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalData), gl.STATIC_DRAW);
-
-    const normalPos = gl.getAttribLocation(program, "vertNormal");
-    gl.enableVertexAttribArray(normalPos);
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.vertexAttribPointer(normalPos, this.dimension, gl.FLOAT, false, 0, 0);
-  }
-
-  private applyUniformMatrix4fv(label: UniformMatrix, matrix: number[]) {
+  protected applyUniformMatrix4fv(label: UniformMatrix, matrix: number[]) {
     const { gl, program } = this;
     gl.uniformMatrix4fv(
       gl.getUniformLocation(program, label),
@@ -187,7 +161,7 @@ class WebGLWrapper {
     );
   }
 
-  private applyLightProperties(light: Light) {
+  protected applyLightProperties(light: Light) {
     const { gl, program } = this;
 
     gl.uniform3fv(gl.getUniformLocation(program, "Id"), new Float32Array(light.Id));
@@ -200,7 +174,7 @@ class WebGLWrapper {
     );
   }
 
-  private applyMaterialProperties(object: Node) {
+  protected applyMaterialProperties(object: Node) {
     const { gl, program } = this;
 
     gl.uniform3fv(gl.getUniformLocation(program, "Kd"), new Float32Array(object.Kd));
@@ -210,16 +184,16 @@ class WebGLWrapper {
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), object.shininess);
   }
 
-  private applyUseShading(useShading: boolean) {
+  protected applyUseShading(useShading: boolean) {
     const { gl, program } = this;
-    gl.uniform1i(gl.getUniformLocation(program, "useShading"), this.useShading);
+    gl.uniform1i(gl.getUniformLocation(program, "useShading"), useShading ? 1 : 0);
   }
 
 
   /*
    * Draw array wrapper method
    */
-  private draw(mode: number, startingIdx: number, size: number) {
+  protected draw(mode: number, startingIdx: number, size: number) {
     this.gl.drawArrays(mode, startingIdx, size);
   }
 }

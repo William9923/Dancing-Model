@@ -13,10 +13,10 @@ abstract class Node {
   protected normals: number[] = [];
 
   // Material properties
-  protected Kd: number[] = [1.0, 1.0, 1.0];
-  protected Ks: number[] = [1.0, 1.0, 1.0];
-  protected Ka: number[] = [0.25, 0.25, 0.25];
-  protected shininess: number = 100;
+  public Kd: number[] = [1.0, 1.0, 1.0];
+  public Ks: number[] = [1.0, 1.0, 1.0];
+  public Ka: number[] = [0.25, 0.25, 0.25];
+  public shininess: number = 100;
 
   // Object transformations
   protected translate: Point = [0, 0, 0];
@@ -31,21 +31,29 @@ abstract class Node {
   private _child: Node;
 
   // Callback methods
-  private _materialChangedCallback: materialChangedCallbackType = null;
-  private _transformMatrixChangedCallback: transformMatrixChangedCallbackType = null;
-  private _drawCallback: drawCallbackType = null;
-  private _applyAttrCallback: applyAttrCallbackType = null;
+  private _materialChangedCallback: materialChangedCallbackType | null = null;
+  private _transformMatrixChangedCallback: transformMatrixChangedCallbackType | null = null;
+  private _drawCallback: drawCallbackType | null = null;
+  private _applyAttrCallback: applyAttrCallbackType | null = null;
 
 
   /*
    * Constructor
    */
 
-  constructor(transformMatrix: number[] = mat4.identity(), sibling: Node = null,
-              child: Node = null) {
+  constructor(transformMatrix: number[] = mat4.identity(), sibling: Node | null = null,
+              child: Node | null = null) {
     this.transformMatrix = transformMatrix;
+
+    if (!!sibling)
+      this._sibling = sibling;
+
+    if (!!child)
+      this._child = child;
+  }
+
+  public set setSibling(sibling:Node){
     this._sibling = sibling;
-    this._child = child;
   }
 
 
@@ -186,7 +194,7 @@ abstract class Node {
 
   public abstract setupPoints(): void;
 
-  public abstract render(baseTransformMatrix: number[] = mat4.identity()): void;
+  public abstract render(baseTransformMatrix: number[]): void;
 }
 
 export default Node;

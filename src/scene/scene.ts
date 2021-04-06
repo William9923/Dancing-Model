@@ -3,6 +3,7 @@ import Camera from "../camera";
 import Light from "../light";
 import { toCartesian } from "../util/convert";
 import { mat4 } from "../util/matrix";
+import Node from "../object/index";
 
 class Scene extends WebGLWrapper {
   // Object, camera, and light used

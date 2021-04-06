@@ -21,6 +21,7 @@ class Light {
     this._Is = Is || [0.6171875, 0.87109375, 0.99609375];
     this._Ia = Ia || [0.1953125, 0.50390625, 0.65625];
     this._position = position || [1.0, 1.0, 1.0];
+    this._propertyChangedCallback = propertyChangedCallback;
   }
 
 
@@ -65,8 +66,8 @@ class Light {
    */
 
   public broadcastChange() {
-    if (_propertyChangedCallback)
-      _propertyChangedCallback(this);
+    if (!!this._propertyChangedCallback)
+      this._propertyChangedCallback(this);
   }
 }
 

@@ -1,6 +1,8 @@
 import Node from "../node";
 import { Lower, Upper } from "./parts";
 
+import { mat4 } from "../../util/matrix";
+
 class Test extends Node {
   public static build() {
     const l = new Lower()
