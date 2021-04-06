@@ -6,29 +6,29 @@ import Test from "./object/test";
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
 const scene = new Scene(canvas);
-scene.add(new TriangularPrism());
+// scene.add(new TriangularPrism());
 scene.add(Test.build());
 
 const app = new App(scene);
 
 // Pick hollow object buttons event handler
-const prismBtn = document.getElementById("prism") as HTMLElement;
-prismBtn.addEventListener("click", () => {
-  app.resetAll();
-  app.setShape(initShape("prism"));
-});
+// const prismBtn = document.getElementById("prism") as HTMLElement;
+// prismBtn.addEventListener("click", () => {
+//   app.resetAll();
+//   app.setShape(initShape("prism"));
+// });
 
-const cubeBtn = document.getElementById("cube") as HTMLElement;
-cubeBtn.addEventListener("click", () => {
-  app.resetAll();
-  app.setShape(initShape("cube"));
-});
+// const cubeBtn = document.getElementById("cube") as HTMLElement;
+// cubeBtn.addEventListener("click", () => {
+//   app.resetAll();
+//   app.setShape(initShape("cube"));
+// });
 
-const blockBtn = document.getElementById("block") as HTMLElement;
-blockBtn.addEventListener("click", () => {
-  app.resetAll();
-  app.setShape(initShape("block"));
-});
+// const blockBtn = document.getElementById("block") as HTMLElement;
+// blockBtn.addEventListener("click", () => {
+//   app.resetAll();
+//   app.setShape(initShape("block"));
+// });
 
 // Perspective buttons event handler
 const orthographicBtn = document.getElementById("orthographic") as HTMLElement;

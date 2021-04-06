@@ -27,14 +27,14 @@ abstract class Node {
   protected transformMatrix: number[];
 
   // Tree properties
-  private _sibling: Node;
-  private _child: Node;
+  protected _sibling: Node;
+  protected _child: Node;
 
   // Callback methods
-  private _materialChangedCallback: materialChangedCallbackType | null = null;
-  private _transformMatrixChangedCallback: transformMatrixChangedCallbackType | null = null;
-  private _drawCallback: drawCallbackType | null = null;
-  private _applyAttrCallback: applyAttrCallbackType | null = null;
+  protected _materialChangedCallback: materialChangedCallbackType | null = null;
+  protected _transformMatrixChangedCallback: transformMatrixChangedCallbackType | null = null;
+  protected _drawCallback: drawCallbackType | null = null;
+  protected _applyAttrCallback: applyAttrCallbackType | null = null;
 
 
   /*
