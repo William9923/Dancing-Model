@@ -60,17 +60,17 @@ class Scene extends WebGLWrapper {
     this.applyProjMatrix();
   }
 
-  private setProjMatrix(projMatrix: number[]) {
+  public setProjMatrix(projMatrix: number[]) {
     this.projMatrix = projMatrix;
     this.applyProjMatrix();
   }
 
-  private setViewMatrix(viewMatrix: number[]) {
+  public setViewMatrix(viewMatrix: number[]) {
     this.viewMatrix = viewMatrix;
     this.applyViewMatrix();
   }
 
-  private setWorldMatrix(worldMatrix: number[]) {
+  public setWorldMatrix(worldMatrix: number[]) {
     this.worldMatrix = worldMatrix;
     this.applyWorldMatrix();
   }
@@ -79,7 +79,6 @@ class Scene extends WebGLWrapper {
     this.transformMatrix = transformMatrix;
     this.applyTransformMatrix();
   }
-
 
   /*
    * Property getter and setter
