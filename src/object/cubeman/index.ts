@@ -1,4 +1,4 @@
-import Cube from "./main";
+import MirrorMan from "./main";
 
 // prettier-ignore
-export default Cube;
+export default MirrorMan;

@@ -2,14 +2,15 @@ import App from "./app";
 import Scene from "./scene";
 import TriangularPrism from "./object/triangularPrism";
 import Test from "./object/test";
-import Cube from "./object/cubeman";
+import MirrorMan from "./object/cubeman"
+import Body from "./object/cubeman/parts/body";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
 const scene = new Scene(canvas);
 // scene.add(new TriangularPrism());
 // scene.add(Test.build());
-scene.add(new Cube());
+scene.add(MirrorMan.build());
 
 const app = new App(scene);
 
