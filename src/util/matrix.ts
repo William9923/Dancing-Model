@@ -84,7 +84,6 @@ class mat4 {
     ];
   }
 
-
   /*
    * Projection matrices
    */

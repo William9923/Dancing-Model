@@ -182,8 +182,11 @@ abstract class Node {
    */
 
   public traverse(baseTransformMatrix: number[] = mat4.identity()) {
-    this.render(baseTransformMatrix);
-    this.child?.traverse(baseTransformMatrix);
+
+    const transformMatrix = mat4.multiply(baseTransformMatrix, this.transformMatrix);
+
+    this.render(transformMatrix);
+    this.child?.traverse(transformMatrix);
     this.sibling?.traverse(baseTransformMatrix);
   }
 

@@ -5,16 +5,11 @@ import {buildCubePoints} from "../../utils/cubePoints";
 
 class LeftArm extends Node {
   constructor() {
-
-    const translation = mat4.translation(0, 4, 0);
-    const scaling = mat4.scale(0.5, 0.1, 0.2);
-
-    const xRotation = mat4.xRotation(0);
-    const yRotation = mat4.yRotation(0);
-    const zRotation = mat4.zRotation(60);
-
-
-    super(mat4.mMult(translation, scaling, xRotation, yRotation, zRotation));
+    const translation = mat4.translation(-0.2, 0.35, 0);
+    const yRotation = mat4.yRotation(180);
+    const zRotation = mat4.zRotation(-60);
+    const scale = mat4.scale(0.2, 0.75, 0.5);
+    super(mat4.mMult(scale, zRotation, yRotation, translation));
     this.setupPoints();
   }
 
@@ -29,7 +24,7 @@ class LeftArm extends Node {
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(mat4.multiply(this.transformMatrix, baseTransformMatrix));
+    this._transformMatrixChangedCallback!(baseTransformMatrix);
 
     // render each rectangle separately
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
