@@ -6,14 +6,13 @@ import {buildCubePoints} from "../../utils/cubePoints";
 class LeftLeg extends Node {
   constructor() {
 
-    const translation = mat4.translation(-2,-1,0);
-    const scaling = mat4.scale(0.1, 0.5, 0.2);
-
-    const xRotation = mat4.xRotation(0);
+    const translation = mat4.translation(-0.15, 0.05, -0.05);
+    const xRotation = mat4.xRotation(-180);
     const yRotation = mat4.yRotation(0);
-    const zRotation = mat4.zRotation(-45);
+    const zRotation = mat4.zRotation(60);
+    const scale = mat4.scale(0.35, 0.5, 0.5);
+    super(mat4.mMult(scale, zRotation, yRotation,xRotation, translation));
 
-    super(mat4.mMult(translation, scaling, xRotation, yRotation, zRotation));
     this.setupPoints();
 
 

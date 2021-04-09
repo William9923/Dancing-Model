@@ -6,10 +6,12 @@ import {buildCubePoints} from "../../utils/cubePoints";
 class RightArm extends Node {
   constructor() {
 
-    const translation = mat4.translation(0.2, 0.35, 0);
-    const zRotation = mat4.zRotation(-60);
-    const scale = mat4.scale(0.2, 0.75, 0.5);
-    super(mat4.mMult(scale, zRotation, translation));
+    const translation = mat4.translation(0.35, 0.4, 0);
+    const xRotation = mat4.xRotation(-90);
+    const yRotation = mat4.yRotation(0);
+    const zRotation = mat4.zRotation(-90);
+    const scale = mat4.scale(0.2, 0.6, 0.2);
+    super(mat4.mMult(scale, zRotation, yRotation,xRotation, translation));
     this.setupPoints();
 
   }

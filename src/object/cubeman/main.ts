@@ -1,7 +1,7 @@
 import Node from "../node";
 import {mat4} from "../../util/matrix";
 
-import {Body, Head, LeftArm, LeftLeg, RightArm, RightLeg, Hip, Chest} from "./parts";
+import {Body, Head, LeftArm, LeftLeg, RightArm, RightLeg, Chest} from "./parts";
 
 class MirrorMan extends Node {
   public static build() {
@@ -16,20 +16,17 @@ class MirrorMan extends Node {
 
     const head = new Head();
 
-    const hip = new Hip();
     const chest = new Chest();
 
     mm.child = chest;
-
-    // chest.sibling = hip;
     
-    // chest.child = head;
+    chest.child = head;
 
-    // head.sibling = la;
-    // la.sibling = ra;
+    head.sibling = la;
+    la.sibling = ra;
 
-    // hip.child = ll;
-    // ll.sibling = rl;
+    ra.sibling = ll;
+    ll.sibling = rl;
 
     return mm;
   }

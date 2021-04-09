@@ -41,8 +41,8 @@ class App {
   }
 
   public toggleTexture(useTexture: boolean) {
-    
-  }
+    this.scene?.setUseTexture(useTexture);
+  } 
 
   public start() {
     if (!this.scene) {

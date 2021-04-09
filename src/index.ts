@@ -55,6 +55,12 @@ shadingToggle.addEventListener("change", () => {
   app.toggleShading(shadingToggle.checked);
 });
 
+// Toggle texture event handler
+const textureToggle = document.getElementById("texture") as HTMLInputElement;
+textureToggle.addEventListener("change", () => {
+  app.toggleTexture(textureToggle.checked);
+});
+
 app.start();
 
 // // function for debugging block / cube as well

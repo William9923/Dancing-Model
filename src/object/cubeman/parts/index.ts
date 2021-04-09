@@ -5,7 +5,6 @@ import RightArm from "./rightarm";
 import LeftLeg from "./leftleg";
 import RightLeg from "./rightleg";
 import Chest from "./chest";
-import Hip from "./hip";
 
 // prettier-ignore
 export {
@@ -15,6 +14,5 @@ export {
   RightArm,
   LeftLeg,
   RightLeg,
-  Hip,
   Chest,
 }

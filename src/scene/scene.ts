@@ -40,6 +40,8 @@ class Scene extends WebGLWrapper {
     this.setUseShading(true);
 
     this.setUseTexture(true);
+
+    this.setProjection("perspective");
   }
 
   /*
