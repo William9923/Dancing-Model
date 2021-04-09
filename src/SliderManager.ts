@@ -1,4 +1,10 @@
 type SliderId =
+  | "head-slider"
+  | "body-slider"
+  | "la-slider"
+  | "ra-slider"
+  | "ll-slider"
+  | "rl-slider"
   | "x"
   | "y"
   | "z"
@@ -10,13 +16,12 @@ type SliderId =
   | "cam-theta"
   | "cam-phi";
 const sliderIds: SliderId[] = [
-  "x",
-  "y",
-  "z",
-  "rotate-x",
-  "rotate-y",
-  "rotate-z",
-  "zoom",
+  "head-slider",
+  "body-slider",
+  "la-slider",
+  "ra-slider",
+  "ll-slider",
+  "rl-slider",
   "cam-radius",
   "cam-theta",
   "cam-phi",
@@ -33,15 +38,15 @@ const sliderIndicators: SliderIndicator = {};
 type SliderDefaultValue = {
   [sliderId: string]: number;
 };
-const tSliderDefaultValues: SliderDefaultValue = {
-  x: 50,
-  y: 50,
-  z: 50,
-  "rotate-x": 0,
-  "rotate-y": 0,
-  "rotate-z": 0,
-  zoom: 1,
-};
+
+const mmSliderDefaultValues: SliderDefaultValue = {
+  "head-slider": 0,
+  "body-slider": 0,
+  "la-slider": 0,
+  "ra-slider": 0,
+  "ll-slider": 0,
+  "rl-slider": 0
+}
 const cSliderDefaultValues: SliderDefaultValue = {
   "cam-radius": 0,
   "cam-theta": 0,
@@ -68,13 +73,13 @@ class SliderManager {
     };
   }
 
-  static resetTransformSliderValue() {
+  static resetMMSliderValue() {
     sliderIds.forEach((sliderId) => {
-      if (tSliderDefaultValues.hasOwnProperty(sliderId)) {
-        sliders[sliderId].value = String(tSliderDefaultValues[sliderId]);
+      if (mmSliderDefaultValues.hasOwnProperty(sliderId)) {
+        sliders[sliderId].value = String(mmSliderDefaultValues[sliderId]);
         sliders[sliderId].dispatchEvent(new Event("input"));
       }
-    });
+    })
   }
 
   static resetCameraSliderValue() {

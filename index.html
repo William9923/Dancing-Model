@@ -17,80 +17,69 @@
 <body class="pt-5">
   <div class="container d-flex">
     <div class="mr-5">
-      <h1 class="text-center">Hollow Objects</h1>
+      <h1 class="text-center">Articulated Objects</h1>
       <canvas id="canvas" class="border border-primary"></canvas>
     </div>
     <div class="menu ml-5">
       <div class="card">
-        <div class="card-header d-flex justify-content-between">
-          <h4>Need Help?</h4>
-
-          <button class="btn btn-success ml-auto" id="help" data-toggle="modal" data-target="#modal">
-            Help
-          </button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Pick Hollow Object</div>
+        <div class="card-header">Pick Articulated Object</div>
         <div class="card-body">
-          <button class="btn btn-dark" id="prism">Prism</button>
-          <button class="btn btn-dark" id="cube">Cube</button>
-          <button class="btn btn-dark" id="block">Block</button>
+          <button class="btn btn-dark" id="mirror-man">Mirror Man</button>
+          <button class="btn btn-dark" id="obj2">Object 2</button>
+          <button class="btn btn-dark" id="obj3">Object 3</button>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">Perspective</div>
+      <div class="card" id="obj1-section">
+        <div class="card-header">Mirror Man Movement</div>
         <div class="card-body">
-          <button class="btn btn-dark" id="orthographic">Orthographic</button>
-          <button class="btn btn-dark" id="oblique">Oblique</button>
-          <button class="btn btn-dark" id="perspective">Perspective</button>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Head :</div>
+            <input type="range" min="-30" max="30" value="0" class="slider" id="head-slider" />
+            <span id="head-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Body :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider" id="body-slider" />
+            <span id="body-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Left Arm :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider" id="la-slider" />
+            <span id="la-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Arm :</div>
+            <input type="range" min="45" max="-45" value="0" class="slider" id="ra-slider" />
+            <span id="ra-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Left Leg :</div>
+            <input type="range" min="0" max="-45" value="0" class="slider" id="ll-slider" />
+            <span id="ll-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Leg :</div>
+            <input type="range" min="0" max="45" value="0" class="slider" id="rl-slider" />
+            <span id="rl-slider-value"></span>
+          </div>
+          <button class="btn btn-dark" id="reset-obj1">Reset</button>
+          <button class="btn btn-dark" id="animate-obj1">Animate</button>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">Transformations</div>
+      <div class="card" id="obj2-section">
+        <div class="card-header">Object 2 Movement</div>
         <div class="card-body">
-          <div class="form-group d-flex">
-            <div class="form-label mr-3">x :</div>
-            <input type="range" min="1" max="100" value="50" class="slider" id="x" />
-            <span id="x-value"></span>
-          </div>
-          <div class="form-group d-flex">
-            <div class="form-label mr-3">y :</div>
-            <input type="range" min="1" max="100" value="50" class="slider" id="y" />
-            <span id="y-value"></span>
-          </div>
-          <div class="form-group d-flex">
-            <div class="form-label mr-3">z :</div>
-            <input type="range" min="1" max="100" value="50" class="slider" id="z" />
-            <span id="z-value"></span>
-          </div>
-          <div class="form-group d-flex">
-            <div class="form-label mr-3">rotate x :</div>
-            <input type="range" min="0" max="360" value="0" class="slider" id="rotate-x" />
-            <span id="rotate-x-value"></span>
-          </div>
-          <div class="form-group d-flex">
-            <div class="form-label mr-3">rotate y :</div>
-            <input type="range" min="0" max="360" value="0" class="slider" id="rotate-y" />
-            <span id="rotate-y-value"></span>
-          </div>
-          <div class="form-group d-flex">
-            <div class="form-label mr-3">rotate z :</div>
-            <input type="range" min="0" max="360" value="0" class="slider" id="rotate-z" />
-            <span id="rotate-z-value"></span>
-          </div>
-
-          <div class="form-group d-flex">
-            <div class="form-label mr-3">zoom</div>
-            <input type="range" min="0.1" max="10" value="1" step="0.1" class="slider" id="zoom" />
-            <span id="zoom-value"></span>
-          </div>
           <button class="btn btn-dark" id="reset">Reset</button>
         </div>
+      </div>
 
-
+      <div class="card" id="obj3-section">
+        <div class="card-header">Object 3 Movement</div>
+        <div class="card-body">
+          <button class="btn btn-dark" id="reset">Reset</button>
+        </div>
       </div>
 
       <div class="card">
@@ -117,7 +106,7 @@
       </div>
 
       <div class="card">
-        <div class="card-header">Shading</div>
+        <div class="card-header">Special Effects</div>
         <div class="card-body">
           <div class="custom-control custom-switch">
             <input type="checkbox" class="custom-control-input" id="shading" checked>
@@ -131,6 +120,7 @@
       </div>
     </div>
   </div>
+  <!-- Modal for Help -->
   <div class="modal fade" id="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">

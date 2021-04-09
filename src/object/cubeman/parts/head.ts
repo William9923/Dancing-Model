@@ -10,7 +10,6 @@ class Head extends Node {
 
     this.setTransformation("translate", [0, 0.3, 0]);
     this.setTransformation("scale", [0.5, 0.35, 0.5]);
-
     this.setupPoints();
   }
 
