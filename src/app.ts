@@ -1,6 +1,8 @@
 import Scene from "./scene";
 import SliderManager from "./SliderManager";
 
+import {isMirrorMan} from "./object/cubeman";
+
 const X = 0;
 const Y = 1;
 const Z = 2;
@@ -17,6 +19,7 @@ class App {
       return;
     }
 
+    // Camera event
     SliderManager.assignInputEvent("cam-radius", (val: number) => {
       this.scene?.camera?.setRadius(val);
     });
@@ -26,6 +29,27 @@ class App {
     SliderManager.assignInputEvent("cam-phi", (val: number) => {
       this.scene?.camera?.setPhi(val);
     });
+
+    // Mirror Man event
+    SliderManager.assignInputEvent("head-slider", (val: number) => {
+      this.scene?.objects.forEach(object => isMirrorMan(object) && object.moveHead(val));
+    });
+    SliderManager.assignInputEvent("body-slider", (val: number) => {
+      this.scene?.objects.forEach(object => isMirrorMan(object) && object.moveChest(val));
+    });
+    SliderManager.assignInputEvent("la-slider", (val: number) => {
+      this.scene?.objects.forEach(object => isMirrorMan(object) && object.moveLeftArm(val));
+    });
+    SliderManager.assignInputEvent("ra-slider", (val: number) => {
+      this.scene?.objects.forEach(object => isMirrorMan(object) && object.moveRightArm(-1 * val));
+    });
+    SliderManager.assignInputEvent("ll-slider", (val: number) => {
+      this.scene?.objects.forEach(object => isMirrorMan(object) && object.moveLeftLeg(-1 * val));
+    });
+    SliderManager.assignInputEvent("rl-slider", (val: number) => {
+      this.scene?.objects.forEach(object => isMirrorMan(object) && object.moveRightLeg(val));
+    });
+
   }
 
   public setScene(scene: Scene) {
@@ -39,6 +63,10 @@ class App {
   public toggleShading(useShading: boolean) {
     this.scene?.setUseShading(useShading);
   }
+
+  public toggleTexture(useTexture: boolean) {
+    this.scene?.setUseTexture(useTexture);
+  } 
 
   public start() {
     if (!this.scene) {

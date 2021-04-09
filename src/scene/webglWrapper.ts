@@ -1,16 +1,18 @@
 import Light from "../light";
 import Node from "../object";
 
+import {requestCORSIfNotSameOrigin} from "../util/convert";
+
 export enum AttributeVector {
   "POSITION" = "position",
-  "NORMAL" = "vertNormal"
+  "NORMAL" = "vertNormal",
 }
 
 export enum UniformMatrix {
   "PROJ" = "mProj",
   "VIEW" = "mView",
   "WORLD" = "mWorld",
-  "TRANSFORM" = "mTransform"
+  "TRANSFORM" = "mTransform",
 }
 
 class WebGLWrapper {
@@ -18,6 +20,7 @@ class WebGLWrapper {
   private gl: WebGL2RenderingContext;
   private program: WebGLProgram;
 
+  protected texture: Texture;
 
   /*
    * Constructor
@@ -31,10 +34,16 @@ class WebGLWrapper {
     this.gl.viewport(0, 0, canvas.width, canvas.height);
     this.gl.enable(this.gl.DEPTH_TEST);
 
-    this.program = this.createProgram();
-    this.initMainShader(this.program);
-  }
+    // Load initial texture mode
+    this.texture = "none";
 
+    this.program = this.createProgram();
+
+    this.initMainShader(this.program);
+
+    // Load the environment
+    this.loadEnvMapAndCreateTexture();
+  }
 
   /*
    * Webgl setup
@@ -72,8 +81,7 @@ class WebGLWrapper {
     const gl = this.gl;
     const vShader = this.createCompiledShader(
       gl.VERTEX_SHADER,
-      `
-      attribute vec3 position;
+      `attribute vec3 position;
       attribute vec3 vertNormal;
 
       varying vec3 fragColor;
@@ -97,6 +105,9 @@ class WebGLWrapper {
       uniform mat4 mView;
       uniform mat4 mProj;
 
+      // env texture properties
+      varying vec3 R;
+
       void main() {
         gl_Position = mProj * mView * mWorld * mTransform * vec4(position, 1);
 
@@ -116,6 +127,13 @@ class WebGLWrapper {
         } else {
           fragColor = vec3(0, 0, 0);
         }
+
+        vec4 a_position = vec4(position, 1);
+        mat4 modelViewMatrix =  mView * mWorld * mTransform;
+        vec3 eyePos = (modelViewMatrix * a_position).xyz;
+
+        vec3 N = normalize((modelViewMatrix*vec4(vertNormal,0)).xyz);
+        R = reflect(eyePos, N);
       }
       `,
     );
@@ -126,21 +144,35 @@ class WebGLWrapper {
 
       varying vec3 fragColor;
 
+      uniform int textureType;
+      
+      // environment texture variable
+      uniform samplerCube envTexture;
+      
+      varying vec3 R;
+
       void main() {
-        gl_FragColor = vec4(fragColor, 1);
+        if (textureType == 1) {
+          gl_FragColor = textureCube(envTexture, -R);
+        } else {
+          gl_FragColor = vec4(fragColor, 1);
+        }
       }
       `,
     );
     this.setupProgram(program, vShader, fShader);
   }
 
-
   /*
    * GLSL value apply helpers
    */
 
-  protected applyAttributeVector(label: AttributeVector, vectorData: number[], dimension: number = 3) {
-    const { gl, program } = this;
+  protected applyAttributeVector(
+    label: AttributeVector,
+    vectorData: number[],
+    dimension: number = 3,
+  ) {
+    const {gl, program} = this;
 
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -153,16 +185,12 @@ class WebGLWrapper {
   }
 
   protected applyUniformMatrix4fv(label: UniformMatrix, matrix: number[]) {
-    const { gl, program } = this;
-    gl.uniformMatrix4fv(
-      gl.getUniformLocation(program, label),
-      false,
-      new Float32Array(matrix)
-    );
+    const {gl, program} = this;
+    gl.uniformMatrix4fv(gl.getUniformLocation(program, label), false, new Float32Array(matrix));
   }
 
   protected applyLightProperties(light: Light) {
-    const { gl, program } = this;
+    const {gl, program} = this;
 
     gl.uniform3fv(gl.getUniformLocation(program, "Id"), new Float32Array(light.Id));
     gl.uniform3fv(gl.getUniformLocation(program, "Is"), new Float32Array(light.Is));
@@ -175,7 +203,7 @@ class WebGLWrapper {
   }
 
   protected applyMaterialProperties(object: Node) {
-    const { gl, program } = this;
+    const {gl, program} = this;
 
     gl.uniform3fv(gl.getUniformLocation(program, "Kd"), new Float32Array(object.Kd));
     gl.uniform3fv(gl.getUniformLocation(program, "Ks"), new Float32Array(object.Ks));
@@ -185,10 +213,96 @@ class WebGLWrapper {
   }
 
   protected applyUseShading(useShading: boolean) {
-    const { gl, program } = this;
+    const {gl, program} = this;
     gl.uniform1i(gl.getUniformLocation(program, "useShading"), useShading ? 1 : 0);
   }
 
+  protected applyTexture(textureType: Texture) {
+    const {gl, program} = this;
+
+    switch (textureType) {
+      case "environment":
+        gl.uniform1i(gl.getUniformLocation(program, "textureType"), 1);
+        console.log("hid dis");
+        break;
+      default:
+        gl.uniform1i(gl.getUniformLocation(program, "textureType"), 0); // no texture
+        console.log("hid dis II");
+        break;
+    }
+  }
+
+  protected loadEnvMapAndCreateTexture() {
+    const {gl, program} = this;
+
+    const texture = gl.createTexture();
+    // gl.activeTexture(gl.TEXTURE2);
+
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
+
+    const faceInfos = [
+      {
+        target: gl.TEXTURE_CUBE_MAP_POSITIVE_X,
+        url:
+          "https://webglfundamentals.org/webgl/resources/images/computer-history-museum/pos-x.jpg",
+      },
+      {
+        target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
+        url:
+          "https://webglfundamentals.org/webgl/resources/images/computer-history-museum/neg-x.jpg",
+      },
+      {
+        target: gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
+        url:
+          "https://webglfundamentals.org/webgl/resources/images/computer-history-museum/pos-y.jpg",
+      },
+      {
+        target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
+        url:
+          "https://webglfundamentals.org/webgl/resources/images/computer-history-museum/neg-y.jpg",
+      },
+      {
+        target: gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
+        url:
+          "https://webglfundamentals.org/webgl/resources/images/computer-history-museum/pos-z.jpg",
+      },
+      {
+        target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
+        url:
+          "https://webglfundamentals.org/webgl/resources/images/computer-history-museum/neg-z.jpg",
+      },
+    ];
+    faceInfos.forEach((faceInfo) => {
+      const {target, url} = faceInfo;
+
+      // Upload the canvas to the cubemap face.
+      const level = 0;
+      const internalFormat = gl.RGBA;
+      const width = 512;
+      const height = 512;
+      const format = gl.RGBA;
+      const type = gl.UNSIGNED_BYTE;
+
+      // setup each face so it's immediately renderable
+      gl.texImage2D(target, level, internalFormat, width, height, 0, format, type, null);
+
+      // Asynchronously load an image
+      const image = new Image();
+      requestCORSIfNotSameOrigin(image, url);
+      image.src = url;
+      image.addEventListener("load", function () {
+        // Now that the image has loaded make copy it to the texture.
+        gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
+        gl.texImage2D(target, level, internalFormat, format, type, image);
+        gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
+      });
+    });
+    gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+
+    // Tell the shader to use texture unit 0 for u_texture
+    gl.uniform1i(gl.getUniformLocation(program, "envTexture"), 0);
+  }
 
   /*
    * Draw array wrapper method

@@ -19,7 +19,9 @@ class Scene extends WebGLWrapper {
 
   // Use shading
   private useShading: 0 | 1;
-
+  
+  // Use texture
+  private textureType: Texture;
 
   /*
    * Constructor
@@ -36,8 +38,11 @@ class Scene extends WebGLWrapper {
     this.setCamera(new Camera());
     this.setLight(new Light());
     this.setUseShading(true);
-  }
 
+    this.setUseTexture(true);
+
+    this.setProjection("perspective");
+  }
 
   /*
    * Matrix helpers
@@ -108,6 +113,24 @@ class Scene extends WebGLWrapper {
   public setUseShading(useShading: boolean) {
     this.useShading = useShading ? 1 : 0;
     this.applyUseShading(useShading);
+  }
+
+  public setUseTexture(useTexture: boolean) {
+    if (useTexture) {
+      this.textureType = "environment";
+      // TODO : add more logic buat nambahin other texture
+    } else {
+      this.textureType = "none";
+    }
+    this.applyTexture(this.textureType);
+  }
+
+  public get objects() {
+    return this._objects;
+  }
+
+  public set objects(objects: Node[]) {
+    this._objects = objects;
   }
 
 
