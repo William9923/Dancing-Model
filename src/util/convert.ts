@@ -20,4 +20,10 @@ const toCartesian = (sphericalCoord: [number, number, number]) => {
   return cartesianCoord;
 };
 
-export {toRadian, toCartesian};
+const requestCORSIfNotSameOrigin = (img: HTMLImageElement, url: string) => {
+  if ((new URL(url, window.location.href)).origin !== window.location.origin) {
+    img.crossOrigin = "";
+  }
+}
+
+export {toRadian, toCartesian, requestCORSIfNotSameOrigin};

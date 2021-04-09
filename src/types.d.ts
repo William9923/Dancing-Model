@@ -5,3 +5,4 @@ type Transformation = "translate" | "rotate" | "scale";
 type Projection = "orthographic" | "oblique" | "perspective";
 type CameraSetting = "radius" | "theta" | "phi";
 type ShapeType = "cube" | "block" | "prism";
+type Texture = "image" | "environment" | "bump" | "none";

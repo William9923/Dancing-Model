@@ -21,12 +21,12 @@ class MirrorMan extends Node {
 
     mm.child = chest;
 
-    chest.sibling = hip;
+    // chest.sibling = hip;
     
-    chest.child = head;
+    // chest.child = head;
 
-    head.sibling = la;
-    la.sibling = ra;
+    // head.sibling = la;
+    // la.sibling = ra;
 
     // hip.child = ll;
     // ll.sibling = rl;

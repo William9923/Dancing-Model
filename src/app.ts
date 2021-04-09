@@ -40,6 +40,10 @@ class App {
     this.scene?.setUseShading(useShading);
   }
 
+  public toggleTexture(useTexture: boolean) {
+    
+  }
+
   public start() {
     if (!this.scene) {
       throw "No scene defined!";

@@ -6,7 +6,7 @@ import {buildCubePoints} from "../../utils/cubePoints";
 class Hip extends Node {
   constructor() {
     const translation = mat4.translation(0, -0.5, 0);
-    const scaling = mat4.scale(0.3, 0.2, 0.5);
+    const scaling = mat4.scale(0.4, 0.2, 0.2);
 
     super(mat4.mMult(translation, scaling));
     this.setupPoints();
