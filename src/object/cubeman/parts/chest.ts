@@ -5,12 +5,11 @@ import {buildCubePoints} from "../../utils/cubePoints";
 
 class Chest extends Node {
   constructor() {
-    // Init initial position
-    const translation = mat4.translation(0,0.5,0);
-    const scaling =  mat4.scale(0.5, 0.5, 0.3);
-
-    super(mat4.mMult(translation, scaling));
+    super();
     this.setupPoints();
+
+    this.setTransformation("translate", [0, 0, 0]);
+    this.setTransformation("scale", [0.5, 0.5,0.3]);
   }
 
   // override

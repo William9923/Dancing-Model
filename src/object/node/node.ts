@@ -52,11 +52,6 @@ abstract class Node {
       this._child = child;
   }
 
-  public set setSibling(sibling:Node){
-    this._sibling = sibling;
-  }
-
-
   /*
    * Transformation methods
    */
@@ -93,10 +88,10 @@ abstract class Node {
 
   protected calculateTransformMatrix() {
     this.transformMatrix = mat4.mMult(
-      mat4.xRotation(this.rotate[0]),
-      mat4.yRotation(this.rotate[1]),
-      mat4.zRotation(this.rotate[2]),
       mat4.scale(...this.scale),
+      mat4.zRotation(this.rotate[2]),
+      mat4.yRotation(this.rotate[1]),
+      mat4.xRotation(this.rotate[0]),
       mat4.translation(...this.translate),
     );
   }

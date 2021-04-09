@@ -77,8 +77,7 @@ export const buildCubePoints = (normalArray: number[]) => {
         normalArray,
         true,
     )
-];
-    console.log("Points");
-    console.log(arr);
+  ];
+  
   return arr;
 };

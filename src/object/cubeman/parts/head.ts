@@ -6,10 +6,11 @@ import {buildCubePoints} from "../../utils/cubePoints";
 class Head extends Node {
   constructor() {
 
-    const translation = mat4.translation(0, 2.5, 0.0);
-    const scaling = mat4.scale(0.5, 0.2, 0.5);
+    super();
 
-    super(mat4.mMult(translation, scaling));
+    this.setTransformation("translate", [0, 0.3, 0]);
+    this.setTransformation("scale", [0.5, 0.35, 0.5]);
+
     this.setupPoints();
   }
 
