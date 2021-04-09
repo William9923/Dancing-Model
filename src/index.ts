@@ -1,9 +1,6 @@
 import App from "./app";
 import Scene from "./scene";
-import TriangularPrism from "./object/triangularPrism";
-import Test from "./object/test";
 import MirrorMan from "./object/cubeman"
-import Body from "./object/cubeman/parts/body";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -41,6 +38,11 @@ const mirrorBtn = document.getElementById("mirror-man") as HTMLElement;
 mirrorBtn.addEventListener("click", () => {
   resetDisplay();
   obj1Section.style.display = "block";
+
+  // Empty scene first, notes can change logic
+  if (scene.objects.length > 0) 
+    scene.objects = [];
+
   // Build mirror man
   scene.add(MirrorMan.build());
 });

@@ -125,6 +125,14 @@ class Scene extends WebGLWrapper {
     this.applyTexture(this.textureType);
   }
 
+  public get objects() {
+    return this._objects;
+  }
+
+  public set objects(objects: Node[]) {
+    this._objects = objects;
+  }
+
 
   /*
    * Helper method to apply uniform matrix

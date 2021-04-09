@@ -17,6 +17,8 @@ class MirrorMan extends Node {
   private la: Node;
   private ra:Node;
 
+  private type: ObjMode = "obj1";
+
   public static build() {
     
     const mm = new MirrorMan();
@@ -87,14 +89,14 @@ class MirrorMan extends Node {
 
   public moveHead(angle: number) {
     const rotatePoint = this.head.getTransformation("rotate");
-    const [x, y, _] = rotatePoint;
-    this.head.setTransformation("rotate", [x, y, angle]);
+    const [x, _, z] = rotatePoint;
+    this.head.setTransformation("rotate", [x, angle, z]);
   }
 
   public moveChest(angle: number) {
     const rotatePoint = this.chest.getTransformation("rotate");
-    const [x, y, _] = rotatePoint;
-    this.head.setTransformation("rotate", [x, y, angle]);
+    const [x, _, z] = rotatePoint;
+    this.chest.setTransformation("rotate", [x, angle, z]);
   }
 }
 
