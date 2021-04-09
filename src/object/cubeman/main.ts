@@ -59,12 +59,43 @@ class MirrorMan extends Node {
 
   public animate() {}
 
-  public moveLeftArmFrontWay(angle: number) {
+  // Range : -45, 45
+  public moveLeftArm(angle: number) {
+    const rotatePoint = this.la.getTransformation("rotate");
+    const [x, y, _] = rotatePoint;
+    this.la.setTransformation("rotate", [x, y, angle]);
   }
 
-  public moveLeftArmSideWay(angle: number) {}
+  // Range : -45, 45
+  public moveRightArm(angle: number) {
+    const rotatePoint = this.ra.getTransformation("rotate");
+    const [x, y, _] = rotatePoint;
+    this.ra.setTransformation("rotate", [x, y, angle]);
+  }
 
-  public moveRightArmFrontWay(angle: number) {}
+  public moveLeftLeg(angle: number) {
+    const rotatePoint = this.ll.getTransformation("rotate");
+    const [x, y, _] = rotatePoint;
+    this.ll.setTransformation("rotate", [x, y, angle]);
+  }
+
+  public moveRightLeg(angle: number) {
+    const rotatePoint = this.rl.getTransformation("rotate");
+    const [x, y, _] = rotatePoint;
+    this.rl.setTransformation("rotate", [x, y, angle]);
+  }
+
+  public moveHead(angle: number) {
+    const rotatePoint = this.head.getTransformation("rotate");
+    const [x, y, _] = rotatePoint;
+    this.head.setTransformation("rotate", [x, y, angle]);
+  }
+
+  public moveChest(angle: number) {
+    const rotatePoint = this.chest.getTransformation("rotate");
+    const [x, y, _] = rotatePoint;
+    this.head.setTransformation("rotate", [x, y, angle]);
+  }
 }
 
 export default MirrorMan;
