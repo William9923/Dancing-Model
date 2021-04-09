@@ -17,6 +17,7 @@ class App {
       return;
     }
 
+    // Camera event
     SliderManager.assignInputEvent("cam-radius", (val: number) => {
       this.scene?.camera?.setRadius(val);
     });
@@ -26,6 +27,10 @@ class App {
     SliderManager.assignInputEvent("cam-phi", (val: number) => {
       this.scene?.camera?.setPhi(val);
     });
+
+    // Mirror Man event
+
+
   }
 
   public setScene(scene: Scene) {
