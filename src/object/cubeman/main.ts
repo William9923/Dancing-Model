@@ -1,7 +1,8 @@
 import Node from "../node";
 import {mat4} from "../../util/matrix";
 
-import {Body, Head, LeftArm, LeftLeg, RightArm, RightLeg, Chest} from "./parts";
+import {Head, LeftArm, LeftLeg, RightArm, RightLeg, Chest} from "./parts";
+import { IMirrorManAnimation } from "./animation";
 
 class MirrorMan extends Node {
 
@@ -17,7 +18,11 @@ class MirrorMan extends Node {
   private la: Node;
   private ra:Node;
 
+  // Object type
   private type: ObjMode = "obj1";
+
+  // Animation clip
+  private animationClip: IMirrorManAnimation | null = null; // change the animationClip
 
   public static build() {
     
@@ -59,7 +64,11 @@ class MirrorMan extends Node {
   public setupPoints() {}
   public render(baseTransformMatrix: number[] = mat4.identity()) {}
 
-  public animate() {}
+  public animate(delta:number) {
+    // TODO : activate animation clip
+  }
+
+  
 
   // Range : -45, 45
   public moveLeftArm(angle: number) {
@@ -98,6 +107,7 @@ class MirrorMan extends Node {
     const [x, _, z] = rotatePoint;
     this.chest.setTransformation("rotate", [x, angle, z]);
   }
+
 }
 
 export default MirrorMan;
