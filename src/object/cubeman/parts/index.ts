@@ -1,4 +1,3 @@
-import Body from "./body";
 import Head from "./head";
 import LeftArm from "./leftarm";
 import RightArm from "./rightarm";
@@ -8,7 +7,6 @@ import Chest from "./chest";
 
 // prettier-ignore
 export {
-  Body,
   Head,
   LeftArm,
   RightArm,
