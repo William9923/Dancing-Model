@@ -1,9 +1,10 @@
 import WebGLWrapper, { UniformMatrix } from "./webglWrapper";
 import Camera from "../camera";
 import Light from "../light";
-import { toCartesian } from "../util/convert";
 import { mat4 } from "../util/matrix";
 import Node from "../object/index";
+
+import {isMirrorMan} from "../object/cubeman";
 
 class Scene extends WebGLWrapper {
   // Object, camera, and light used
@@ -191,6 +192,14 @@ class Scene extends WebGLWrapper {
     for (const object of this._objects) {
       // Traverse sibling and child of an object
       object.traverse();
+    }
+  }
+
+  public animate(delta: number) {
+    for (const object of this._objects) {
+      // Animate each object
+      if (isMirrorMan(object))
+        object.animate(delta);
     }
   }
 }

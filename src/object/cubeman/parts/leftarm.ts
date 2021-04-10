@@ -9,7 +9,7 @@ class LeftArm extends Node {
     super();
     this.setupPoints();
 
-    this.setTransformation("rotate", [0, 0, -45]);  // y-rotate : 0-45, z-rotate : -45, 45
+    // this.setTransformation("rotate", [0, 0, -45]);  // y-rotate : 0-45, z-rotate : -45, 45
     this.setTransformation("scale", [0.5, 0.2, 0.2]);
     this.setTransformation("translate", [-0.25, 0.1, 0]);
   }

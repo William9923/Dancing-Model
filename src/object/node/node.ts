@@ -193,6 +193,7 @@ abstract class Node {
   public abstract setupPoints(): void;
 
   public abstract render(baseTransformMatrix: number[]): void;
+
 }
 
 export default Node;

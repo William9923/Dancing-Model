@@ -10,8 +10,11 @@ const Z = 2;
 class App {
   private scene: Scene | null = null;
 
+  private then: number;
+
   constructor(scene: Scene) {
     this.scene = scene;
+    this.then = 0; // init animation frame
   }
 
   public initSliders() {
@@ -74,7 +77,14 @@ class App {
     }
     this.initSliders();
     const loop = (time: number) => {
+      const now = time * 0.001; // time in milliseconds
+
+      this.scene?.animate(now - this.then);
+
       this.scene?.render();
+      this.then = now;
+
+      // Draw next scene
       window.requestAnimationFrame(loop);
     }
     window.requestAnimationFrame(loop);

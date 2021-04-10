@@ -48,7 +48,7 @@ const mmSliderDefaultValues: SliderDefaultValue = {
   "rl-slider": 0
 }
 const cSliderDefaultValues: SliderDefaultValue = {
-  "cam-radius": 0,
+  "cam-radius": 1,
   "cam-theta": 0,
   "cam-phi": 0,
 };
