@@ -1,7 +1,13 @@
 import App from "./app";
 import Scene from "./scene";
 import MirrorMan, {isMirrorMan} from "./object/cubeman";
-import {HeadMirrorManAnimation, BodyMirrorManAnimation, WalkMirrorManAnimation} from "./object/cubeman/animation";
+import {
+  HeadMirrorManAnimation,
+  BodyMirrorManAnimation,
+  WalkMirrorManAnimation,
+  JumpMirrorManAnimation,
+} from "./object/cubeman/animation";
+import SliderManager from "./SliderManager";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -71,6 +77,11 @@ obj3Btn.addEventListener("click", () => {
  * Mirror Man Section Start
  */
 
+ const obj1ResetBtn = document.getElementById("reset-obj1") as HTMLElement;
+ obj1ResetBtn.addEventListener("click", () => {
+  SliderManager.resetMMSliderValue();
+ });
+
 /**
  * Slider DOM Listener
  */
@@ -114,7 +125,7 @@ const obj1JumpClipBtn = document.getElementById("animate-obj1-4") as HTMLElement
 obj1JumpClipBtn.addEventListener("click", () => {
   sliderUsage(true);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(20)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new JumpMirrorManAnimation(50)),
   );
 });
 
