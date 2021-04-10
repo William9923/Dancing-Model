@@ -35,10 +35,16 @@ class HeadMirrorManAnimation implements IMirrorManAnimation {
   }
 
   private updateDirection(headAngle: number, delta: number) {
-    if ((headAngle >= 30 || headAngle <= -30) && delta != this._lastCheck) {
-      this._reverse = !this._reverse;
-      this._lastCheck = delta;
+
+    if (headAngle >= 30 && delta != this._lastCheck) {
+      this._reverse = true;
     }
+
+    else if (headAngle <= -30 && delta != this._lastCheck) {
+      this._reverse = false;
+    }
+
+    this._lastCheck = delta;
   }
 
   private validateAndReset(obj: MirrorMan) {

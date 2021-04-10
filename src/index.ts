@@ -1,7 +1,7 @@
 import App from "./app";
 import Scene from "./scene";
-import MirrorMan, { isMirrorMan } from "./object/cubeman"
-import {HeadMirrorManAnimation} from "./object/cubeman/animation";
+import MirrorMan, {isMirrorMan} from "./object/cubeman";
+import {HeadMirrorManAnimation, BodyMirrorManAnimation, WalkMirrorManAnimation} from "./object/cubeman/animation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -35,7 +35,7 @@ const resetDisplay = () => {
   obj3Section.style.display = "none";
 
   animObj1Section.style.display = "none";
-}
+};
 resetDisplay();
 
 // Object selector button event handler
@@ -46,8 +46,7 @@ mirrorBtn.addEventListener("click", () => {
   animObj1Section.style.display = "block";
 
   // Empty scene first, notes can change logic
-  if (scene.objects.length > 0) 
-    scene.objects = [];
+  if (scene.objects.length > 0) scene.objects = [];
 
   // Build mirror man
   scene.add(MirrorMan.build());
@@ -69,18 +68,65 @@ obj3Btn.addEventListener("click", () => {
 });
 
 /**
+ * Mirror Man Section Start
+ */
+
+/**
+ * Slider DOM Listener
+ */
+
+const sliders = document.querySelectorAll(".slider-move") as NodeListOf<HTMLInputElement>;
+const sliderUsage = (disable: boolean) => {
+  sliders.forEach((slider) => {
+    slider.disabled = disable;
+  });
+};
+
+/**
  * Attach Animation Listener
  */
 
 const obj1HeadClipBtn = document.getElementById("animate-obj1-1") as HTMLElement;
 obj1HeadClipBtn.addEventListener("click", () => {
-  scene.objects.forEach(object => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(20)));
+  sliderUsage(true);
+  scene.objects.forEach(
+    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(100)),
+  );
+});
+
+const obj1BodyClipBtn = document.getElementById("animate-obj1-2") as HTMLElement;
+obj1BodyClipBtn.addEventListener("click", () => {
+  sliderUsage(true);
+  scene.objects.forEach(
+    (object) => isMirrorMan(object) && object.setAnimationClip(new BodyMirrorManAnimation(20)),
+  );
+});
+
+const obj1WalkClipBtn = document.getElementById("animate-obj1-3") as HTMLElement;
+obj1WalkClipBtn.addEventListener("click", () => {
+  sliderUsage(true);
+  scene.objects.forEach(
+    (object) => isMirrorMan(object) && object.setAnimationClip(new WalkMirrorManAnimation(75)),
+  );
+});
+
+const obj1JumpClipBtn = document.getElementById("animate-obj1-4") as HTMLElement;
+obj1JumpClipBtn.addEventListener("click", () => {
+  sliderUsage(true);
+  scene.objects.forEach(
+    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(20)),
+  );
 });
 
 const obj1ResetClipBtn = document.getElementById("animate-reset-obj1") as HTMLElement;
 obj1ResetClipBtn.addEventListener("click", () => {
-  scene.objects.forEach(object => isMirrorMan(object) && object.setAnimationClip(null));
+  sliderUsage(false);
+  scene.objects.forEach((object) => isMirrorMan(object) && object.setAnimationClip(null));
 });
+
+/**
+ * Mirror Man Section End
+ */
 
 app.start();
 
