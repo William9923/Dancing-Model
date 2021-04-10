@@ -1,6 +1,7 @@
 import App from "./app";
 import Scene from "./scene";
-import MirrorMan from "./object/cubeman"
+import MirrorMan, { isMirrorMan } from "./object/cubeman"
+import {HeadMirrorManAnimation} from "./object/cubeman/animation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -25,11 +26,15 @@ const obj1Section = document.getElementById("obj1-section") as HTMLElement;
 const obj2Section = document.getElementById("obj2-section") as HTMLElement;
 const obj3Section = document.getElementById("obj3-section") as HTMLElement;
 
+const animObj1Section = document.getElementById("anim-obj2-section") as HTMLElement;
+
 // Default : Hide all
 const resetDisplay = () => {
   obj1Section.style.display = "none";
   obj2Section.style.display = "none";
   obj3Section.style.display = "none";
+
+  animObj1Section.style.display = "none";
 }
 resetDisplay();
 
@@ -38,6 +43,7 @@ const mirrorBtn = document.getElementById("mirror-man") as HTMLElement;
 mirrorBtn.addEventListener("click", () => {
   resetDisplay();
   obj1Section.style.display = "block";
+  animObj1Section.style.display = "block";
 
   // Empty scene first, notes can change logic
   if (scene.objects.length > 0) 
@@ -60,6 +66,20 @@ obj3Btn.addEventListener("click", () => {
   resetDisplay();
   obj3Section.style.display = "block";
   // TODO : Build your model here
+});
+
+/**
+ * Attach Animation Listener
+ */
+
+const obj1HeadClipBtn = document.getElementById("animate-obj1-1") as HTMLElement;
+obj1HeadClipBtn.addEventListener("click", () => {
+  scene.objects.forEach(object => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(20)));
+});
+
+const obj1ResetClipBtn = document.getElementById("animate-reset-obj1") as HTMLElement;
+obj1ResetClipBtn.addEventListener("click", () => {
+  scene.objects.forEach(object => isMirrorMan(object) && object.setAnimationClip(null));
 });
 
 app.start();

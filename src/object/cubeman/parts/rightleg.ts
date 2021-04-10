@@ -9,7 +9,7 @@ class RightLeg extends Node {
     super();
     this.setupPoints();
 
-    this.setTransformation("rotate", [0, 0, 45]);  // y-rotate : 0-45, z-rotate : -45, 45
+    // this.setTransformation("rotate", [0, 0, 45]);  // y-rotate : 0-45, z-rotate : -45, 45
     this.setTransformation("scale", [0.35, 0.5, 0.5]);
     this.setTransformation("translate", [0.15, -0.3, 0]);
   }

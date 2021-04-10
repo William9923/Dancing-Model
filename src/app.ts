@@ -79,7 +79,7 @@ class App {
     const loop = (time: number) => {
       const now = time * 0.001; // time in milliseconds
 
-      // TODO : Apply scene animation
+      this.scene?.animate(now - this.then);
 
       this.scene?.render();
       this.then = now;
