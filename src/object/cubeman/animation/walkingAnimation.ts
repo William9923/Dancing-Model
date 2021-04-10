@@ -3,13 +3,13 @@ import IMirrorManAnimation from "./animation";
 
 class WalkMirrorManAnimation implements IMirrorManAnimation {
   private _walkingSpeed: number;
-  private _bodySpeed:number;
-  private _headSpeed:number;
+  private _bodySpeed: number;
+  private _headSpeed: number;
   private _handSpeed: number;
   private _reverse: boolean = false;
 
   private _started: boolean;
-  private _lastCheck:number;
+  private _lastCheck: number;
 
   constructor(speed: number) {
     this._walkingSpeed = speed;
@@ -23,8 +23,8 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
 
   public set speed(speed: number) {
     this._walkingSpeed = speed;
-    this._bodySpeed = speed * 0.2;
-    this._headSpeed = speed * 0.4;
+    this._bodySpeed = speed * 0.1;
+    this._headSpeed = speed * 0.2;
     this._handSpeed = speed * 0.75;
   }
 
@@ -50,7 +50,7 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
 
     const headRotation = obj.head.getTransformation("rotate");
     const [x_head, y_head, z_head] = headRotation;
-    
+
     // Check direction
     this.updateDirection(x_leg_left, delta);
 
@@ -60,10 +60,10 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
     const newAngleLeft = x_leg_left + this._walkingSpeed * delta * direction;
     const newAngleRight = x_leg_right + this._walkingSpeed * delta * direction * -1;
 
-    const newArmAngleLeft = y_arm_left + this._handSpeed * delta * direction ;
+    const newArmAngleLeft = y_arm_left + this._handSpeed * delta * direction;
     const newArmAngleRigth = y_arm_right + this._handSpeed * delta * direction * -1;
 
-    const newChestAngleZ = z_chest + this._bodySpeed * delta * direction * -0.5 ;
+    const newChestAngleZ = z_chest + this._bodySpeed * delta * direction * -0.5;
     const newChestAngleY = y_chest + this._bodySpeed * delta * direction;
 
     const newHeadAngle = y_head + this._headSpeed * delta * direction;
@@ -81,13 +81,9 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
   }
 
   private updateDirection(footAngle: number, delta: number) {
-
     if (footAngle >= 45 && delta != this._lastCheck) {
-      console.log("hid?");
       this._reverse = true;
-    }
-
-    else if (footAngle <= -45 && delta != this._lastCheck) {
+    } else if (footAngle <= -45 && delta != this._lastCheck) {
       this._reverse = false;
     }
 
