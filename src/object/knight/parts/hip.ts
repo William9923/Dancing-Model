@@ -1,11 +1,14 @@
 import Node from "../../node";
 import DrawMode from "../../../util/drawMode";
 import { mat4 } from "../../../util/matrix";
-import { buildQuad } from "./util";
+import { buildQuad } from "../../utils/util";
 
 class Hip extends Node {
   constructor() {
-    super(mat4.translation(0, -0.4, 0));
+    super();
+
+    this.setTransformation("translate", [0, 0, 0]);
+
     this.setupPoints();
   }
 

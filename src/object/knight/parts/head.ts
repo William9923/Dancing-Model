@@ -1,11 +1,14 @@
 import Node from "../../node";
 import DrawMode from "../../../util/drawMode";
 import { mat4 } from "../../../util/matrix";
-import { buildQuad } from "./util";
+import { buildQuad } from "../../utils/util";
 
 class Head extends Node {
   constructor() {
-    super(mat4.translation(0, 0.7, 0.05));
+    super();
+
+    this.setTransformation("translate", [0, 0.475, 0.05]);
+
     this.setupPoints();
   }
 
