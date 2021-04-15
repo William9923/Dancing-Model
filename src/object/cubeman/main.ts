@@ -77,7 +77,7 @@ class MirrorMan extends Node {
   public animate(delta: number) {
     if (!!this._animationClip) {
       this._animationClip.doAnimation(delta, this);
-    } 
+    }
   }
 
   // Range : -45, 45
@@ -116,6 +116,13 @@ class MirrorMan extends Node {
     const rotatePoint = this.chest.getTransformation("rotate");
     const [x, _, z] = rotatePoint;
     this.chest.setTransformation("rotate", [x, angle, z]);
+  }
+
+  // override
+  public traverse() {
+    this._setTextureCallback("environment");
+    super.traverse();
+    this._setTextureCallback("none");
   }
 }
 

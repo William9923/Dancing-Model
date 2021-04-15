@@ -5,6 +5,8 @@ type materialChangedCallbackType = (object: Node) => void;
 type transformMatrixChangedCallbackType = (transformMatrix: number[]) => void;
 type drawCallbackType = (mode: number, startingIdx: number, size: number) => void;
 type applyAttrCallbackType = (label: AttributeVector, vectorData: number[], dimension: number) => void;
+type useNormalMapCallbackType = (useNormalMap: boolean) => void;
+type setTextureCallbackType = (textureType: string) => void;
 
 abstract class Node {
   // Node properties
@@ -35,7 +37,8 @@ abstract class Node {
   protected _transformMatrixChangedCallback: transformMatrixChangedCallbackType | null = null;
   protected _drawCallback: drawCallbackType | null = null;
   protected _applyAttrCallback: applyAttrCallbackType | null = null;
-  protected _useNormalMapCallback: applyAttrCallbackType | null = null;
+  protected _useNormalMapCallback: useNormalMapCallbackType | null = null;
+  protected _setTextureCallback: setTextureCallbackType | null = null;
 
 
   /*
@@ -142,8 +145,12 @@ abstract class Node {
     this._applyAttrCallback = callback;
   }
 
-  public set useNormalMapCallback(callback: applyAttrCallbackType) {
+  public set useNormalMapCallback(callback: useNormalMapCallbackType) {
     this._useNormalMapCallback = callback;
+  }
+
+  public set setTextureCallback(callback: setTextureCallbackType) {
+    this._setTextureCallback = callback;
   }
 
 

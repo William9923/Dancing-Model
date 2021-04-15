@@ -19,6 +19,13 @@ class Knight extends Node {
     return knight;
   }
 
+  // override
+  public traverse() {
+    this._setTextureCallback("bump");
+    super.traverse();
+    this._setTextureCallback("none");
+  }
+
   public setupPoints() {}
   public render(baseTransformMatrix: number[] = mat4.identity()) {}
 }

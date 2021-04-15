@@ -117,13 +117,8 @@ class Scene extends WebGLWrapper {
   }
 
   public setUseTexture(useTexture: boolean) {
-    if (useTexture) {
-      this.textureType = "environment";
-      // TODO : add more logic buat nambahin other texture
-    } else {
-      this.textureType = "none";
-    }
-    this.applyTexture(this.textureType);
+    this.useTexture = useTexture ? 1 : 0;
+    this.applyUseTexture(useTexture);
   }
 
   public get objects() {
@@ -166,6 +161,7 @@ class Scene extends WebGLWrapper {
     object.drawCallback = this.draw.bind(this);
     object.applyAttrCallback = this.applyAttributeVector.bind(this);
     object.useNormalMapCallback = this.applyUseNormalMap.bind(this);
+    object.setTextureCallback = this.applyTexture.bind(this);
 
     if (object.child) this.setCallbacks(object.child);
     if (object.sibling) this.setCallbacks(object.sibling);

@@ -139,6 +139,7 @@ class WebGLWrapper {
       precision mediump float;
 
       uniform int useShading;
+      uniform int useTexture;
 
       // Light properties
       uniform vec3 Id;
@@ -190,6 +191,14 @@ class WebGLWrapper {
       }
 
       void main() {
+        // Initial check
+        if (useTexture != 1) {
+          gl_FragColor = calculateColor(N);
+          return;
+        }
+
+
+        // Check texture type
         if (textureType == 1) {  // env
           gl_FragColor = textureCube(envTexture, -R);
         }
@@ -269,6 +278,11 @@ class WebGLWrapper {
     gl.uniform1i(gl.getUniformLocation(program, "useShading"), useShading ? 1 : 0);
   }
 
+  protected applyUseTexture(useTexture: boolean) {
+    const {gl, program} = this;
+    gl.uniform1i(gl.getUniformLocation(program, "useTexture"), useTexture ? 1 : 0);
+  }
+
   protected applyUseNormalMap(useNormalMap: boolean) {
     const {gl, program} = this;
     gl.uniform1i(gl.getUniformLocation(program, "useNormalMap"), useNormalMap ? 1 : 0);
@@ -307,11 +321,12 @@ class WebGLWrapper {
     switch (textureType) {
       case "environment":
         gl.uniform1i(gl.getUniformLocation(program, "textureType"), 1);
-        console.log("hid dis");
+        break;
+      case "bump":
+        gl.uniform1i(gl.getUniformLocation(program, "textureType"), 2);
         break;
       default:
         gl.uniform1i(gl.getUniformLocation(program, "textureType"), 0); // no texture
-        console.log("hid dis II");
         break;
     }
   }
