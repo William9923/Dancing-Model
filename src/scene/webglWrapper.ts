@@ -43,6 +43,11 @@ class WebGLWrapper {
 
     // Load the environment
     this.loadEnvMapAndCreateTexture();
+
+    // TODO: remove
+    this.applyTexCoord();
+    this.loadBumpMapAndCreateTexture();
+    this.applyUseNormalMap(true);
   }
 
   /*
@@ -81,11 +86,58 @@ class WebGLWrapper {
     const gl = this.gl;
     const vShader = this.createCompiledShader(
       gl.VERTEX_SHADER,
-      `attribute vec3 position;
+      `
+      attribute vec3 position;
       attribute vec3 vertNormal;
+      attribute vec2 texCoord;
 
-      varying vec3 fragColor;
       uniform vec3 lightPosition;
+
+      // Position matrices
+      uniform mat4 mTransform;
+      uniform mat4 mWorld;
+      uniform mat4 mView;
+      uniform mat4 mProj;
+
+      // Blinn-Phong model
+      varying vec3 L;
+      varying vec3 V;
+      varying vec3 N;
+
+      // UV coordinate
+      varying vec2 fTexCoord;
+
+      // Env texture properties
+      varying vec3 R;
+
+      void main() {
+        // Calculate model view matrix
+        mat4 modelViewMatrix =  mView * mWorld * mTransform;
+
+        // Assign gl_Position value
+        gl_Position = mProj * modelViewMatrix * vec4(position, 1);
+
+        // Blinn-Phong model
+        vec3 vertPos = (modelViewMatrix * vec4(position, 1)).xyz;
+
+        L = normalize((mView * vec4(lightPosition, 1)).xyz - vertPos);
+        V = normalize(-vertPos);
+        N = normalize((modelViewMatrix * vec4(vertNormal,0)).xyz);
+
+        // Env mapping
+        vec3 eyePos = (modelViewMatrix * vec4(position, 1)).xyz;
+        R = reflect(eyePos, N);
+
+        // Pass UV coordinate
+        fTexCoord = texCoord;
+      }
+      `,
+    );
+    const fShader = this.createCompiledShader(
+      gl.FRAGMENT_SHADER,
+      `
+      precision mediump float;
+
       uniform int useShading;
 
       // Light properties
@@ -99,69 +151,59 @@ class WebGLWrapper {
       uniform vec3 Ka;
       uniform float shininess;
 
-      // Position matrices
-      uniform mat4 mTransform;
-      uniform mat4 mWorld;
-      uniform mat4 mView;
-      uniform mat4 mProj;
+      // Blinn-Phong model
+      varying vec3 L;
+      varying vec3 V;
+      varying vec3 N;
 
-      // env texture properties
+      // UV coordinate
+      varying vec2 fTexCoord;
+
+      // Texture type
+      uniform int textureType;
+
+      // Environment texture variable
+      uniform samplerCube envTexture;
       varying vec3 R;
 
+      // Bump texture variable
+      uniform sampler2D bumpNormalMap;
+      uniform int useNormalMap;
+
       void main() {
-        gl_Position = mProj * mView * mWorld * mTransform * vec4(position, 1);
-
-        if (useShading == 1) {
-          // Build blinn phong model
-          vec3 vertPos = (mView * mWorld * mTransform * vec4(position, 1)).xyz;
-          vec3 L = normalize((mView * vec4(lightPosition, 1)).xyz - vertPos);
-          vec3 V = normalize(-vertPos);
-          vec3 H = normalize(L + V);
-          vec3 N = normalize((mView * mWorld * mTransform * vec4(vertNormal, 0)).xyz);
-
-          vec3 diffuse = Kd * Id * max(dot(L, N), 0.0);
-          vec3 specular = Ks * Is * pow(max(dot(N, H), 0.0), shininess);
-          vec3 ambient = Ka * Ia;
-
-          fragColor = diffuse + specular + ambient;
+        vec3 normal;
+        if (useNormalMap == 1) {
+          normal = texture2D(bumpNormalMap, fTexCoord).rgb;
+          normal = normalize(normal * 2.0 - 1.0);
         } else {
-          fragColor = vec3(0, 0, 0);
+          normal = N;
         }
 
-        vec4 a_position = vec4(position, 1);
-        mat4 modelViewMatrix =  mView * mWorld * mTransform;
-        vec3 eyePos = (modelViewMatrix * a_position).xyz;
+        vec3 color;
+        if (useShading == 1) {
+          // Build Blinn-Phong model
+          vec3 H = normalize(L + V);
 
-        vec3 N = normalize((modelViewMatrix*vec4(vertNormal,0)).xyz);
-        R = reflect(eyePos, N);
-      }
-      `,
-    );
-    const fShader = this.createCompiledShader(
-      gl.FRAGMENT_SHADER,
-      `
-      precision mediump float;
+          vec3 diffuse = Kd * Id * max(dot(L, normal), 0.0);
+          vec3 specular = Ks * Is * pow(max(dot(normal, H), 0.0), shininess);
+          vec3 ambient = Ka * Ia;
 
-      varying vec3 fragColor;
+          color = diffuse + specular + ambient;
+        } else {
+          color = vec3(0, 0, 0);
+        }
 
-      uniform int textureType;
-      
-      // environment texture variable
-      uniform samplerCube envTexture;
-      
-      varying vec3 R;
-
-      void main() {
         if (textureType == 1) {
           gl_FragColor = textureCube(envTexture, -R);
         } else {
-          gl_FragColor = vec4(fragColor, 1);
+          gl_FragColor = vec4(color, 1);
         }
       }
       `,
     );
     this.setupProgram(program, vShader, fShader);
   }
+
 
   /*
    * GLSL value apply helpers
@@ -217,6 +259,38 @@ class WebGLWrapper {
     gl.uniform1i(gl.getUniformLocation(program, "useShading"), useShading ? 1 : 0);
   }
 
+  protected applyUseNormalMap(useNormalMap: boolean) {
+    const {gl, program} = this;
+    gl.uniform1i(gl.getUniformLocation(program, "useNormalMap"), useNormalMap ? 1 : 0);
+  }
+
+  protected applyTexCoord() {
+    const {gl, program} = this;
+
+    // prettier-ignore
+    const texCoordData = [
+      // front-right pentagon
+      0.5, -1,
+      0.5, 0,
+      0.855, -0.28,
+      1, -0.75,
+      // front-left pentagon
+      0.5, -1,
+      0, -0.75,
+      0.145, -0.28,
+      0.5, 0
+    ];
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texCoordData), gl.STATIC_DRAW);
+
+    const texCoordPos = gl.getAttribLocation(program, "texCoord");
+    gl.enableVertexAttribArray(texCoordPos);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.vertexAttribPointer(texCoordPos, 2, gl.FLOAT, false, 0, 0);
+  }
+
   protected applyTexture(textureType: Texture) {
     const {gl, program} = this;
 
@@ -236,8 +310,7 @@ class WebGLWrapper {
     const {gl, program} = this;
 
     const texture = gl.createTexture();
-    // gl.activeTexture(gl.TEXTURE2);
-
+    gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
 
     const faceInfos = [
@@ -302,6 +375,31 @@ class WebGLWrapper {
 
     // Tell the shader to use texture unit 0 for u_texture
     gl.uniform1i(gl.getUniformLocation(program, "envTexture"), 0);
+  }
+
+  protected loadBumpMapAndCreateTexture() {
+    const {gl, program} = this;
+
+    var texture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // Fill the texture with a 1x1 blue pixel.
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+                  new Uint8Array([0, 0, 255, 255]));
+
+    // Asynchronously load an image
+    var image = new Image();
+    image.addEventListener('load', function() {
+      // Now that the image has loaded make copy it to the texture.
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      gl.generateMipmap(gl.TEXTURE_2D);
+    });
+    image.src = require('../../res/normal.png');
+
+    // Tell the shader to use texture unit 0 for u_texture
+    gl.uniform1i(gl.getUniformLocation(program, "bumpNormalMap"), 1);
   }
 
   /*
