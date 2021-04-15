@@ -16,7 +16,7 @@ class Cow extends Node {
   public rfl: Node;
 
   // Object type
-  private type: ObjMode = "obj1";
+  private type: ObjMode = "obj2";
 
   // Animation clip
   // private _animationClip: IMirrorManAnimation | null = null; // change the animationClip

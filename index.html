@@ -25,7 +25,7 @@
         <div class="card-header">Pick Articulated Object</div>
         <div class="card-body">
           <button class="btn btn-dark" id="mirror-man">Mirror Man</button>
-          <button class="btn btn-dark" id="obj2">Object 2</button>
+          <button class="btn btn-dark" id="cow">Cow</button>
           <button class="btn btn-dark" id="obj3">Object 3</button>
         </div>
       </div>
@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      <div class="card" id="anim-obj2-section">
+      <div class="card" id="anim-obj1-section">
         <div class="card-header">Mirror Man Animation</div>
         <div class="card-body">
           <button class="btn btn-dark" id="animate-obj1-1">Head</button>
@@ -80,9 +80,49 @@
 
 
       <div class="card" id="obj2-section">
-        <div class="card-header">Object 2 Movement</div>
+        <div class="card-header">Cow Movement</div>
         <div class="card-body">
-          <button class="btn btn-dark" id="reset">Reset</button>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Head :</div>
+            <input type="range" min="-30" max="30" value="0" class="slider slider-move" id="cow-head-slider" />
+            <span id="cow-head-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Body :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="cow-body-slider" />
+            <span id="cow-body-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Left Front Leg :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="lfl-slider" />
+            <span id="lfl-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Front Leg :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="rfl-slider" />
+            <span id="rfl-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Left Back Leg :</div>
+            <input type="range" min="0" max="45" value="0" class="slider slider-move" id="lbl-slider" />
+            <span id="lbl-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Back Leg :</div>
+            <input type="range" min="0" max="45" value="0" class="slider slider-move" id="rbl-slider" />
+            <span id="rbl-slider-value"></span>
+          </div>
+          <button class="btn btn-dark" id="reset-obj2">Reset</button>
+        </div>
+      </div>
+
+      <div class="card" id="anim-obj2-section">
+        <div class="card-header">Mirror Man Animation</div>
+        <div class="card-body">
+          <button class="btn btn-dark" id="animate-obj2-1">Head</button>
+          <button class="btn btn-dark" id="animate-obj2-2">Body</button>
+          <button class="btn btn-dark" id="animate-obj2-3">Walk</button>
+          <button class="btn btn-dark" id="animate-reset-obj2">Reset</button>
         </div>
       </div>
 

@@ -8,7 +8,7 @@ class Body extends Node {
     super();
     this.setupPoints();
     this.setTransformation("translate", [0, 0, 0]);
-    this.setTransformation("scale", [0.5, 0.5,0.3]);
+    this.setTransformation("scale", [0.3, 0.3, 0.6]);
   }
 
   public setupPoints() {

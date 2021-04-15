@@ -7,8 +7,8 @@ class Head extends Node {
   constructor() {
     super();
     this.setupPoints();
-    this.setTransformation("translate", [0, 0.3, 0]);
-    this.setTransformation("scale", [0.5, 0.35, 0.5]);
+    this.setTransformation("translate", [0, 0.1, 0.35]);
+    this.setTransformation("scale", [0.75, 0.75, 0.25]);
   }
 
   public setupPoints() {

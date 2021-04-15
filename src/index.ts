@@ -1,6 +1,7 @@
 import App from "./app";
 import Scene from "./scene";
 import MirrorMan, {isMirrorMan} from "./object/cubeman";
+import Cow from './object/cow';
 import {
   HeadMirrorManAnimation,
   BodyMirrorManAnimation,
@@ -32,7 +33,8 @@ const obj1Section = document.getElementById("obj1-section") as HTMLElement;
 const obj2Section = document.getElementById("obj2-section") as HTMLElement;
 const obj3Section = document.getElementById("obj3-section") as HTMLElement;
 
-const animObj1Section = document.getElementById("anim-obj2-section") as HTMLElement;
+const animObj1Section = document.getElementById("anim-obj1-section") as HTMLElement;
+const animObj2Section = document.getElementById("anim-obj2-section") as HTMLElement;
 
 // Default : Hide all
 const resetDisplay = () => {
@@ -41,6 +43,7 @@ const resetDisplay = () => {
   obj3Section.style.display = "none";
 
   animObj1Section.style.display = "none";
+  animObj2Section.style.display = "none";
 };
 resetDisplay();
 
@@ -49,7 +52,7 @@ const mirrorBtn = document.getElementById("mirror-man") as HTMLElement;
 mirrorBtn.addEventListener("click", () => {
   resetDisplay();
   obj1Section.style.display = "block";
-  animObj1Section.style.display = "block";
+  animObj2Section.style.display = "block";
 
   // Empty scene first, notes can change logic
   if (scene.objects.length > 0) scene.objects = [];
@@ -58,12 +61,14 @@ mirrorBtn.addEventListener("click", () => {
   scene.add(MirrorMan.build());
 });
 
-// TODO : Update for 2 button for each object
-const obj2Btn = document.getElementById("obj2") as HTMLElement;
-obj2Btn.addEventListener("click", () => {
+const cowBtn = document.getElementById("cow") as HTMLElement;
+cowBtn.addEventListener("click", () => {
   resetDisplay();
   obj2Section.style.display = "block";
-  // TODO : Build your model here
+  animObj2Section.style.display = "block";
+
+  if (scene.objects.length > 0) scene.objects = [];
+  scene.add(Cow.build());
 });
 
 const obj3Btn = document.getElementById("obj3") as HTMLElement;
@@ -137,6 +142,16 @@ obj1ResetClipBtn.addEventListener("click", () => {
 
 /**
  * Mirror Man Section End
+ */
+
+
+
+/**
+ * Cow Section Start
+ */
+
+/**
+ * Cow Section Finished
  */
 
 app.start();
