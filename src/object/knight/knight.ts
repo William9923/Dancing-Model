@@ -1,5 +1,5 @@
 import Node from "../node";
-import { Head, Hip, Chest } from "./parts";
+import { Head, Hip, Chest, Shield } from "./parts";
 import { mat4 } from "../../util/matrix";
 
 class Knight extends Node {
@@ -7,12 +7,14 @@ class Knight extends Node {
     const hip = new Hip();
     const chest = new Chest();
     const head = new Head();
+    const shield = new Shield();
 
     const knight = new Knight();
 
     knight.child = hip;
     hip.child = chest;
     chest.child = head;
+    head.child = shield;
 
     return knight;
   }

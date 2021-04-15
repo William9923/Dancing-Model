@@ -5,7 +5,11 @@ import { buildQuad } from "../../utils/util";
 
 class Shield extends Node {
   constructor() {
-    super(mat4.translation(0, 0, 0));
+    super();
+
+    this.setTransformation("translate", [0.2, -0.2, 0.3]);
+    this.setTransformation("rotate", [-7.5, 10, 0]);
+
     this.setupPoints();
   }
 
