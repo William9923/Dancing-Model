@@ -20,7 +20,7 @@ class Scene extends WebGLWrapper {
 
   // Use shading
   private useShading: 0 | 1;
-  
+
   // Use texture
   private textureType: Texture;
 
@@ -165,6 +165,7 @@ class Scene extends WebGLWrapper {
     object.transformMatrixChangedCallback = this.setTransformMatrix.bind(this);
     object.drawCallback = this.draw.bind(this);
     object.applyAttrCallback = this.applyAttributeVector.bind(this);
+    object.useNormalMapCallback = this.applyUseNormalMap.bind(this);
 
     if (object.child) this.setCallbacks(object.child);
     if (object.sibling) this.setCallbacks(object.sibling);

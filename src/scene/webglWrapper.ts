@@ -47,7 +47,7 @@ class WebGLWrapper {
     // TODO: remove
     this.applyTexCoord();
     this.loadBumpMapAndCreateTexture();
-    this.applyUseNormalMap(true);
+    this.applyUseNormalMap(false);
   }
 
   /*
@@ -170,15 +170,7 @@ class WebGLWrapper {
       uniform sampler2D bumpNormalMap;
       uniform int useNormalMap;
 
-      void main() {
-        vec3 normal;
-        if (useNormalMap == 1) {
-          normal = texture2D(bumpNormalMap, fTexCoord).rgb;
-          normal = normalize(normal * 2.0 - 1.0);
-        } else {
-          normal = N;
-        }
-
+      vec4 calculateColor(vec3 normal) {
         vec3 color;
         if (useShading == 1) {
           // Build Blinn-Phong model
@@ -193,10 +185,28 @@ class WebGLWrapper {
           color = vec3(0, 0, 0);
         }
 
-        if (textureType == 1) {
+        // Return
+        return vec4(color, 1);
+      }
+
+      void main() {
+        if (textureType == 1) {  // env
           gl_FragColor = textureCube(envTexture, -R);
-        } else {
-          gl_FragColor = vec4(color, 1);
+        }
+
+        else if (textureType == 2) {  // bump
+          vec3 normal;
+          if (useNormalMap == 1) {
+            normal = texture2D(bumpNormalMap, fTexCoord).rgb;
+            normal = normalize(normal * 2.0 - 1.0);
+          } else {
+            normal = N;
+          }
+          gl_FragColor = calculateColor(normal);
+        }
+
+        else {  // no texture
+          gl_FragColor = calculateColor(N);
         }
       }
       `,

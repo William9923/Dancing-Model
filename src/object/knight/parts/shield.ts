@@ -112,6 +112,8 @@ class Shield extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
+    this._useNormalMapCallback(true);
+    
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
@@ -121,6 +123,8 @@ class Shield extends Node {
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
       this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
     }
+
+    this._useNormalMapCallback(false);
   }
 }
 

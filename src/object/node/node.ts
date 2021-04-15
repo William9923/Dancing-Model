@@ -35,6 +35,7 @@ abstract class Node {
   protected _transformMatrixChangedCallback: transformMatrixChangedCallbackType | null = null;
   protected _drawCallback: drawCallbackType | null = null;
   protected _applyAttrCallback: applyAttrCallbackType | null = null;
+  protected _useNormalMapCallback: applyAttrCallbackType | null = null;
 
 
   /*
@@ -139,6 +140,10 @@ abstract class Node {
 
   public set applyAttrCallback(callback: applyAttrCallbackType) {
     this._applyAttrCallback = callback;
+  }
+
+  public set useNormalMapCallback(callback: applyAttrCallbackType) {
+    this._useNormalMapCallback = callback;
   }
 
 
