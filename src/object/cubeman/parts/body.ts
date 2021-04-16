@@ -3,19 +3,12 @@ import DrawMode from "../../../util/drawMode";
 import {mat4} from "../../../util/matrix";
 import {buildCubePoints} from "../../utils/cubePoints";
 
-class Head extends Node {
+class Body extends Node {
   constructor() {
     super();
-
-    this.setInstanceMatrix(mat4.mMult(
-      mat4.scale(0.2,0.125,0.15),
-      // mat4.zRotation(0),
-      // mat4.yRotation(0),
-      // mat4.xRotation(0),
-      mat4.translation(0,0.2,0)
-    ));
-
     this.setupPoints();
+
+    this.setTransformation("scale", [0.4, 0.25,0.3]);
   }
 
   // override
@@ -39,4 +32,4 @@ class Head extends Node {
   }
 }
 
-export default Head;
+export default Body;

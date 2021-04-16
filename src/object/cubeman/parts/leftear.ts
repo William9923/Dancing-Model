@@ -3,18 +3,19 @@ import DrawMode from "../../../util/drawMode";
 import {mat4} from "../../../util/matrix";
 import {buildCubePoints} from "../../utils/cubePoints";
 
-class Head extends Node {
+class LeftEar extends Node {
   constructor() {
     super();
 
-    this.setInstanceMatrix(mat4.mMult(
-      mat4.scale(0.2,0.125,0.15),
-      // mat4.zRotation(0),
-      // mat4.yRotation(0),
-      // mat4.xRotation(0),
-      mat4.translation(0,0.2,0)
-    ));
-
+    this.setInstanceMatrix(
+      mat4.mMult(
+        mat4.scale(0.05125, 0.05, 0.05),
+        // mat4.zRotation(0),
+        // mat4.yRotation(0),
+        // mat4.xRotation(0),
+        mat4.translation(0.125, 0.2, 0),
+      ),
+    );
     this.setupPoints();
   }
 
@@ -26,7 +27,6 @@ class Head extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
@@ -39,4 +39,4 @@ class Head extends Node {
   }
 }
 
-export default Head;
+export default LeftEar;
