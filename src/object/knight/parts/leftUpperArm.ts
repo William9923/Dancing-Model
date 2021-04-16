@@ -21,7 +21,7 @@ class LeftUpperArm extends Node {
     this.centralPoint = [0.45, 0.57, 0];
 
     // set initial tranformation
-    this.setTransformation("rotate", [0, -90, 45], true);
+    // this.setTransformation("rotate", [0, -90, 45], true);
     // this.setTransformation("rotate", [0, 0, this.euy], true);
 
     this.setupPoints();
@@ -32,15 +32,13 @@ class LeftUpperArm extends Node {
     // empty the normals array
     this.normals = [];
     this.points = buildCubePoints(this.normals);
-    this.euy = 30;
+    this.euy = 0;
   }
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
     this.setTransformation("rotate", [0, -this.euy/2, this.euy], true);
     this.euy = (this.euy + 1) % 90;
-    console.log(this.euy);
-
 
     this.applyMaterialProperties();
     this.applyPosition();
