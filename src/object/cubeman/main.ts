@@ -53,6 +53,8 @@ class MirrorMan extends Node {
   }
 
   public static build() {
+
+    // Creational Process
     const mm = new MirrorMan();
 
     const ll = new LeftLeg();
@@ -76,6 +78,7 @@ class MirrorMan extends Node {
 
     const stomach = new Stomach();
 
+    // Inject Parts
     mm.head = head;
     mm.chest = chest;
 
@@ -88,11 +91,9 @@ class MirrorMan extends Node {
     mm.rs = rs;
     mm.ls = ls;
 
-    // Building Parts
-
     mm.chest = chest;
 
-    // body.child = chest;
+    // Constructing Object Parts
     mm.child = chest;
 
     chest.child = head;
@@ -108,13 +109,10 @@ class MirrorMan extends Node {
 
     stomach.child = lh;
     lh.sibling = rh;
-    
-    
-    // ra.sibling = body;
 
-    // ra.sibling = ll;
-    // ll.sibling = rl;
-
+    lh.child = ll;
+    rh.child = rl;
+    
     return mm;
   }
 
