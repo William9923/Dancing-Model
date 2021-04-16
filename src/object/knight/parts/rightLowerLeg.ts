@@ -1,22 +1,24 @@
 import Node from "../../node";
 import DrawMode from "../../../util/drawMode";
-import {mat4} from "../../../util/matrix";
-import {buildCubePoints} from "../../utils/cubePoints";
+import { mat4 } from "../../../util/matrix";
+import { buildQuad } from "../../utils/util";
+import { buildCubePoints } from "../../utils/cubePoints";
 
-class RightArm extends Node {
+class RightLowerLeg extends Node {
   constructor() {
-
     super();
-    this.setupPoints();
 
-    // this.setTransformation("rotate", [0, 0, 45]);  // y-rotate : 0-45, z-rotate : -45, 45
-    this.setTransformation("scale", [0.5, 0.2, 0.2]);
-    this.setTransformation("translate", [0.25, 0.1, 0]);
-    
+    this.setInstanceMatrix(mat4.multiply(
+      mat4.scale(0.25, 0.5, 0.25),
+      mat4.translation(-0.25, -1, 0)
+    ));
+
+    this.setupPoints();
   }
 
   // override
   public setupPoints() {
+    // empty the normals array
     this.normals = [];
     this.points = buildCubePoints(this.normals);
   }
@@ -26,7 +28,7 @@ class RightArm extends Node {
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(baseTransformMatrix);
+    this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     // render each rectangle separately
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
@@ -35,4 +37,4 @@ class RightArm extends Node {
   }
 }
 
-export default RightArm;
+export default RightLowerLeg;

@@ -1,28 +1,43 @@
 import Node from "../node";
 import {mat4} from "../../util/matrix";
 
-import {Body, Head, LeftArm, LeftLeg, RightArm, RightLeg, Chest} from "./parts";
+import {Head, LeftArm, LeftLeg, RightArm, RightLeg, Chest} from "./parts";
+import {IMirrorManAnimation} from "./animation";
 
 class MirrorMan extends Node {
-
   // Main Body Parts
-  private head:Node;
-  private chest:Node;
+  public head: Node;
+  public chest: Node;
 
   // Leg Parts
-  private ll: Node;
-  private rl: Node;
+  public ll: Node;
+  public rl: Node;
 
   // Arm Parts
-  private la: Node;
-  private ra:Node;
+  public la: Node;
+  public ra: Node;
 
+  // Object type
   private type: ObjMode = "obj1";
 
+  // Animation clip
+  private _animationClip: IMirrorManAnimation | null = null; // change the animationClip
+
+  public get animation() {
+    return this._animationClip;
+  }
+
+  public set animation(clip: IMirrorManAnimation | null) {
+    this._animationClip = clip;
+  }
+
+  public setAnimationClip(clip: IMirrorManAnimation | null) {
+    this._animationClip = clip;
+  }
+
   public static build() {
-    
     const mm = new MirrorMan();
-    
+
     const ll = new LeftLeg();
     const la = new LeftArm();
 
@@ -35,7 +50,7 @@ class MirrorMan extends Node {
 
     mm.head = head;
     mm.chest = chest;
-    
+
     mm.la = la;
     mm.ra = ra;
 
@@ -44,7 +59,7 @@ class MirrorMan extends Node {
 
     // Building Parts
     mm.child = chest;
-    
+
     chest.child = head;
 
     head.sibling = la;
@@ -59,7 +74,11 @@ class MirrorMan extends Node {
   public setupPoints() {}
   public render(baseTransformMatrix: number[] = mat4.identity()) {}
 
-  public animate() {}
+  public animate(delta: number) {
+    if (!!this._animationClip) {
+      this._animationClip.doAnimation(delta, this);
+    }
+  }
 
   // Range : -45, 45
   public moveLeftArm(angle: number) {
@@ -97,6 +116,13 @@ class MirrorMan extends Node {
     const rotatePoint = this.chest.getTransformation("rotate");
     const [x, _, z] = rotatePoint;
     this.chest.setTransformation("rotate", [x, angle, z]);
+  }
+
+  // override
+  public traverse() {
+    this._setTextureCallback("environment");
+    super.traverse();
+    this._setTextureCallback("none");
   }
 }
 

@@ -1,19 +1,24 @@
 import Node from "../../node";
 import DrawMode from "../../../util/drawMode";
-import {mat4} from "../../../util/matrix";
-import {buildCubePoints} from "../../utils/cubePoints";
+import { mat4 } from "../../../util/matrix";
+import { buildQuad } from "../../utils/util";
+import { buildCubePoints } from "../../utils/cubePoints";
 
-class Body extends Node {
+class RightUpperLeg extends Node {
   constructor() {
+    super();
 
-    const translation = mat4.translation(0,0,0);
-    const scaling = mat4.scale(0.0,0.0,0.0);
-    super(mat4.mMult(translation, scaling));
+    this.setInstanceMatrix(mat4.multiply(
+      mat4.scale(0.3, 0.5, 0.3),
+      mat4.translation(-0.25, -0.5, 0)
+    ));
+
     this.setupPoints();
   }
 
   // override
   public setupPoints() {
+    // empty the normals array
     this.normals = [];
     this.points = buildCubePoints(this.normals);
   }
@@ -23,7 +28,7 @@ class Body extends Node {
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(baseTransformMatrix);
+    this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     // render each rectangle separately
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
@@ -32,4 +37,4 @@ class Body extends Node {
   }
 }
 
-export default Body;
+export default RightUpperLeg;

@@ -3,11 +3,16 @@ import DrawMode from "../../../util/drawMode";
 import { mat4 } from "../../../util/matrix";
 import { buildQuad } from "../../utils/util";
 
-class Hip extends Node {
+class Shield extends Node {
   constructor() {
     super();
 
-    this.setTransformation("scale", [0.5, 0.5, 0.5], true);
+    this.setInstanceMatrix(mat4.mMult(
+      mat4.scale(0.8, 0.8, 0.8),
+      mat4.xRotation(-7.5),
+      mat4.yRotation(10),
+      mat4.translation(0.5, 0, 0.5)
+    ));
 
     this.setupPoints();
   }
@@ -21,13 +26,13 @@ class Hip extends Node {
     //    6  1  2
     //  5         3
     //       4
-    const p1 = [0, 0];
-    const p2 = [0.3, 0];
-    const p3 = [0.5, -0.3];
-    const p4 = [0, -0.5];
-    const p5 = [-0.5, -0.3];
-    const p6 = [-0.3, 0];
-    const ht = 0.2;
+    const p1 = [0, 0.78];
+    const p2 = [0.60, 0.40];
+    const p3 = [0.44, -0.35];
+    const p4 = [0, -0.78];
+    const p5 = [-0.44, -0.35];
+    const p6 = [-0.60, 0.40];
+    const ht = 0.05;
 
     // prettier-ignore
     this.points = [
@@ -63,10 +68,10 @@ class Hip extends Node {
         this.normals,
         true
       ),
-      // connector, from top then clocwise
+      // connector, from p1 then clocwise
       ...buildQuad(
-        [...p6, -ht],
-        [...p6, ht],
+        [...p1, -ht],
+        [...p1, ht],
         [...p2, ht],
         [...p2, -ht],
         this.normals
@@ -97,6 +102,13 @@ class Hip extends Node {
         [...p5, ht],
         [...p6, ht],
         [...p6, -ht],
+        this.normals
+      ),
+      ...buildQuad(
+        [...p6, -ht],
+        [...p6, ht],
+        [...p1, ht],
+        [...p1, -ht],
         this.normals
       ),
     ];
@@ -104,6 +116,8 @@ class Hip extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
+    this._useNormalMapCallback(true);
+
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
@@ -113,7 +127,9 @@ class Hip extends Node {
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
       this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
     }
+
+    this._useNormalMapCallback(false);
   }
 }
 
-export default Hip;
+export default Shield;

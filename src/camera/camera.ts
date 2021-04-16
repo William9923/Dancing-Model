@@ -22,7 +22,7 @@ class Camera {
   constructor(positionChangedCallback?: (viewMatrix: number[]) => void, position?: Point) {
     if (!!positionChangedCallback)
       this._positionChangedCallback = positionChangedCallback;
-    this._position = position || [0, 0, 0];
+    this._position = position || [1, 0, 0];
 
     this._viewMatrix = mat4.lookAt(toCartesian(this._position) as Point, this._target, this._up);
   }

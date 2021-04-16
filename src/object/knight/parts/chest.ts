@@ -1,11 +1,14 @@
 import Node from "../../node";
 import DrawMode from "../../../util/drawMode";
 import { mat4 } from "../../../util/matrix";
-import { buildQuad } from "./util";
+import { buildQuad } from "../../utils/util";
 
 class Chest extends Node {
   constructor() {
-    super(mat4.translation(0, -0.3, 0));
+    super();
+
+    this.setTransformation("translate", [0, 0, 0]);
+
     this.setupPoints();
   }
 
@@ -112,7 +115,7 @@ class Chest extends Node {
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(mat4.multiply(this.transformMatrix, baseTransformMatrix));
+    this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     // render each rectangle separately
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
