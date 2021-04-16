@@ -14,7 +14,7 @@ class Knight extends Node {
     const rll = new RightLowerLeg();
 
     const knight = new Knight();
-    
+
     knight.child = hip;
     hip.child = chest;
     chest.child = head;
@@ -34,7 +34,7 @@ class Knight extends Node {
   // override
   public traverse() {
     this._setTextureCallback("bump");
-    super.traverse();
+    super.traverse(mat4.identity(), true);
     this._setTextureCallback("none");
   }
 

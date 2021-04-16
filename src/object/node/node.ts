@@ -212,14 +212,16 @@ abstract class Node {
    * Traverse tree and render each node
    */
 
-  public traverse(baseTransformMatrix: number[] = mat4.identity()) {
+  public traverse(baseTransformMatrix: number[] = mat4.identity(), reverseMatrixOrder: boolean = false) {
     // TODO: fully migrate to new order
-    // const transformMatrix = mat4.multiply(baseTransformMatrix, this.transformMatrix);
-    const transformMatrix = mat4.multiply(this.transformMatrix, baseTransformMatrix);
+    if (reverseMatrixOrder)
+      const transformMatrix = mat4.multiply(this.transformMatrix, baseTransformMatrix);
+    else
+      const transformMatrix = mat4.multiply(baseTransformMatrix, this.transformMatrix);
 
     this.render(transformMatrix);
-    this.child?.traverse(transformMatrix);
-    this.sibling?.traverse(baseTransformMatrix);
+    this.child?.traverse(transformMatrix, reverseMatrixOrder);
+    this.sibling?.traverse(baseTransformMatrix, reverseMatrixOrder);
   }
 
 
