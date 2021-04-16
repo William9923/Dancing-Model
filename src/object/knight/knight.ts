@@ -26,7 +26,7 @@ class Knight extends Node {
 
     chest.child = head;
     head.sibling = lua;
-    // lua.sibling = rua;
+    lua.sibling = rua;
 
     chest.sibling = lul;
     lul.sibling = rul;
@@ -37,7 +37,7 @@ class Knight extends Node {
     lua.child = lla;
     lla.child = shield;
 
-    // rua.child = rla;
+    rua.child = rla;
 
     return knight;
   }
