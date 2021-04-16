@@ -1,17 +1,22 @@
 import Node from "../node";
-import { Head, Hip, Chest, Shield, LeftUpperLeg, RightUpperLeg, LeftLowerLeg, RightLowerLeg } from "./parts";
+import * as parts from "./parts";
 import { mat4 } from "../../util/matrix";
 
 class Knight extends Node {
   public static build() {
-    const hip = new Hip();
-    const chest = new Chest();
-    const head = new Head();
-    const shield = new Shield();
-    const lul = new LeftUpperLeg();
-    const rul = new RightUpperLeg();
-    const lll = new LeftLowerLeg();
-    const rll = new RightLowerLeg();
+    const hip = new parts.Hip();
+    const chest = new parts.Chest();
+    const head = new parts.Head();
+    const shield = new parts.Shield();
+    const sword = new parts.Sword();
+    const lua = new parts.LeftUpperArm();
+    const rua = new parts.RightUpperArm();
+    const lla = new parts.LeftLowerArm();
+    const rla = new parts.RightLowerArm();
+    const lul = new parts.LeftUpperLeg();
+    const rul = new parts.RightUpperLeg();
+    const lll = new parts.LeftLowerLeg();
+    const rll = new parts.RightLowerLeg();
 
     const knight = new Knight();
 
