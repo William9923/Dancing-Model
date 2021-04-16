@@ -9,10 +9,12 @@ class Shield extends Node {
 
     this.setInstanceMatrix(mat4.mMult(
       mat4.scale(0.8, 0.8, 0.8),
-      mat4.xRotation(-7.5),
-      mat4.yRotation(10),
-      mat4.translation(0.5, 0, 0.5)
+      mat4.zRotation(90),
+      mat4.yRotation(90),
+      mat4.translation(0.6, -0.1, -0.2)
     ));
+
+    this.centralPoint = [0, 0, 0];
 
     this.setupPoints();
   }
