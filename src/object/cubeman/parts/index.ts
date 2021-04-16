@@ -1,26 +1,59 @@
+/**
+ * Main Component
+ */
+import Stomach from "./stomach";
+import Chest from "./chest";
 import Head from "./head";
-import LeftArm from "./leftarm";
-import RightArm from "./rightarm";
+
+/**
+ * Leg Component
+ */
+
 import LeftLeg from "./leftleg";
 import RightLeg from "./rightleg";
-import Chest from "./chest";
-import Body from "./body";
+
+/**
+ * Ear Component
+ */
 import RightEar from "./rightear";
 import LeftEar from "./leftear";
 
-import Test from "./test";
+/**
+ * Arm Component
+ */
+import LeftArm from "./leftarm";
+import RightArm from "./rightarm";
 
+/**
+ * Shoulder Component
+ */
+import LeftShoulder from "./leftshoulder";
+import RightShoulder from "./rightshoulder";
+
+/**
+ * Hip Component
+ */
+import LeftHip from "./lefthip";
+import RightHip from "./righthip";
 
 // prettier-ignore
 export {
-  Test,
-  Body,
   Head,
+  Chest,
+  Stomach,
+
   LeftArm,
   RightArm,
+  
   LeftLeg,
   RightLeg,
-  Chest,
+  
   RightEar,
-  LeftEar
+  LeftEar,
+  
+  LeftShoulder,
+  RightShoulder,
+
+  LeftHip,
+  RightHip
 }

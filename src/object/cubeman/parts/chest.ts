@@ -15,8 +15,6 @@ class Chest extends Node {
       // mat4.translation(0,0,0)
     ));
     this.setupPoints();
-
-    
   }
 
   // override

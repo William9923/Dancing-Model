@@ -97,7 +97,7 @@ abstract class Node {
   protected calculateTransformMatrix(useCustomCentral: boolean = false) {
     if (useCustomCentral) {
       this.transformMatrix = mat4.mMult(
-        mat4.translation(...vec.mul(-1, this.centralPoint)),
+        mat4.translation(...vec.mul(-1, this.centralPoint) as [number, number, number]),
         mat4.scale(...this.scale),
         mat4.zRotation(this.rotate[2]),
         mat4.yRotation(this.rotate[1]),
@@ -214,10 +214,11 @@ abstract class Node {
 
   public traverse(baseTransformMatrix: number[] = mat4.identity(), reverseMatrixOrder: boolean = false) {
     // TODO: fully migrate to new order
+    let transformMatrix;
     if (reverseMatrixOrder)
-      const transformMatrix = mat4.multiply(this.transformMatrix, baseTransformMatrix);
+      transformMatrix = mat4.multiply(this.transformMatrix, baseTransformMatrix);
     else
-      const transformMatrix = mat4.multiply(baseTransformMatrix, this.transformMatrix);
+      transformMatrix = mat4.multiply(baseTransformMatrix, this.transformMatrix);
 
     this.render(transformMatrix);
     this.child?.traverse(transformMatrix, reverseMatrixOrder);

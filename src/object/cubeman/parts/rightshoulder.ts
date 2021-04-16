@@ -3,20 +3,22 @@ import DrawMode from "../../../util/drawMode";
 import {mat4} from "../../../util/matrix";
 import {buildCubePoints} from "../../utils/cubePoints";
 
-class RightEar extends Node {
+class RightShoulder extends Node {
   constructor() {
     super();
 
     this.setInstanceMatrix(
       mat4.mMult(
-        mat4.scale(0.05125, 0.05, 0.05),
-        // mat4.zRotation(0),
+        mat4.scale(0.15, 0.15 , 0.15),
+        mat4.zRotation(0),
         // mat4.yRotation(0),
         // mat4.xRotation(0),
-        mat4.translation(0.15, 0.2, 0),
+        mat4.translation(0.275, 0.075, 0),
       ),
     );
 
+    this.centralPoint = [0.225,0.05,0];
+    
     this.setupPoints();
   }
 
@@ -40,4 +42,4 @@ class RightEar extends Node {
   }
 }
 
-export default RightEar;
+export default RightShoulder;

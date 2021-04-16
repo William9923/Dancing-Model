@@ -8,7 +8,7 @@ class Head extends Node {
     super();
 
     this.setInstanceMatrix(mat4.mMult(
-      mat4.scale(0.2,0.125,0.15),
+      mat4.scale(0.25,0.125,0.15),
       // mat4.zRotation(0),
       // mat4.yRotation(0),
       // mat4.xRotation(0),

@@ -13,7 +13,7 @@ class LeftEar extends Node {
         // mat4.zRotation(0),
         // mat4.yRotation(0),
         // mat4.xRotation(0),
-        mat4.translation(0.125, 0.2, 0),
+        mat4.translation(-0.15, 0.2, 0),
       ),
     );
     this.setupPoints();
