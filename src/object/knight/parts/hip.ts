@@ -7,7 +7,7 @@ class Hip extends Node {
   constructor() {
     super();
 
-    // this.setTransformation("rotate", [0, 90, 0]);
+    this.setTransformation("scale", [0.5, 0.5, 0.5], true);
 
     this.setupPoints();
   }

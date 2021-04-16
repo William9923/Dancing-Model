@@ -8,19 +8,19 @@ class LeftUpperLeg extends Node {
   constructor() {
     super();
 
-    this.transformMatrix = mat4.mMult(
-      mat4.translation(0, -0.25, 0),
-      mat4.zRotation(40),
-      mat4.translation(0, 0.25, 0),
-    );
+    // this.setTransformation("rotate", [0, 0, 30], true);
 
     this.setInstanceMatrix(mat4.mMult(
       mat4.scale(0.3, 0.5, 0.3),
       // mat4.zRotation(0),
       // mat4.yRotation(0),
       // mat4.xRotation(0),
-      mat4.translation(0, 0, 0),
+      mat4.translation(0.25, -0.5, 0),
     ));
+
+    // 0.25 = xtranslation
+    // -0.25 = ytranslation + 1 / 2 * height
+    this.centralPoint = [0.25, -0.25, 0];
 
     this.setupPoints();
   }
@@ -30,10 +30,14 @@ class LeftUpperLeg extends Node {
     // empty the normals array
     this.normals = [];
     this.points = buildCubePoints(this.normals);
+    this.euy = 0;
   }
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
+    this.setTransformation("rotate", [0, 0, this.euy], true);
+    this.euy = (this.euy + 1) % 90;
+
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();

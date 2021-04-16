@@ -1,3 +1,4 @@
+import { vec } from "../../util/vector";
 import { mat4 } from "../../util/matrix";
 import { AttributeVector } from "../../scene/webglWrapper";
 
@@ -28,7 +29,7 @@ abstract class Node {
   // Transformation matrices used
   protected instanceMatrix: number[] = mat4.identity();
   protected transformMatrix: number[];
-  protected centralPoint: Point;
+  protected centralPoint: Point = [0, 0, 0];
 
   // Tree properties
   protected _sibling: Node;
@@ -62,7 +63,8 @@ abstract class Node {
    * Transformation methods
    */
 
-  public setTransformation(transformationType: Transformation, newArr: Point) {
+  public setTransformation(transformationType: Transformation, newArr: Point,
+                           useCustomCentral: boolean = false) {
     switch (transformationType) {
       case "rotate":
         this.rotate = newArr;
@@ -76,7 +78,7 @@ abstract class Node {
       default:
         throw `shape.setTransformation: invalid transformation type '${transformationType}'`;
     }
-    this.calculateTransformMatrix();
+    this.calculateTransformMatrix(useCustomCentral);
   }
 
   public getTransformation(transformationType: Transformation) {
@@ -92,14 +94,26 @@ abstract class Node {
     }
   }
 
-  protected calculateTransformMatrix() {
-    this.transformMatrix = mat4.mMult(
-      mat4.scale(...this.scale),
-      mat4.zRotation(this.rotate[2]),
-      mat4.yRotation(this.rotate[1]),
-      mat4.xRotation(this.rotate[0]),
-      mat4.translation(...this.translate),
-    );
+  protected calculateTransformMatrix(useCustomCentral: boolean = false) {
+    if (useCustomCentral) {
+      this.transformMatrix = mat4.mMult(
+        mat4.translation(...vec.mul(-1, this.centralPoint)),
+        mat4.scale(...this.scale),
+        mat4.zRotation(this.rotate[2]),
+        mat4.yRotation(this.rotate[1]),
+        mat4.xRotation(this.rotate[0]),
+        mat4.translation(...this.translate),
+        mat4.translation(...this.centralPoint),
+      );
+    } else {
+      this.transformMatrix = mat4.mMult(
+        mat4.scale(...this.scale),
+        mat4.zRotation(this.rotate[2]),
+        mat4.yRotation(this.rotate[1]),
+        mat4.xRotation(this.rotate[0]),
+        mat4.translation(...this.translate),
+      );
+    }
   }
 
 
