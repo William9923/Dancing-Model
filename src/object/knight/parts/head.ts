@@ -7,7 +7,7 @@ class Head extends Node {
   constructor() {
     super();
 
-    this.setTransformation("translate", [0, 0.475, 0.05]);
+    this.setInstanceMatrix(mat4.translation(0, 0.95, 0.05));
 
     this.setupPoints();
   }
@@ -81,7 +81,7 @@ class Head extends Node {
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(mat4.multiply(this.transformMatrix, baseTransformMatrix));
+    this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     // render each rectangle separately
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {

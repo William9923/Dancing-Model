@@ -7,7 +7,7 @@ class Hip extends Node {
   constructor() {
     super();
 
-    this.setTransformation("translate", [0, 0, 0]);
+    // this.setTransformation("rotate", [0, 90, 0]);
 
     this.setupPoints();
   }
@@ -107,7 +107,7 @@ class Hip extends Node {
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(mat4.multiply(this.transformMatrix, baseTransformMatrix));
+    this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     // render each rectangle separately
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {

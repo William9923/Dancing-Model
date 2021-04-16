@@ -26,7 +26,9 @@ abstract class Node {
   protected scale: Point = [1, 1, 1];
 
   // Transformation matrices used
+  protected instanceMatrix: number[] = mat4.identity();
   protected transformMatrix: number[];
+  protected centralPoint: Point;
 
   // Tree properties
   protected _sibling: Node;
@@ -113,6 +115,14 @@ abstract class Node {
     this.normals = normals;
   }
 
+  public setInstanceMatrix(instanceMatrix: number[]) {
+    this.instanceMatrix = instanceMatrix;
+  }
+
+  public setCentralPoint(centralPoint: Point) {
+    this.centralPoint = centralPoint;
+  }
+
   public get sibling() {
     return this._sibling;
   }
@@ -189,8 +199,9 @@ abstract class Node {
    */
 
   public traverse(baseTransformMatrix: number[] = mat4.identity()) {
-
-    const transformMatrix = mat4.multiply(baseTransformMatrix, this.transformMatrix);
+    // TODO: fully migrate to new order
+    // const transformMatrix = mat4.multiply(baseTransformMatrix, this.transformMatrix);
+    const transformMatrix = mat4.multiply(this.transformMatrix, baseTransformMatrix);
 
     this.render(transformMatrix);
     this.child?.traverse(transformMatrix);

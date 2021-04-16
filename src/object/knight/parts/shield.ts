@@ -7,8 +7,12 @@ class Shield extends Node {
   constructor() {
     super();
 
-    this.setTransformation("translate", [0.2, -0.2, 0.3]);
-    this.setTransformation("rotate", [-7.5, 10, 0]);
+    this.setInstanceMatrix(mat4.mMult(
+      mat4.scale(0.8, 0.8, 0.8),
+      mat4.xRotation(-7.5),
+      mat4.yRotation(10),
+      mat4.translation(0.5, 0, 0.5)
+    ));
 
     this.setupPoints();
   }
@@ -113,11 +117,11 @@ class Shield extends Node {
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
     this._useNormalMapCallback(true);
-    
+
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(mat4.multiply(this.transformMatrix, baseTransformMatrix));
+    this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     // render each rectangle separately
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
