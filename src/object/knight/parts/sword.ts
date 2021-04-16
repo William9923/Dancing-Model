@@ -22,19 +22,19 @@ class Sword extends Node {
   constructor() {
     super();
 
-    // this.setTransformation("rotate", [0, 0, 0], true);
-
-    // this.setInstanceMatrix(mat4.mMult(
-      // mat4.scale(0.25, 0.5, 0.25),
+    this.setInstanceMatrix(mat4.mMult(
+      mat4.scale(0.8, 0.8, 0.8),
       // mat4.zRotation(0),
-      // mat4.yRotation(0),
-      // mat4.xRotation(0),
-      // mat4.translation(0.25, -1, 0),
-    // ));
+      mat4.yRotation(90),
+      mat4.xRotation(90),
+      mat4.translation(-0.45, -0.2, 0.51),
+    ));
 
     // 0.25 = xtranslation
     // -0.25 = ytranslation + 1 / 2 * height
     // this.centralPoint = [0.25, -0.75, 0];
+
+    // this.setTransformation("rotate", [0, 0, 0], true);
 
     this.setupPoints();
   }

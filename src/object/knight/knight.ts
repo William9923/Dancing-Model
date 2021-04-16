@@ -40,7 +40,7 @@ class Knight extends Node {
     rua.child = rla;
     rla.child = sword;
 
-    knight.child = sword;
+    // knight.child = sword;
 
     return knight;
   }

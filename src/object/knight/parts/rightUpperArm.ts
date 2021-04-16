@@ -53,7 +53,7 @@ class RightUpperArm extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    this.setTransformation("rotate", [0, -this.euy/2, this.euy], true);
+    this.setTransformation("rotate", [0, -this.euy/2, this.euy*1.5], true);
     this.euy = (this.euy - 1) % 90;
 
     this.applyMaterialProperties();

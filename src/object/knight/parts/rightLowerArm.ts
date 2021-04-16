@@ -35,7 +35,7 @@ class RightLowerArm extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    this.setTransformation("rotate", [0, 0, this.euy], true);
+    this.setTransformation("rotate", [0.75 * this.euy, this.euy, 0], true);
     this.euy = (this.euy - 1) % 90;
 
     this.applyMaterialProperties();
