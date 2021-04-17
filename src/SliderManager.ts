@@ -25,7 +25,14 @@ type SliderId =
   | "rl-slider"
 
   // Knight Slider
-  | "k-head-slider";
+  | "k-head-slider"
+  | "k-chest-slider"
+  | "k-hip-slider"
+  | "k-lua-y-slider"
+  | "k-lua-z-slider"
+  | "k-rua-y-slider"
+  | "k-rua-z-slider"
+  ;
 
 const sliderIds: SliderId[] = [
   "head-slider",
@@ -38,6 +45,12 @@ const sliderIds: SliderId[] = [
   "ll-slider",
   "rl-slider",
   "k-head-slider",
+  "k-chest-slider",
+  "k-hip-slider",
+  "k-lua-y-slider",
+  "k-lua-z-slider",
+  "k-rua-y-slider",
+  "k-rua-z-slider",
   "cam-radius",
   "cam-theta",
   "cam-phi",

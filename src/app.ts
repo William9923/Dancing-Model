@@ -96,6 +96,16 @@ class App {
     SliderManager.assignInputEvent("k-head-slider", (val: number) => {
       this.scene?.objects.forEach((object) => isKnight(object) && object.moveHead(val));
     });
+
+    // Chest
+    SliderManager.assignInputEvent("k-chest-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveChest(val));
+    });
+
+    // Hip
+    SliderManager.assignInputEvent("k-hip-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveHip(val));
+    });
   }
 
   public setScene(scene: Scene) {
