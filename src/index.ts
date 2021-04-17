@@ -196,6 +196,17 @@ obj2ResetClipBtn.addEventListener("click", () => {
  * Knight Section End
  */
 
+/*
+ * Camera Reset
+ */
+const camResetBtn = document.getElementById("cam-reset") as HTMLElement;
+camResetBtn.addEventListener("click", () => {
+  app.resetCamera();
+});
+
+/*
+ * Start App
+ */
 app.start();
 
 /**
