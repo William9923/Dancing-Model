@@ -3,6 +3,10 @@ import * as parts from "./parts";
 import { IKnightAnimation } from "./animation";
 import { mat4 } from "../../util/matrix";
 
+const X = 0;
+const Y = 1;
+const Z = 2;
+
 class Knight extends Node {
   // Body Parts
   // main
@@ -121,11 +125,89 @@ class Knight extends Node {
    * Movement
    */
 
-  // Head Component
-  public moveHead(angle: number) {
-    const [x, _, z] = this.head.getTransformation("rotate");
-    this.head.setTransformation("rotate", [x, angle, z], true);
+  // Hip
+  public moveHip(angle: number) {
+    this.getAndSetRotation(this.hip, Y, angle);
   }
+
+  // Chest
+  public moveChest(angle: number) {
+    this.getAndSetRotation(this.chest, Y, angle);
+  }
+
+  // Head
+  public moveHead(angle: number) {
+    this.getAndSetRotation(this.head, Y, angle);
+  }
+
+  // Upper arm
+  public moveLeftUpperArmY(angle: number) {
+    this.getAndSetRotation(this.lua, Y, angle);
+  }
+
+  public moveLeftUpperArmZ(angle: number) {
+    this.getAndSetRotation(this.lua, Z, angle);
+  }
+
+  public moveRightUpperArmY(angle: number) {
+    this.getAndSetRotation(this.rua, Y, angle);
+  }
+
+  public moveRightUpperArmZ(angle: number) {
+    this.getAndSetRotation(this.rua, Z, angle);
+  }
+
+  // Lower arm
+  public bendLeftLowerArm(angle: number) {
+    this.getAndSetRotation(this.lla, X, angle);
+  }
+
+  public twistLeftLowerArm(angle: number) {
+    this.getAndSetRotation(this.lla, Y, angle);
+  }
+
+  public bendRightLowerArm(angle: number) {
+    this.getAndSetRotation(this.rla, X, angle);
+  }
+
+  public twistRightLowerArm(angle: number) {
+    this.getAndSetRotation(this.rla, Y, angle);
+  }
+
+  // Upper leg
+  public moveLeftUpperLegX(angle: number) {
+    this.getAndSetRotation(this.lul, X, angle);
+  }
+
+  public moveLeftUpperLegZ(angle: number) {
+    this.getAndSetRotation(this.lul, Z, angle);
+  }
+
+  public moveRightUpperLegX(angle: number) {
+    this.getAndSetRotation(this.rul, X, angle);
+  }
+
+  public moveRightUpperLegZ(angle: number) {
+    this.getAndSetRotation(this.rul, Z, angle);
+  }
+
+  // Lower leg
+  public bendLeftLowerLeg(angle: number) {
+    this.getAndSetRotation(this.lll, X, angle);
+  }
+
+  public bendRightLowerLeg(angle: number) {
+    this.getAndSetRotation(this.rll, X, angle);
+  }
+
+  // Helper
+  private getAndSetRotation(part: Node, index: number, angle: number) {
+    let rotatePoint = part.getTransformation("rotate");
+    rotatePoint[index] = angle;
+    part.setTransformation("rotate", rotatePoint, true);
+  }
+
+  // public bendRight
 
   public reset() {
     // TODO: implement
