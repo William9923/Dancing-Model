@@ -45,16 +45,6 @@ class App {
       this.scene?.objects.forEach((object) => isMirrorMan(object) && object.moveHead(val));
     });
 
-    // Body
-    SliderManager.assignInputEvent("body-slider", (val: number) => {
-      this.scene?.objects.forEach((object) => isMirrorMan(object) && object.moveChest(val));
-    });
-
-    // Stomach
-    SliderManager.assignInputEvent("stomach-slider", (val: number) => {
-      this.scene?.objects.forEach((object) => isMirrorMan(object) && object.moveStomach(val));
-    });
-
     // Left Shoulder
     SliderManager.assignInputEvent("ls-slider", (val: number) => {
       this.scene?.objects.forEach((object) => isMirrorMan(object) && object.moveLeftShoulder(val));

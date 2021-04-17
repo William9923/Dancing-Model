@@ -14,6 +14,7 @@ class Chest extends Node {
       // mat4.xRotation(0),
       // mat4.translation(0,0,0)
     ));
+
     this.setupPoints();
   }
 

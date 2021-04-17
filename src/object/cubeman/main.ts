@@ -142,20 +142,6 @@ class MirrorMan extends Node {
     this.head.setTransformation("rotate", [x, angle, z], true);
   }
 
-  // Chest Component
-  public moveChest(angle: number) {
-    const rotatePoint = this.chest.getTransformation("rotate");
-    const [x, _, z] = rotatePoint;
-    this.chest.setTransformation("rotate", [x, angle, z], true);
-  }
-
-  // Stomach Component
-  public moveStomach(angle: number) {
-    const rotatePoint = this.stomach.getTransformation("rotate");
-    const [x, _, z] = rotatePoint;
-    this.stomach.setTransformation("rotate", [x, angle, z], true);
-  }
-
   // Shoulder Component
 
   public moveLeftShoulder(angle: number) {

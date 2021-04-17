@@ -17,7 +17,7 @@ class LeftShoulder extends Node {
       ),
     );
 
-    this.centralPoint = [-0.225, 0.05, 0];
+    this.centralPoint = [-2, 0.05, 0];
 
     this.setupPoints();
   }

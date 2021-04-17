@@ -14,13 +14,11 @@ type SliderId =
   | "cam-phi"
 
   // Mirror Man Slider
-  | "stomach-slider"
   | "ls-slider"
   | "rs-slider"
   | "lh-slider"
   | "rh-slider"
   | "head-slider"
-  | "body-slider"
   | "la-slider"
   | "ra-slider"
   | "ll-slider"
@@ -28,8 +26,6 @@ type SliderId =
 
 const sliderIds: SliderId[] = [
   "head-slider",
-  "body-slider",
-  "stomach-slider",
   "ls-slider",
   "rs-slider",
   "lh-slider",
@@ -57,8 +53,6 @@ type SliderDefaultValue = {
 
 const mmSliderDefaultValues: SliderDefaultValue = {
   "head-slider": 0,
-  "body-slider": 0,
-  "stomach-slider" : 0,
   "ls-slider" : 0,
   "rs-slider" : 0,
   "lh-slider" : 0,

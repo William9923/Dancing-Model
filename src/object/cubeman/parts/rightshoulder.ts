@@ -17,7 +17,7 @@ class RightShoulder extends Node {
       ),
     );
 
-    this.centralPoint = [0.225, 0.05, 0];
+    this.centralPoint = [0.275, 0.05, 0];
 
     this.setupPoints();
   }

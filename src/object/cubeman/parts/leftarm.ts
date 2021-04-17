@@ -10,14 +10,14 @@ class LeftArm extends Node {
     this.setInstanceMatrix(
       mat4.mMult(
         mat4.scale(0.1, 0.2, 0.1),
-        mat4.zRotation(0),
+        // mat4.zRotation(0),
         // mat4.yRotation(0),
-        // mat4.xRotation(0),
+        mat4.xRotation(0),
         mat4.translation(-0.3, -0.075, 0),
       ),
     );
 
-    this.centralPoint = [0, 0.05, 0];
+    this.centralPoint = [-0.3, 0.05, 0];
 
     this.setupPoints();
   }

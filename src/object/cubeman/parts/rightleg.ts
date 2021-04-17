@@ -17,7 +17,7 @@ class RightLeg extends Node {
       ),
     );
 
-    this.centralPoint = [0, -0.4, 0];
+    this.centralPoint = [0.125, -0.4, 0];
 
     this.setupPoints();
   }

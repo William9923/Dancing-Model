@@ -16,6 +16,7 @@ class LeftEar extends Node {
         mat4.translation(-0.15, 0.2, 0),
       ),
     );
+
     this.setupPoints();
   }
 
