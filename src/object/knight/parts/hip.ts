@@ -8,6 +8,7 @@ class Hip extends Node {
     super();
 
     this.setTransformation("scale", [0.5, 0.5, 0.5], true);
+    // this.setTransformation("rotate", [0, -30, 0], true);
 
     this.setupPoints();
   }
@@ -100,10 +101,15 @@ class Hip extends Node {
         this.normals
       ),
     ];
+
+    this.euy = 0;
   }
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
+    this.setTransformation("translate", [0, -0.02 / 90 * this.euy, 0], true);
+    this.euy = (this.euy + 1) % 90;
+
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();

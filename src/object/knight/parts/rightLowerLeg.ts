@@ -9,9 +9,15 @@ class RightLowerLeg extends Node {
     super();
 
     this.setInstanceMatrix(mat4.multiply(
-      mat4.scale(0.25, 0.5, 0.25),
-      mat4.translation(-0.25, -1, 0)
+      mat4.scale(0.25, 0.6, 0.25),
+      mat4.translation(-0.21, -1, 0)
     ));
+
+    // 0.25 = xtranslation
+    // -0.25 = ytranslation + 1 / 2 * height
+    this.centralPoint = [-0.21, -0.75, 0];
+
+    this.setTransformation("rotate", [16, 0, 0], true);
 
     this.setupPoints();
   }
@@ -21,10 +27,15 @@ class RightLowerLeg extends Node {
     // empty the normals array
     this.normals = [];
     this.points = buildCubePoints(this.normals);
+
+    this.euy = 0;
   }
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
+    this.setTransformation("rotate", [16 / 90 * this.euy, 0, 0], true);
+    this.euy = (this.euy + 1) % 90;
+
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();

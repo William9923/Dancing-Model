@@ -15,12 +15,12 @@ class LeftUpperLeg extends Node {
       // mat4.zRotation(0),
       // mat4.yRotation(0),
       // mat4.xRotation(0),
-      mat4.translation(0.25, -0.5, 0),
+      mat4.translation(0.21, -0.5, 0),
     ));
 
-    // 0.25 = xtranslation
-    // -0.25 = ytranslation + 1 / 2 * height
-    this.centralPoint = [0.25, -0.25, 0];
+    this.centralPoint = [0.21, -0.25, 0];
+
+    this.setTransformation("rotate", [-8, 0, 0], true);
 
     this.setupPoints();
   }
@@ -35,7 +35,7 @@ class LeftUpperLeg extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    // this.setTransformation("rotate", [0, 0, this.euy], true);
+    this.setTransformation("rotate", [-8 / 90 * this.euy, 0, 0], true);
     this.euy = (this.euy + 1) % 90;
 
     this.applyMaterialProperties();
