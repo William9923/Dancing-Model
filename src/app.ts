@@ -69,7 +69,7 @@ class App {
 
     // Left Arm
     SliderManager.assignInputEvent("la-slider", (val: number) => {
-      this.scene?.objects.forEach((object) => isMirrorMan(object) && object.moveLeftArm(val));
+      this.scene?.objects.forEach((object) => isMirrorMan(object) && object.moveLeftArm(-1 * val));
     });
 
     // Right Arm
@@ -94,7 +94,7 @@ class App {
 
     // Right Leg
     SliderManager.assignInputEvent("rl-slider", (val: number) => {
-      this.scene?.objects.forEach((object) => isMirrorMan(object) && object.moveRightLeg(-1 * val));
+      this.scene?.objects.forEach((object) => isMirrorMan(object) && object.moveRightLeg(val));
     });
   }
 

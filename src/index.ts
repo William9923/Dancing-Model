@@ -100,7 +100,7 @@ const obj1HeadClipBtn = document.getElementById("animate-obj1-1") as HTMLElement
 obj1HeadClipBtn.addEventListener("click", () => {
   sliderUsage(true);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(100)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(50)),
   );
 });
 

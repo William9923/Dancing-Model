@@ -126,6 +126,7 @@ class MirrorMan extends Node {
 
   public animate(delta: number) {
     if (!!this._animationClip) {
+      
       this._animationClip.doAnimation(delta, this);
     }
   }
