@@ -117,12 +117,12 @@ const kSliderDefaultValues: SliderDefaultValue = {
   "k-rua-z-slider": 0,
   "k-bend-rla-slider": 0,
   "k-twist-rla-slider": 0,
-  "k-lul-x-slider": 0,
+  "k-lul-x-slider": -8,
   "k-lul-z-slider": 0,
-  "k-bend-lll-slider": 0,
-  "k-rul-x-slider": 0,
+  "k-bend-lll-slider": 16,
+  "k-rul-x-slider": -8,
   "k-rul-z-slider": 0,
-  "k-bend-rll-slider": 0,
+  "k-bend-rll-slider": 16,
 }
 const cSliderDefaultValues: SliderDefaultValue = {
   "cam-radius": 1,
