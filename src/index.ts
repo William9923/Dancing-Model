@@ -7,6 +7,7 @@ import {
   WalkMirrorManAnimation,
   JumpMirrorManAnimation,
 } from "./object/cubeman/animation";
+import Knight, {isKnight} from "./object/knight";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -32,6 +33,7 @@ const obj2Section = document.getElementById("obj2-section") as HTMLElement;
 const obj3Section = document.getElementById("obj3-section") as HTMLElement;
 
 const animObj1Section = document.getElementById("anim-obj1-section") as HTMLElement;
+const animObj2Section = document.getElementById("anim-obj2-section") as HTMLElement;
 
 // Default : Hide all
 const resetDisplay = () => {
@@ -40,6 +42,7 @@ const resetDisplay = () => {
   obj3Section.style.display = "none";
 
   animObj1Section.style.display = "none";
+  animObj2Section.style.display = "none";
 };
 resetDisplay();
 
@@ -58,11 +61,14 @@ mirrorBtn.addEventListener("click", () => {
 });
 
 // TODO : Update for 2 button for each object
-const obj2Btn = document.getElementById("obj2") as HTMLElement;
+const obj2Btn = document.getElementById("knight") as HTMLElement;
 obj2Btn.addEventListener("click", () => {
   resetDisplay();
   obj2Section.style.display = "block";
-  // TODO : Build your model here
+  animObj2Section.style.display = "block";
+
+  // Build knight
+  scene.add(Knight.build(), true);
 });
 
 const obj3Btn = document.getElementById("obj3") as HTMLElement;
@@ -85,7 +91,7 @@ obj1ResetBtn.addEventListener("click", () => {
 
   // Build mirror man
   scene.add(MirrorMan.build());
-  
+
 });
 
 /**

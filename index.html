@@ -25,7 +25,7 @@
         <div class="card-header">Pick Articulated Object</div>
         <div class="card-body">
           <button class="btn btn-dark" id="mirror-man">Mirror Man</button>
-          <button class="btn btn-dark" id="obj2">Object 2</button>
+          <button class="btn btn-dark" id="knight">Knight</button>
           <button class="btn btn-dark" id="obj3">Object 3</button>
         </div>
       </div>
@@ -94,11 +94,31 @@
 
 
       <div class="card" id="obj2-section">
-        <div class="card-header">Object 2 Movement</div>
+        <div class="card-header">
+          <a data-toggle="collapse" href="#obj2-section>.card-body">Knight Movement</a>
+        </div>
         <div class="card-body">
-          <button class="btn btn-dark" id="reset">Reset</button>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Head :</div>
+            <input type="range" min="-30" max="30" value="0" class="slider slider-move" id="k-head-slider" />
+            <span id="k-head-slider-value"></span>
+          </div>
+          <button class="btn btn-dark" id="reset-obj2">Reset</button>
         </div>
       </div>
+
+      <div class="card" id="anim-obj2-section">
+        <div class="card-header">
+          <a data-toggle="collapse" href="#anim-obj2-section>.card-body">Knight Animation</a>
+        </div>
+        <div class="card-body">
+          <button class="btn btn-dark" id="animate-obj2-1">Anim 1</button>
+          <button class="btn btn-dark" id="animate-obj2-2">Anim 2</button>
+          <button class="btn btn-dark" id="animate-obj2-3">Anim 3</button>
+          <button class="btn btn-dark" id="animate-reset-obj2">Reset</button>
+        </div>
+      </div>
+
 
       <div class="card" id="obj3-section">
         <div class="card-header">Object 3 Movement</div>
