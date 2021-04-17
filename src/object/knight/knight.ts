@@ -47,9 +47,9 @@ class Knight extends Node {
 
   // override
   public traverse() {
-    this._setTextureCallback("bump");
+    this._setTextureCallback!("bump");
     super.traverse(mat4.identity(), true);
-    this._setTextureCallback("none");
+    this._setTextureCallback!("none");
   }
 
   public setupPoints() {}

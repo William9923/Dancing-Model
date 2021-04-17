@@ -20,6 +20,7 @@ class Scene extends WebGLWrapper {
 
   // Use shading
   private useShading: 0 | 1;
+  private useTexture: 0 | 1;
 
   // Use texture
   private textureType: Texture;

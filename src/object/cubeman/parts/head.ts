@@ -5,11 +5,16 @@ import {buildCubePoints} from "../../utils/cubePoints";
 
 class Head extends Node {
   constructor() {
-
     super();
 
-    this.setTransformation("translate", [0, 0.3, 0]);
-    this.setTransformation("scale", [0.5, 0.35, 0.5]);
+    this.setInstanceMatrix(mat4.mMult(
+      mat4.scale(0.25,0.125,0.15),
+      // mat4.zRotation(0),
+      // mat4.yRotation(0),
+      // mat4.xRotation(0),
+      mat4.translation(0,0.2,0)
+    ));
+
     this.setupPoints();
   }
 
@@ -21,10 +26,11 @@ class Head extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
+
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(baseTransformMatrix);
+    this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     // render each rectangle separately
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
