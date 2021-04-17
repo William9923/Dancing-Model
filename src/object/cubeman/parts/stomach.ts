@@ -3,21 +3,19 @@ import DrawMode from "../../../util/drawMode";
 import {mat4} from "../../../util/matrix";
 import {buildCubePoints} from "../../utils/cubePoints";
 
-class RightLeg extends Node {
+class Stomach extends Node {
   constructor() {
     super();
 
     this.setInstanceMatrix(
       mat4.mMult(
-        mat4.scale(0.175, 0.2, 0.175),
-        mat4.zRotation(0),
+        mat4.scale(0.3, 0.125, 0.15),
+        // mat4.zRotation(0),
         // mat4.yRotation(0),
         // mat4.xRotation(0),
-        mat4.translation(0.125, -0.5, 0),
+        mat4.translation(0, -0.2, 0),
       ),
     );
-
-    this.centralPoint = [0.125, -0.4, 0];
 
     this.setupPoints();
   }
@@ -42,4 +40,4 @@ class RightLeg extends Node {
   }
 }
 
-export default RightLeg;
+export default Stomach;

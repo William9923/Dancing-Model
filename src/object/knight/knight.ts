@@ -21,9 +21,12 @@ class Knight extends Node {
     const knight = new Knight();
 
     knight.child = hip;
+
     hip.child = chest;
+
     chest.child = head;
-    head.sibling = shield;
+    head.sibling = lua;
+    lua.sibling = rua;
 
     chest.sibling = lul;
     lul.sibling = rul;
@@ -31,16 +34,22 @@ class Knight extends Node {
     lul.child = lll;
     rul.child = rll;
 
-    // knight.child = lul;
+    lua.child = lla;
+    lla.child = shield;
+
+    rua.child = rla;
+    rla.child = sword;
+
+    // knight.child = sword;
 
     return knight;
   }
 
   // override
   public traverse() {
-    this._setTextureCallback("bump");
+    this._setTextureCallback!("bump");
     super.traverse(mat4.identity(), true);
-    this._setTextureCallback("none");
+    this._setTextureCallback!("none");
   }
 
   public setupPoints() {}

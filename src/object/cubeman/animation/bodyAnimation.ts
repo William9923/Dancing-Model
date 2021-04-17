@@ -31,6 +31,8 @@ class BodyMirrorManAnimation implements IMirrorManAnimation {
 
     const newAngle = y + this._bodySpeed * delta * direction;
 
+    console.log("Angle:",newAngle);
+
     obj.chest.setTransformation("rotate", [x, newAngle, z]);
   }
 
