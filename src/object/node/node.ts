@@ -7,7 +7,7 @@ type transformMatrixChangedCallbackType = (transformMatrix: number[]) => void;
 type drawCallbackType = (mode: number, startingIdx: number, size: number) => void;
 type applyAttrCallbackType = (label: AttributeVector, vectorData: number[], dimension: number) => void;
 type useNormalMapCallbackType = (useNormalMap: boolean) => void;
-type setTextureCallbackType = (textureType: string) => void;
+type setTextureCallbackType = (textureType: Texture) => void;
 
 abstract class Node {
   // Node properties

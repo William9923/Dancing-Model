@@ -79,6 +79,13 @@ obj3Btn.addEventListener("click", () => {
 const obj1ResetBtn = document.getElementById("reset-obj1") as HTMLElement;
 obj1ResetBtn.addEventListener("click", () => {
   scene?.objects.forEach((object) => isMirrorMan(object) && object.reset());
+
+  // Empty scene first, notes can change logic
+  if (scene.objects.length > 0) scene.objects = [];
+
+  // Build mirror man
+  scene.add(MirrorMan.build());
+  
 });
 
 /**
@@ -100,15 +107,7 @@ const obj1HeadClipBtn = document.getElementById("animate-obj1-1") as HTMLElement
 obj1HeadClipBtn.addEventListener("click", () => {
   sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(50)),
-  );
-});
-
-const obj1BodyClipBtn = document.getElementById("animate-obj1-2") as HTMLElement;
-obj1BodyClipBtn.addEventListener("click", () => {
-  sliderUsage(false);
-  scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new BodyMirrorManAnimation(20)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(5)),
   );
 });
 
@@ -116,7 +115,7 @@ const obj1WalkClipBtn = document.getElementById("animate-obj1-3") as HTMLElement
 obj1WalkClipBtn.addEventListener("click", () => {
   sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new WalkMirrorManAnimation(75)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new WalkMirrorManAnimation(7)),
   );
 });
 
@@ -125,7 +124,7 @@ obj1JumpClipBtn.addEventListener("click", () => {
   scene?.objects.forEach((object) => isMirrorMan(object) && object.reset());
   sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new JumpMirrorManAnimation(50)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new JumpMirrorManAnimation(3)),
   );
 });
 

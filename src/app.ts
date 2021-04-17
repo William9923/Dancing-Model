@@ -110,7 +110,7 @@ class App {
     }
     this.initSliders();
     const loop = (time: number) => {
-      const now = time * 0.001; // time in milliseconds
+      const now = time * 0.01; // time in milliseconds * 0.1
 
       this.scene?.animate(now - this.then);
 
