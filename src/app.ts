@@ -108,8 +108,16 @@ class App {
     });
 
     // Left arm
+    SliderManager.assignInputEvent("k-lua-x-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveLeftUpperArmX(val));
+    });
+
     SliderManager.assignInputEvent("k-lua-y-slider", (val: number) => {
       this.scene?.objects.forEach((object) => isKnight(object) && object.moveLeftUpperArmY(val));
+    });
+
+    SliderManager.assignInputEvent("k-lua-z-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveLeftUpperArmZ(val));
     });
 
     SliderManager.assignInputEvent("k-bend-lla-slider", (val: number) => {
@@ -121,6 +129,10 @@ class App {
     });
 
     // Right arm
+    SliderManager.assignInputEvent("k-rua-x-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveRightUpperArmX(val));
+    });
+
     SliderManager.assignInputEvent("k-rua-y-slider", (val: number) => {
       this.scene?.objects.forEach((object) => isKnight(object) && object.moveRightUpperArmY(val));
     });

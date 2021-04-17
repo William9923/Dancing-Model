@@ -141,12 +141,20 @@ class Knight extends Node {
   }
 
   // Upper arm
+  public moveLeftUpperArmX(angle: number) {
+    this.getAndSetRotation(this.lua, X, angle);
+  }
+
   public moveLeftUpperArmY(angle: number) {
     this.getAndSetRotation(this.lua, Y, angle);
   }
 
   public moveLeftUpperArmZ(angle: number) {
     this.getAndSetRotation(this.lua, Z, angle);
+  }
+
+  public moveRightUpperArmX(angle: number) {
+    this.getAndSetRotation(this.rua, X, angle);
   }
 
   public moveRightUpperArmY(angle: number) {

@@ -28,10 +28,12 @@ type SliderId =
   | "k-head-slider"
   | "k-chest-slider"
   | "k-hip-slider"
+  | "k-lua-x-slider"
   | "k-lua-y-slider"
   | "k-lua-z-slider"
   | "k-bend-lla-slider"
   | "k-twist-lla-slider"
+  | "k-rua-x-slider"
   | "k-rua-y-slider"
   | "k-rua-z-slider"
   | "k-bend-rla-slider"
@@ -57,10 +59,12 @@ const sliderIds: SliderId[] = [
   "k-head-slider",
   "k-chest-slider",
   "k-hip-slider",
+  "k-lua-x-slider",
   "k-lua-y-slider",
   "k-lua-z-slider",
   "k-bend-lla-slider",
   "k-twist-lla-slider",
+  "k-rua-x-slider",
   "k-rua-y-slider",
   "k-rua-z-slider",
   "k-bend-rla-slider",
