@@ -1,23 +1,39 @@
 type SliderId =
-  | "head-slider"
-  | "body-slider"
-  | "la-slider"
-  | "ra-slider"
-  | "ll-slider"
-  | "rl-slider"
+  // Default Slider
   | "x"
   | "y"
   | "z"
   | "rotate-x"
   | "rotate-y"
   | "rotate-z"
+
+  // Camera Slider
   | "zoom"
   | "cam-radius"
   | "cam-theta"
-  | "cam-phi";
+  | "cam-phi"
+
+  // Mirror Man Slider
+  | "stomach-slider"
+  | "ls-slider"
+  | "rs-slider"
+  | "lh-slider"
+  | "rh-slider"
+  | "head-slider"
+  | "body-slider"
+  | "la-slider"
+  | "ra-slider"
+  | "ll-slider"
+  | "rl-slider";
+
 const sliderIds: SliderId[] = [
   "head-slider",
   "body-slider",
+  "stomach-slider",
+  "ls-slider",
+  "rs-slider",
+  "lh-slider",
+  "rh-slider",
   "la-slider",
   "ra-slider",
   "ll-slider",
@@ -42,11 +58,16 @@ type SliderDefaultValue = {
 const mmSliderDefaultValues: SliderDefaultValue = {
   "head-slider": 0,
   "body-slider": 0,
+  "stomach-slider" : 0,
+  "ls-slider" : 0,
+  "rs-slider" : 0,
+  "lh-slider" : 0,
+  "rh-slider": 0,
   "la-slider": 0,
   "ra-slider": 0,
   "ll-slider": 0,
-  "rl-slider": 0
-}
+  "rl-slider": 0,
+};
 const cSliderDefaultValues: SliderDefaultValue = {
   "cam-radius": 1,
   "cam-theta": 0,
@@ -79,7 +100,7 @@ class SliderManager {
         sliders[sliderId].value = String(mmSliderDefaultValues[sliderId]);
         sliders[sliderId].dispatchEvent(new Event("input"));
       }
-    })
+    });
   }
 
   static resetCameraSliderValue() {

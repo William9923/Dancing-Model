@@ -7,7 +7,6 @@ import {
   WalkMirrorManAnimation,
   JumpMirrorManAnimation,
 } from "./object/cubeman/animation";
-import SliderManager from "./SliderManager";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -32,7 +31,7 @@ const obj1Section = document.getElementById("obj1-section") as HTMLElement;
 const obj2Section = document.getElementById("obj2-section") as HTMLElement;
 const obj3Section = document.getElementById("obj3-section") as HTMLElement;
 
-const animObj1Section = document.getElementById("anim-obj2-section") as HTMLElement;
+const animObj1Section = document.getElementById("anim-obj1-section") as HTMLElement;
 
 // Default : Hide all
 const resetDisplay = () => {
@@ -77,10 +76,10 @@ obj3Btn.addEventListener("click", () => {
  * Mirror Man Section Start
  */
 
- const obj1ResetBtn = document.getElementById("reset-obj1") as HTMLElement;
- obj1ResetBtn.addEventListener("click", () => {
-  SliderManager.resetMMSliderValue();
- });
+const obj1ResetBtn = document.getElementById("reset-obj1") as HTMLElement;
+obj1ResetBtn.addEventListener("click", () => {
+  scene?.objects.forEach((object) => isMirrorMan(object) && object.reset());
+});
 
 /**
  * Slider DOM Listener

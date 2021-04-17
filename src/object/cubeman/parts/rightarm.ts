@@ -7,22 +7,18 @@ class RightArm extends Node {
   constructor() {
     super();
 
-    // this.setTransformation("rotate", [0, 0, -45]);  // y-rotate : 0-45, z-rotate : -45, 45
-    // this.setTransformation("scale", [0.5, 0.2, 0.2]);
-    // this.setTransformation("translate", [-0.25, 0.1, 0]);
-
     this.setInstanceMatrix(
       mat4.mMult(
-        mat4.scale(0.1, 0.2 , 0.1),
+        mat4.scale(0.1, 0.2, 0.1),
         mat4.zRotation(0),
         // mat4.yRotation(0),
         // mat4.xRotation(0),
-        mat4.translation(0.3, -0.1, 0),
+        mat4.translation(0.3, -0.075, 0),
       ),
     );
 
-    this.centralPoint = [-0.125,-0.05,0];
-    
+    this.centralPoint = [0, 0.05, 0];
+
     this.setupPoints();
   }
 

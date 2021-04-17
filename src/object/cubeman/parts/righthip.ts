@@ -17,7 +17,7 @@ class RightHip extends Node {
       ),
     );
 
-    // this.centralPoint = [-0.225,0.05,0];
+    this.centralPoint = [0, -0.325,0];
     
     this.setupPoints();
   }

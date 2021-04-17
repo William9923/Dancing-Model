@@ -7,13 +7,15 @@ class Stomach extends Node {
   constructor() {
     super();
 
-    this.setInstanceMatrix(mat4.mMult(
-      mat4.scale(0.3,0.125,0.15),
-      // mat4.zRotation(0),
-      // mat4.yRotation(0),
-      // mat4.xRotation(0),
-      mat4.translation(0,-0.2,0)
-    ));
+    this.setInstanceMatrix(
+      mat4.mMult(
+        mat4.scale(0.3, 0.125, 0.15),
+        // mat4.zRotation(0),
+        // mat4.yRotation(0),
+        // mat4.xRotation(0),
+        mat4.translation(0, -0.2, 0),
+      ),
+    );
 
     this.setupPoints();
   }
@@ -26,7 +28,6 @@ class Stomach extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();

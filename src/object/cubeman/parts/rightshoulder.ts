@@ -9,7 +9,7 @@ class RightShoulder extends Node {
 
     this.setInstanceMatrix(
       mat4.mMult(
-        mat4.scale(0.15, 0.15 , 0.15),
+        mat4.scale(0.15, 0.15, 0.15),
         mat4.zRotation(0),
         // mat4.yRotation(0),
         // mat4.xRotation(0),
@@ -17,8 +17,8 @@ class RightShoulder extends Node {
       ),
     );
 
-    this.centralPoint = [0.225,0.05,0];
-    
+    this.centralPoint = [0.225, 0.05, 0];
+
     this.setupPoints();
   }
 
