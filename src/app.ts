@@ -2,6 +2,7 @@ import Scene from "./scene";
 import SliderManager from "./SliderManager";
 
 import {isMirrorMan} from "./object/cubeman";
+import {isKnight} from "./object/knight";
 
 const X = 0;
 const Y = 1;
@@ -85,6 +86,15 @@ class App {
     // Right Leg
     SliderManager.assignInputEvent("rl-slider", (val: number) => {
       this.scene?.objects.forEach((object) => isMirrorMan(object) && object.moveRightLeg(val));
+    });
+
+    /**
+     * Knight Event Listener
+     */
+
+    // Head
+    SliderManager.assignInputEvent("k-head-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveHead(val));
     });
   }
 

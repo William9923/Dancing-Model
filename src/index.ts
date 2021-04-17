@@ -60,7 +60,6 @@ mirrorBtn.addEventListener("click", () => {
   scene.add(MirrorMan.build());
 });
 
-// TODO : Update for 2 button for each object
 const obj2Btn = document.getElementById("knight") as HTMLElement;
 obj2Btn.addEventListener("click", () => {
   resetDisplay();
@@ -142,6 +141,59 @@ obj1ResetClipBtn.addEventListener("click", () => {
 
 /**
  * Mirror Man Section End
+ */
+
+/**
+ * Knight Section Start
+ */
+
+const obj2ResetBtn = document.getElementById("reset-obj2") as HTMLElement;
+obj2ResetBtn.addEventListener("click", () => {
+  scene?.objects.forEach((object) => isKnight(object) && object.reset());
+
+  // Build knight
+  scene.add(Knight.build(), true);
+});
+
+/**
+ * Attach Animation Listener
+ */
+
+const obj2HeadClipBtn = document.getElementById("animate-obj2-1") as HTMLElement;
+obj2HeadClipBtn.addEventListener("click", () => {
+  scene?.objects.forEach((object) => isKnight(object) && object.reset());
+  sliderUsage(false);
+  // scene.objects.forEach(
+  //   (object) => isKnight(object) && object.setAnimationClip(new HeadKnightAnimation(5)),
+  // );
+});
+
+const obj2WalkClipBtn = document.getElementById("animate-obj2-2") as HTMLElement;
+obj2WalkClipBtn.addEventListener("click", () => {
+  scene?.objects.forEach((object) => isKnight(object) && object.reset());
+  sliderUsage(false);
+  // scene.objects.forEach(
+  //   (object) => isKnight(object) && object.setAnimationClip(new WalkKnightAnimation(7)),
+  // );
+});
+
+const obj2JumpClipBtn = document.getElementById("animate-obj2-3") as HTMLElement;
+obj2JumpClipBtn.addEventListener("click", () => {
+  scene?.objects.forEach((object) => isKnight(object) && object.reset());
+  sliderUsage(false);
+  // scene.objects.forEach(
+  //   (object) => isKnight(object) && object.setAnimationClip(new JumpKnightAnimation(3)),
+  // );
+});
+
+const obj2ResetClipBtn = document.getElementById("animate-reset-obj2") as HTMLElement;
+obj2ResetClipBtn.addEventListener("click", () => {
+  sliderUsage(true);
+  scene.objects.forEach((object) => isKnight(object) && object.setAnimationClip(null));
+});
+
+/**
+ * Knight Section End
  */
 
 app.start();

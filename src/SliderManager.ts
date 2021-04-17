@@ -22,7 +22,10 @@ type SliderId =
   | "la-slider"
   | "ra-slider"
   | "ll-slider"
-  | "rl-slider";
+  | "rl-slider"
+
+  // Knight Slider
+  | "k-head-slider";
 
 const sliderIds: SliderId[] = [
   "head-slider",
@@ -34,6 +37,7 @@ const sliderIds: SliderId[] = [
   "ra-slider",
   "ll-slider",
   "rl-slider",
+  "k-head-slider",
   "cam-radius",
   "cam-theta",
   "cam-phi",
