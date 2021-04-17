@@ -103,6 +103,27 @@ const mmSliderDefaultValues: SliderDefaultValue = {
   "ll-slider": 0,
   "rl-slider": 0,
 };
+const kSliderDefaultValues: SliderDefaultValue = {
+  "k-head-slider": 0,
+  "k-chest-slider": 0,
+  "k-hip-slider": 0,
+  "k-lua-x-slider": 0,
+  "k-lua-y-slider": 0,
+  "k-lua-z-slider": 0,
+  "k-bend-lla-slider": 0,
+  "k-twist-lla-slider": 0,
+  "k-rua-x-slider": 0,
+  "k-rua-y-slider": 0,
+  "k-rua-z-slider": 0,
+  "k-bend-rla-slider": 0,
+  "k-twist-rla-slider": 0,
+  "k-lul-x-slider": 0,
+  "k-lul-z-slider": 0,
+  "k-bend-lll-slider": 0,
+  "k-rul-x-slider": 0,
+  "k-rul-z-slider": 0,
+  "k-bend-rll-slider": 0,
+}
 const cSliderDefaultValues: SliderDefaultValue = {
   "cam-radius": 1,
   "cam-theta": 0,
@@ -133,6 +154,15 @@ class SliderManager {
     sliderIds.forEach((sliderId) => {
       if (mmSliderDefaultValues.hasOwnProperty(sliderId)) {
         sliders[sliderId].value = String(mmSliderDefaultValues[sliderId]);
+        sliders[sliderId].dispatchEvent(new Event("input"));
+      }
+    });
+  }
+
+  static resetKSliderValue() {
+    sliderIds.forEach((sliderId) => {
+      if (kSliderDefaultValues.hasOwnProperty(sliderId)) {
+        sliders[sliderId].value = String(kSliderDefaultValues[sliderId]);
         sliders[sliderId].dispatchEvent(new Event("input"));
       }
     });

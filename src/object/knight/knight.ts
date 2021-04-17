@@ -1,6 +1,7 @@
 import Node from "../node";
 import * as parts from "./parts";
 import { IKnightAnimation } from "./animation";
+import SliderManager from "../../SliderManager";
 import { mat4 } from "../../util/matrix";
 
 const X = 0;
@@ -218,7 +219,7 @@ class Knight extends Node {
   // public bendRight
 
   public reset() {
-    // TODO: implement
+    SliderManager.resetKSliderValue();
   }
 
   /*

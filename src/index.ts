@@ -60,8 +60,8 @@ mirrorBtn.addEventListener("click", () => {
   scene.add(MirrorMan.build());
 });
 
-const obj2Btn = document.getElementById("knight") as HTMLElement;
-obj2Btn.addEventListener("click", () => {
+const knightBtn = document.getElementById("knight") as HTMLElement;
+knightBtn.addEventListener("click", () => {
   resetDisplay();
   obj2Section.style.display = "block";
   animObj2Section.style.display = "block";
