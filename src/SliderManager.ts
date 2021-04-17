@@ -30,12 +30,18 @@ type SliderId =
   | "k-hip-slider"
   | "k-lua-y-slider"
   | "k-lua-z-slider"
+  | "k-bend-lla-slider"
+  | "k-twist-lla-slider"
   | "k-rua-y-slider"
   | "k-rua-z-slider"
+  | "k-bend-rla-slider"
+  | "k-twist-rla-slider"
   | "k-lul-x-slider"
   | "k-lul-z-slider"
+  | "k-bend-lll-slider"
   | "k-rul-x-slider"
   | "k-rul-z-slider"
+  | "k-bend-rll-slider"
   ;
 
 const sliderIds: SliderId[] = [
@@ -53,12 +59,18 @@ const sliderIds: SliderId[] = [
   "k-hip-slider",
   "k-lua-y-slider",
   "k-lua-z-slider",
+  "k-bend-lla-slider",
+  "k-twist-lla-slider",
   "k-rua-y-slider",
   "k-rua-z-slider",
+  "k-bend-rla-slider",
+  "k-twist-rla-slider",
   "k-lul-x-slider",
   "k-lul-z-slider",
+  "k-bend-lll-slider",
   "k-rul-x-slider",
   "k-rul-z-slider",
+  "k-bend-rll-slider",
   "cam-radius",
   "cam-theta",
   "cam-phi",

@@ -107,7 +107,7 @@ class Hip extends Node {
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    this.setTransformation("translate", [0, -0.02 / 90 * this.euy, 0], true);
+    // this.setTransformation("translate", [0, -0.02 / 90 * this.euy, 0], true);
     this.euy = (this.euy + 1) % 90;
 
     this.applyMaterialProperties();
