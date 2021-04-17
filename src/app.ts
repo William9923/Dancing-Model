@@ -106,6 +106,40 @@ class App {
     SliderManager.assignInputEvent("k-hip-slider", (val: number) => {
       this.scene?.objects.forEach((object) => isKnight(object) && object.moveHip(val));
     });
+
+    // Upper arm
+    SliderManager.assignInputEvent("k-lua-y-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveLeftUpperArmY(val));
+    });
+
+    SliderManager.assignInputEvent("k-lua-z-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveLeftUpperArmZ(val));
+    });
+
+    SliderManager.assignInputEvent("k-rua-y-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveRightUpperArmY(val));
+    });
+
+    SliderManager.assignInputEvent("k-rua-z-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveRightUpperArmZ(val));
+    });
+
+    // Upper leg
+    SliderManager.assignInputEvent("k-lul-x-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveLeftUpperLegX(val));
+    });
+
+    SliderManager.assignInputEvent("k-lul-z-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveLeftUpperLegZ(val));
+    });
+
+    SliderManager.assignInputEvent("k-rul-x-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveRightUpperLegX(val));
+    });
+
+    SliderManager.assignInputEvent("k-rul-z-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isKnight(object) && object.moveRightUpperLegZ(val));
+    });
   }
 
   public setScene(scene: Scene) {

@@ -32,6 +32,10 @@ type SliderId =
   | "k-lua-z-slider"
   | "k-rua-y-slider"
   | "k-rua-z-slider"
+  | "k-lul-x-slider"
+  | "k-lul-z-slider"
+  | "k-rul-x-slider"
+  | "k-rul-z-slider"
   ;
 
 const sliderIds: SliderId[] = [
@@ -51,6 +55,10 @@ const sliderIds: SliderId[] = [
   "k-lua-z-slider",
   "k-rua-y-slider",
   "k-rua-z-slider",
+  "k-lul-x-slider",
+  "k-lul-z-slider",
+  "k-rul-x-slider",
+  "k-rul-z-slider",
   "cam-radius",
   "cam-theta",
   "cam-phi",
