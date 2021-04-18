@@ -144,7 +144,7 @@ const animation = {
       index: 70,
       position: {
         // Raise shield
-        luaY: -45.001,
+        luaY: -45,
         luaZ: 90,
         llaBend: -117,
         llaTwist: 90,
