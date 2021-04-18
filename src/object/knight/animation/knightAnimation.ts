@@ -67,6 +67,8 @@ class KnightAnimation implements IKnightAnimation {
     this._callbackMap["rulZ"] = obj.moveRightUpperLegZ.bind(obj);
     this._callbackMap["lllBend"] = obj.bendLeftLowerLeg.bind(obj);
     this._callbackMap["rllBend"] = obj.bendRightLowerLeg.bind(obj);
+    this._callbackMap["translateHipY"] = obj.translateHipY.bind(obj);
+    this._callbackMap["shieldX"] = obj.moveShieldX.bind(obj);
   }
 
   private generateTargetMap(obj: Knight) {
@@ -89,6 +91,8 @@ class KnightAnimation implements IKnightAnimation {
     this._targetMap["rulZ"] = { part: obj.rul, idx: Z };
     this._targetMap["lllBend"] = { part: obj.lll, idx: X };
     this._targetMap["rllBend"] = { part: obj.rll, idx: X };
+    this._targetMap["translateHipY"] = { part: obj.hip, idx: Y };
+    this._targetMap["shieldX"] = { part: obj.shield, idx: X };
   }
 
   public doAnimation(delta: number, obj: Knight) {
@@ -105,16 +109,24 @@ class KnightAnimation implements IKnightAnimation {
       const callback = this._callbackMap[k];
       if (!target || !callback) continue;
 
-      const rotationPoint = target.part.getTransformation("rotate");
-      const currRot = rotationPoint[target.idx];
-      const newRot = currRot + delta * deltaKf[k];
-      callback(newRot);
+      let newVal;
+      if (k == "translateHipY") {
+        const translationPoint = target.part.getTransformation("translate");
+        const currPos = translationPoint[target.idx];
+        const newPos = newVal = currPos + delta * deltaKf[k];
+        callback(newPos);
+      } else {
+        const rotationPoint = target.part.getTransformation("rotate");
+        const currRot = rotationPoint[target.idx];
+        const newRot = newVal = currRot + delta * deltaKf[k];
+        callback(newRot);
+      }
 
       // Check any movement limit
       if (!doIncrementKf) {
-        if (deltaKf[k] < 0 && newRot <= this._keyframes[this._currKeyframe+1].position[k]) {
+        if (deltaKf[k] < 0 && newVal <= this._keyframes[this._currKeyframe+1].position[k]) {
           doIncrementKf = true;
-        } else if (deltaKf[k] > 0 && newRot >= this._keyframes[this._currKeyframe+1].position[k]) {
+        } else if (deltaKf[k] > 0 && newVal >= this._keyframes[this._currKeyframe+1].position[k]) {
           doIncrementKf = true;
         } else if (deltaKf[k] == 0) {
           throw "KnightAnimation.doAnimation: should not be here";

@@ -9,13 +9,16 @@ class RightLowerLeg extends Node {
     super();
 
     this.setInstanceMatrix(mat4.multiply(
-      mat4.scale(0.25, 0.6, 0.25),
-      mat4.translation(-0.21, -1, 0)
+      mat4.scale(0.25, 0.65, 0.25),
+      // mat4.zRotation(0),
+      // mat4.yRotation(0),
+      // mat4.xRotation(0),
+      mat4.translation(-0.21, -0.975, 0),
     ));
 
     // 0.25 = xtranslation
     // -0.25 = ytranslation + 1 / 2 * height
-    this.centralPoint = [-0.21, -0.75, 0];
+    this.centralPoint = [-0.21, -0.7, 0];
 
     this.setTransformation("rotate", [16, 0, 0], true);
 

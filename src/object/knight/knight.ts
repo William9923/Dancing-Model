@@ -209,6 +209,15 @@ class Knight extends Node {
     this.getAndSetRotation(this.rll, X, angle);
   }
 
+  // Additional method for animation
+  public translateHipY(angle: number) {
+    this.getAndSetTranslation(this.hip, Y, angle);
+  }
+
+  public moveShieldX(angle: number) {
+    this.getAndSetRotation(this.shield, X, angle);
+  }
+
   // Helper
   private getAndSetRotation(part: Node, index: number, angle: number) {
     let rotatePoint = part.getTransformation("rotate");
@@ -216,7 +225,11 @@ class Knight extends Node {
     part.setTransformation("rotate", rotatePoint, true);
   }
 
-  // public bendRight
+  private getAndSetTranslation(part: Node, index: number, value: number) {
+    let translatePoint = part.getTransformation("translate");
+    translatePoint[index] = value;
+    part.setTransformation("translate", translatePoint, true);
+  }
 
   public reset() {
     SliderManager.resetKSliderValue();
