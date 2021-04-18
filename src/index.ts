@@ -8,6 +8,9 @@ import {
   JumpMirrorManAnimation,
 } from "./object/cubeman/animation";
 import Knight, {isKnight} from "./object/knight";
+import {
+  OnGuardKnightAnimation,
+} from "./object/knight/animation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -161,11 +164,10 @@ obj2ResetBtn.addEventListener("click", () => {
 
 const obj2HeadClipBtn = document.getElementById("animate-obj2-1") as HTMLElement;
 obj2HeadClipBtn.addEventListener("click", () => {
-  scene?.objects.forEach((object) => isKnight(object) && object.reset());
   sliderUsage(false);
-  // scene.objects.forEach(
-  //   (object) => isKnight(object) && object.setAnimationClip(new HeadKnightAnimation(5)),
-  // );
+  scene.objects.forEach(
+    (object) => isKnight(object) && object.setAnimationClip(new OnGuardKnightAnimation(1)),
+  );
 });
 
 const obj2WalkClipBtn = document.getElementById("animate-obj2-2") as HTMLElement;
@@ -196,6 +198,17 @@ obj2ResetClipBtn.addEventListener("click", () => {
  * Knight Section End
  */
 
+/*
+ * Camera Reset
+ */
+const camResetBtn = document.getElementById("cam-reset") as HTMLElement;
+camResetBtn.addEventListener("click", () => {
+  app.resetCamera();
+});
+
+/*
+ * Start App
+ */
 app.start();
 
 /**

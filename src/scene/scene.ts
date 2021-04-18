@@ -5,6 +5,7 @@ import { mat4 } from "../util/matrix";
 import Node from "../object/index";
 
 import {isMirrorMan} from "../object/cubeman";
+import {isKnight} from "../object/knight";
 
 class Scene extends WebGLWrapper {
   // Object, camera, and light used
@@ -196,7 +197,7 @@ class Scene extends WebGLWrapper {
   public animate(delta: number) {
     for (const object of this._objects) {
       // Animate each object
-      if (isMirrorMan(object))
+      if (isMirrorMan(object) || isKnight(object))
         object.animate(delta);
     }
   }
