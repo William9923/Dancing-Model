@@ -192,6 +192,10 @@ class App {
     this.scene?.setUseTexture(useTexture);
   }
 
+  public resetCamera() {
+    SliderManager.resetCameraSliderValue();
+  }
+
   public start() {
     if (!this.scene) {
       throw "No scene defined!";
