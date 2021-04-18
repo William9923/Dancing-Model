@@ -10,6 +10,7 @@ import {
 import Knight, {isKnight} from "./object/knight";
 import {
   OnGuardKnightAnimation,
+  SlashKnightAnimation,
 } from "./object/knight/animation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -162,21 +163,20 @@ obj2ResetBtn.addEventListener("click", () => {
  * Attach Animation Listener
  */
 
-const obj2HeadClipBtn = document.getElementById("animate-obj2-1") as HTMLElement;
-obj2HeadClipBtn.addEventListener("click", () => {
+const obj2OnGuardClipBtn = document.getElementById("animate-obj2-1") as HTMLElement;
+obj2OnGuardClipBtn.addEventListener("click", () => {
   sliderUsage(false);
   scene.objects.forEach(
     (object) => isKnight(object) && object.setAnimationClip(new OnGuardKnightAnimation(1)),
   );
 });
 
-const obj2WalkClipBtn = document.getElementById("animate-obj2-2") as HTMLElement;
-obj2WalkClipBtn.addEventListener("click", () => {
-  scene?.objects.forEach((object) => isKnight(object) && object.reset());
+const obj2SlashClipBtn = document.getElementById("animate-obj2-2") as HTMLElement;
+obj2SlashClipBtn.addEventListener("click", () => {
   sliderUsage(false);
-  // scene.objects.forEach(
-  //   (object) => isKnight(object) && object.setAnimationClip(new WalkKnightAnimation(7)),
-  // );
+  scene.objects.forEach(
+    (object) => isKnight(object) && object.setAnimationClip(new SlashKnightAnimation(1)),
+  );
 });
 
 const obj2JumpClipBtn = document.getElementById("animate-obj2-3") as HTMLElement;
