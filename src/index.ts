@@ -11,6 +11,7 @@ import Knight, {isKnight} from "./object/knight";
 import {
   OnGuardKnightAnimation,
   SlashKnightAnimation,
+  DanceKnightAnimation,
 } from "./object/knight/animation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -179,13 +180,12 @@ obj2SlashClipBtn.addEventListener("click", () => {
   );
 });
 
-const obj2JumpClipBtn = document.getElementById("animate-obj2-3") as HTMLElement;
-obj2JumpClipBtn.addEventListener("click", () => {
-  scene?.objects.forEach((object) => isKnight(object) && object.reset());
+const obj2DanceClipBtn = document.getElementById("animate-obj2-3") as HTMLElement;
+obj2DanceClipBtn.addEventListener("click", () => {
   sliderUsage(false);
-  // scene.objects.forEach(
-  //   (object) => isKnight(object) && object.setAnimationClip(new JumpKnightAnimation(3)),
-  // );
+  scene.objects.forEach(
+    (object) => isKnight(object) && object.setAnimationClip(new DanceKnightAnimation(1)),
+  );
 });
 
 const obj2ResetClipBtn = document.getElementById("animate-reset-obj2") as HTMLElement;
