@@ -5,6 +5,7 @@ import { mat4 } from "../util/matrix";
 import Node from "../object/index";
 
 import {isMirrorMan} from "../object/cubeman";
+import {isKnight} from "../object/knight";
 
 class Scene extends WebGLWrapper {
   // Object, camera, and light used
@@ -20,7 +21,8 @@ class Scene extends WebGLWrapper {
 
   // Use shading
   private useShading: 0 | 1;
-  
+  private useTexture: 0 | 1;
+
   // Use texture
   private textureType: Texture;
 
@@ -117,13 +119,8 @@ class Scene extends WebGLWrapper {
   }
 
   public setUseTexture(useTexture: boolean) {
-    if (useTexture) {
-      this.textureType = "environment";
-      // TODO : add more logic buat nambahin other texture
-    } else {
-      this.textureType = "none";
-    }
-    this.applyTexture(this.textureType);
+    this.useTexture = useTexture ? 1 : 0;
+    this.applyUseTexture(useTexture);
   }
 
   public get objects() {
@@ -165,6 +162,8 @@ class Scene extends WebGLWrapper {
     object.transformMatrixChangedCallback = this.setTransformMatrix.bind(this);
     object.drawCallback = this.draw.bind(this);
     object.applyAttrCallback = this.applyAttributeVector.bind(this);
+    object.useNormalMapCallback = this.applyUseNormalMap.bind(this);
+    object.setTextureCallback = this.applyTexture.bind(this);
 
     if (object.child) this.setCallbacks(object.child);
     if (object.sibling) this.setCallbacks(object.sibling);
@@ -198,7 +197,7 @@ class Scene extends WebGLWrapper {
   public animate(delta: number) {
     for (const object of this._objects) {
       // Animate each object
-      if (isMirrorMan(object))
+      if (isMirrorMan(object) || isKnight(object))
         object.animate(delta);
     }
   }

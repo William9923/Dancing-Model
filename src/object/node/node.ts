@@ -1,3 +1,4 @@
+import { vec } from "../../util/vector";
 import { mat4 } from "../../util/matrix";
 import { AttributeVector } from "../../scene/webglWrapper";
 
@@ -5,6 +6,8 @@ type materialChangedCallbackType = (object: Node) => void;
 type transformMatrixChangedCallbackType = (transformMatrix: number[]) => void;
 type drawCallbackType = (mode: number, startingIdx: number, size: number) => void;
 type applyAttrCallbackType = (label: AttributeVector, vectorData: number[], dimension: number) => void;
+type useNormalMapCallbackType = (useNormalMap: boolean) => void;
+type setTextureCallbackType = (textureType: Texture) => void;
 
 abstract class Node {
   // Node properties
@@ -24,7 +27,9 @@ abstract class Node {
   protected scale: Point = [1, 1, 1];
 
   // Transformation matrices used
+  protected instanceMatrix: number[] = mat4.identity();
   protected transformMatrix: number[];
+  protected centralPoint: Point = [0, 0, 0];
 
   // Tree properties
   protected _sibling: Node;
@@ -35,6 +40,8 @@ abstract class Node {
   protected _transformMatrixChangedCallback: transformMatrixChangedCallbackType | null = null;
   protected _drawCallback: drawCallbackType | null = null;
   protected _applyAttrCallback: applyAttrCallbackType | null = null;
+  protected _useNormalMapCallback: useNormalMapCallbackType | null = null;
+  protected _setTextureCallback: setTextureCallbackType | null = null;
 
 
   /*
@@ -56,7 +63,8 @@ abstract class Node {
    * Transformation methods
    */
 
-  public setTransformation(transformationType: Transformation, newArr: Point) {
+  public setTransformation(transformationType: Transformation, newArr: Point,
+                           useCustomCentral: boolean = false) {
     switch (transformationType) {
       case "rotate":
         this.rotate = newArr;
@@ -70,7 +78,7 @@ abstract class Node {
       default:
         throw `shape.setTransformation: invalid transformation type '${transformationType}'`;
     }
-    this.calculateTransformMatrix();
+    this.calculateTransformMatrix(useCustomCentral);
   }
 
   public getTransformation(transformationType: Transformation) {
@@ -86,14 +94,26 @@ abstract class Node {
     }
   }
 
-  protected calculateTransformMatrix() {
-    this.transformMatrix = mat4.mMult(
-      mat4.scale(...this.scale),
-      mat4.zRotation(this.rotate[2]),
-      mat4.yRotation(this.rotate[1]),
-      mat4.xRotation(this.rotate[0]),
-      mat4.translation(...this.translate),
-    );
+  protected calculateTransformMatrix(useCustomCentral: boolean = false) {
+    if (useCustomCentral) {
+      this.transformMatrix = mat4.mMult(
+        mat4.translation(...vec.mul(-1, this.centralPoint) as [number, number, number]),
+        mat4.scale(...this.scale),
+        mat4.zRotation(this.rotate[2]),
+        mat4.yRotation(this.rotate[1]),
+        mat4.xRotation(this.rotate[0]),
+        mat4.translation(...this.translate),
+        mat4.translation(...this.centralPoint),
+      );
+    } else {
+      this.transformMatrix = mat4.mMult(
+        mat4.scale(...this.scale),
+        mat4.zRotation(this.rotate[2]),
+        mat4.yRotation(this.rotate[1]),
+        mat4.xRotation(this.rotate[0]),
+        mat4.translation(...this.translate),
+      );
+    }
   }
 
 
@@ -107,6 +127,14 @@ abstract class Node {
 
   public setNormals(...normals: number[]) {
     this.normals = normals;
+  }
+
+  public setInstanceMatrix(instanceMatrix: number[]) {
+    this.instanceMatrix = instanceMatrix;
+  }
+
+  public setCentralPoint(centralPoint: Point) {
+    this.centralPoint = centralPoint;
   }
 
   public get sibling() {
@@ -139,6 +167,14 @@ abstract class Node {
 
   public set applyAttrCallback(callback: applyAttrCallbackType) {
     this._applyAttrCallback = callback;
+  }
+
+  public set useNormalMapCallback(callback: useNormalMapCallbackType) {
+    this._useNormalMapCallback = callback;
+  }
+
+  public set setTextureCallback(callback: setTextureCallbackType) {
+    this._setTextureCallback = callback;
   }
 
 
@@ -176,13 +212,17 @@ abstract class Node {
    * Traverse tree and render each node
    */
 
-  public traverse(baseTransformMatrix: number[] = mat4.identity()) {
-
-    const transformMatrix = mat4.multiply(baseTransformMatrix, this.transformMatrix);
+  public traverse(baseTransformMatrix: number[] = mat4.identity(), reverseMatrixOrder: boolean = false) {
+    // TODO: fully migrate to new order
+    let transformMatrix;
+    if (reverseMatrixOrder)
+      transformMatrix = mat4.multiply(this.transformMatrix, baseTransformMatrix);
+    else
+      transformMatrix = mat4.multiply(baseTransformMatrix, this.transformMatrix);
 
     this.render(transformMatrix);
-    this.child?.traverse(transformMatrix);
-    this.sibling?.traverse(baseTransformMatrix);
+    this.child?.traverse(transformMatrix, reverseMatrixOrder);
+    this.sibling?.traverse(baseTransformMatrix, reverseMatrixOrder);
   }
 
 

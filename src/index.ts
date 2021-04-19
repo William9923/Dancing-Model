@@ -8,7 +8,12 @@ import {
   WalkMirrorManAnimation,
   JumpMirrorManAnimation,
 } from "./object/cubeman/animation";
-import SliderManager from "./SliderManager";
+import Knight, {isKnight} from "./object/knight";
+import {
+  OnGuardKnightAnimation,
+  SlashKnightAnimation,
+  DanceKnightAnimation,
+} from "./object/knight/animation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -61,14 +66,14 @@ mirrorBtn.addEventListener("click", () => {
   scene.add(MirrorMan.build());
 });
 
-const cowBtn = document.getElementById("cow") as HTMLElement;
-cowBtn.addEventListener("click", () => {
+const knightBtn = document.getElementById("knight") as HTMLElement;
+knightBtn.addEventListener("click", () => {
   resetDisplay();
   obj2Section.style.display = "block";
   animObj2Section.style.display = "block";
 
-  if (scene.objects.length > 0) scene.objects = [];
-  scene.add(Cow.build());
+  // Build knight
+  scene.add(Knight.build(), true);
 });
 
 const obj3Btn = document.getElementById("obj3") as HTMLElement;
@@ -82,19 +87,26 @@ obj3Btn.addEventListener("click", () => {
  * Mirror Man Section Start
  */
 
- const obj1ResetBtn = document.getElementById("reset-obj1") as HTMLElement;
- obj1ResetBtn.addEventListener("click", () => {
-  SliderManager.resetMMSliderValue();
- });
+const obj1ResetBtn = document.getElementById("reset-obj1") as HTMLElement;
+obj1ResetBtn.addEventListener("click", () => {
+  scene?.objects.forEach((object) => isMirrorMan(object) && object.reset());
+
+  // Empty scene first, notes can change logic
+  if (scene.objects.length > 0) scene.objects = [];
+
+  // Build mirror man
+  scene.add(MirrorMan.build());
+
+});
 
 /**
  * Slider DOM Listener
  */
 
 const sliders = document.querySelectorAll(".slider-move") as NodeListOf<HTMLInputElement>;
-const sliderUsage = (disable: boolean) => {
+const sliderUsage = (clickable: boolean) => {
   sliders.forEach((slider) => {
-    slider.disabled = disable;
+    slider.disabled = !clickable;
   });
 };
 
@@ -104,39 +116,32 @@ const sliderUsage = (disable: boolean) => {
 
 const obj1HeadClipBtn = document.getElementById("animate-obj1-1") as HTMLElement;
 obj1HeadClipBtn.addEventListener("click", () => {
-  sliderUsage(true);
+  sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(100)),
-  );
-});
-
-const obj1BodyClipBtn = document.getElementById("animate-obj1-2") as HTMLElement;
-obj1BodyClipBtn.addEventListener("click", () => {
-  sliderUsage(true);
-  scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new BodyMirrorManAnimation(20)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(5)),
   );
 });
 
 const obj1WalkClipBtn = document.getElementById("animate-obj1-3") as HTMLElement;
 obj1WalkClipBtn.addEventListener("click", () => {
-  sliderUsage(true);
+  sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new WalkMirrorManAnimation(75)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new WalkMirrorManAnimation(7)),
   );
 });
 
 const obj1JumpClipBtn = document.getElementById("animate-obj1-4") as HTMLElement;
 obj1JumpClipBtn.addEventListener("click", () => {
-  sliderUsage(true);
+  scene?.objects.forEach((object) => isMirrorMan(object) && object.reset());
+  sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new JumpMirrorManAnimation(50)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new JumpMirrorManAnimation(3)),
   );
 });
 
 const obj1ResetClipBtn = document.getElementById("animate-reset-obj1") as HTMLElement;
 obj1ResetClipBtn.addEventListener("click", () => {
-  sliderUsage(false);
+  sliderUsage(true);
   scene.objects.forEach((object) => isMirrorMan(object) && object.setAnimationClip(null));
 });
 
@@ -144,16 +149,67 @@ obj1ResetClipBtn.addEventListener("click", () => {
  * Mirror Man Section End
  */
 
-
-
 /**
- * Cow Section Start
+ * Knight Section Start
  */
 
+const obj2ResetBtn = document.getElementById("reset-obj2") as HTMLElement;
+obj2ResetBtn.addEventListener("click", () => {
+  scene?.objects.forEach((object) => isKnight(object) && object.reset());
+
+  // Build knight
+  scene.add(Knight.build(), true);
+});
+
 /**
- * Cow Section Finished
+ * Attach Animation Listener
  */
 
+const obj2OnGuardClipBtn = document.getElementById("animate-obj2-1") as HTMLElement;
+obj2OnGuardClipBtn.addEventListener("click", () => {
+  sliderUsage(false);
+  scene.objects.forEach(
+    (object) => isKnight(object) && object.setAnimationClip(new OnGuardKnightAnimation(1)),
+  );
+});
+
+const obj2SlashClipBtn = document.getElementById("animate-obj2-2") as HTMLElement;
+obj2SlashClipBtn.addEventListener("click", () => {
+  sliderUsage(false);
+  scene.objects.forEach(
+    (object) => isKnight(object) && object.setAnimationClip(new SlashKnightAnimation(1)),
+  );
+});
+
+const obj2DanceClipBtn = document.getElementById("animate-obj2-3") as HTMLElement;
+obj2DanceClipBtn.addEventListener("click", () => {
+  sliderUsage(false);
+  scene.objects.forEach(
+    (object) => isKnight(object) && object.setAnimationClip(new DanceKnightAnimation(1)),
+  );
+});
+
+const obj2ResetClipBtn = document.getElementById("animate-reset-obj2") as HTMLElement;
+obj2ResetClipBtn.addEventListener("click", () => {
+  sliderUsage(true);
+  scene.objects.forEach((object) => isKnight(object) && object.setAnimationClip(null));
+});
+
+/**
+ * Knight Section End
+ */
+
+/*
+ * Camera Reset
+ */
+const camResetBtn = document.getElementById("cam-reset") as HTMLElement;
+camResetBtn.addEventListener("click", () => {
+  app.resetCamera();
+});
+
+/*
+ * Start App
+ */
 app.start();
 
 /**

@@ -25,7 +25,7 @@
         <div class="card-header">Pick Articulated Object</div>
         <div class="card-body">
           <button class="btn btn-dark" id="mirror-man">Mirror Man</button>
-          <button class="btn btn-dark" id="cow">Cow</button>
+          <button class="btn btn-dark" id="knight">Knight</button>
           <button class="btn btn-dark" id="obj3">Object 3</button>
         </div>
       </div>
@@ -39,24 +39,39 @@
             <span id="head-slider-value"></span>
           </div>
           <div class="form-group d-flex">
-            <div class="form-label mr-3">Body :</div>
-            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="body-slider" />
-            <span id="body-slider-value"></span>
+            <div class="form-label mr-3">Left Shoulder :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="ls-slider" />
+            <span id="ls-slider-value"></span>
           </div>
           <div class="form-group d-flex">
             <div class="form-label mr-3">Left Arm :</div>
-            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="la-slider" />
+            <input type="range" min="0" max="60" value="0" class="slider slider-move" id="la-slider" />
             <span id="la-slider-value"></span>
           </div>
           <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Shoulder :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="rs-slider" />
+            <span id="rs-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
             <div class="form-label mr-3">Right Arm :</div>
-            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="ra-slider" />
+            <input type="range" min="0" max="60" value="0" class="slider slider-move" id="ra-slider" />
             <span id="ra-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Left Hip :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="lh-slider" />
+            <span id="lh-slider-value"></span>
           </div>
           <div class="form-group d-flex">
             <div class="form-label mr-3">Left Leg :</div>
             <input type="range" min="0" max="45" value="0" class="slider slider-move" id="ll-slider" />
             <span id="ll-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Hip :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="rh-slider" />
+            <span id="rh-slider-value"></span>
           </div>
           <div class="form-group d-flex">
             <div class="form-label mr-3">Right Leg :</div>
@@ -71,7 +86,6 @@
         <div class="card-header">Mirror Man Animation</div>
         <div class="card-body">
           <button class="btn btn-dark" id="animate-obj1-1">Head</button>
-          <button class="btn btn-dark" id="animate-obj1-2">Body</button>
           <button class="btn btn-dark" id="animate-obj1-3">Walk</button>
           <button class="btn btn-dark" id="animate-obj1-4">Jump</button>
           <button class="btn btn-dark" id="animate-reset-obj1">Reset</button>
@@ -80,51 +94,121 @@
 
 
       <div class="card" id="obj2-section">
-        <div class="card-header">Cow Movement</div>
+        <div class="card-header">
+          <a data-toggle="collapse" href="#obj2-section>.card-body">Knight Movement</a>
+        </div>
         <div class="card-body">
           <div class="form-group d-flex">
             <div class="form-label mr-3">Head :</div>
-            <input type="range" min="-30" max="30" value="0" class="slider slider-move" id="cow-head-slider" />
-            <span id="cow-head-slider-value"></span>
+            <input type="range" min="-60" max="60" value="0" class="slider slider-move" id="k-head-slider" />
+            <span id="k-head-slider-value"></span>
           </div>
           <div class="form-group d-flex">
-            <div class="form-label mr-3">Body :</div>
-            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="cow-body-slider" />
-            <span id="cow-body-slider-value"></span>
+            <div class="form-label mr-3">Chest :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="k-chest-slider" />
+            <span id="k-chest-slider-value"></span>
           </div>
           <div class="form-group d-flex">
-            <div class="form-label mr-3">Left Front Leg :</div>
-            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="lfl-slider" />
-            <span id="lfl-slider-value"></span>
+            <div class="form-label mr-3">Hip :</div>
+            <input type="range" min="-180" max="180" value="0" class="slider slider-move" id="k-hip-slider" />
+            <span id="k-hip-slider-value"></span>
           </div>
           <div class="form-group d-flex">
-            <div class="form-label mr-3">Right Front Leg :</div>
-            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="rfl-slider" />
-            <span id="rfl-slider-value"></span>
+            <div class="form-label mr-3">Left Upper Arm X :</div>
+            <input type="range" min="-180" max="90" value="0" class="slider slider-move" id="k-lua-x-slider" />
+            <span id="k-lua-x-slider-value"></span>
           </div>
           <div class="form-group d-flex">
-            <div class="form-label mr-3">Left Back Leg :</div>
-            <input type="range" min="0" max="45" value="0" class="slider slider-move" id="lbl-slider" />
-            <span id="lbl-slider-value"></span>
+            <div class="form-label mr-3">Left Upper Arm Y :</div>
+            <input type="range" min="-90" max="25" value="0" class="slider slider-move" id="k-lua-y-slider" />
+            <span id="k-lua-y-slider-value"></span>
           </div>
           <div class="form-group d-flex">
-            <div class="form-label mr-3">Right Back Leg :</div>
-            <input type="range" min="0" max="45" value="0" class="slider slider-move" id="rbl-slider" />
-            <span id="rbl-slider-value"></span>
+            <div class="form-label mr-3">Left Upper Arm Z :</div>
+            <input type="range" min="-30" max="120" value="0" class="slider slider-move" id="k-lua-z-slider" />
+            <span id="k-lua-z-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Bend Left Lower Arm :</div>
+            <input type="range" min="-135" max="0" value="0" class="slider slider-move" id="k-bend-lla-slider" />
+            <span id="k-bend-lla-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Twist Left Lower Arm :</div>
+            <input type="range" min="-45" max="135" value="0" class="slider slider-move" id="k-twist-lla-slider" />
+            <span id="k-twist-lla-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Upper Arm X :</div>
+            <input type="range" min="-180" max="90" value="0" class="slider slider-move" id="k-rua-x-slider" />
+            <span id="k-rua-x-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Upper Arm Y :</div>
+            <input type="range" min="-90" max="25" value="0" class="slider slider-move" id="k-rua-y-slider" />
+            <span id="k-rua-y-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Upper Arm Z :</div>
+            <input type="range" min="-120" max="30" value="0" class="slider slider-move" id="k-rua-z-slider" />
+            <span id="k-rua-z-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Bend Right Lower Arm :</div>
+            <input type="range" min="-135" max="0" value="0" class="slider slider-move" id="k-bend-rla-slider" />
+            <span id="k-bend-rla-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Twist Right Lower Arm :</div>
+            <input type="range" min="-135" max="45" value="0" class="slider slider-move" id="k-twist-rla-slider" />
+            <span id="k-twist-rla-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Left Upper Leg X :</div>
+            <input type="range" min="-80" max="30" value="-8" class="slider slider-move" id="k-lul-x-slider" />
+            <span id="k-lul-x-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Left Upper Leg Z :</div>
+            <input type="range" min="-30" max="30" value="0" class="slider slider-move" id="k-lul-z-slider" />
+            <span id="k-lul-z-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Bend Left Lower Leg :</div>
+            <input type="range" min="0" max="125" value="16" class="slider slider-move" id="k-bend-lll-slider" />
+            <span id="k-bend-lll-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Upper Leg X :</div>
+            <input type="range" min="-80" max="30" value="-8" class="slider slider-move" id="k-rul-x-slider" />
+            <span id="k-rul-x-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Upper Leg Z :</div>
+            <input type="range" min="-30" max="30" value="0" class="slider slider-move" id="k-rul-z-slider" />
+            <span id="k-rul-z-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Bend Right Lower Leg :</div>
+            <input type="range" min="0" max="125" value="16" class="slider slider-move" id="k-bend-rll-slider" />
+            <span id="k-bend-rll-slider-value"></span>
           </div>
           <button class="btn btn-dark" id="reset-obj2">Reset</button>
         </div>
       </div>
 
       <div class="card" id="anim-obj2-section">
-        <div class="card-header">Mirror Man Animation</div>
+        <div class="card-header">
+          <a data-toggle="collapse" href="#anim-obj2-section>.card-body">Knight Animation</a>
+        </div>
         <div class="card-body">
-          <button class="btn btn-dark" id="animate-obj2-1">Head</button>
-          <button class="btn btn-dark" id="animate-obj2-2">Body</button>
-          <button class="btn btn-dark" id="animate-obj2-3">Walk</button>
+          <button class="btn btn-dark" id="animate-obj2-1">On Guard</button>
+          <button class="btn btn-dark" id="animate-obj2-2">Slash</button>
+          <button class="btn btn-dark" id="animate-obj2-3">Dance</button>
           <button class="btn btn-dark" id="animate-reset-obj2">Reset</button>
         </div>
       </div>
+
 
       <div class="card" id="obj3-section">
         <div class="card-header">Object 3 Movement</div>
@@ -138,7 +222,7 @@
         <div class="card-body">
           <div class="form-group d-flex">
             <div class="form-label mr-3">radius :</div>
-            <input type="range" min="0" max="10" value="0" step="0.1" class="slider" id="cam-radius" />
+            <input type="range" min="0" max="10" value="1" step="0.1" class="slider" id="cam-radius" />
             <span id="cam-radius-value"></span>
           </div>
           <div class="form-group d-flex">
