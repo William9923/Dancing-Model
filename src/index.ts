@@ -3,7 +3,6 @@ import Scene from "./scene";
 import MirrorMan, {isMirrorMan} from "./object/cubeman";
 import {
   HeadMirrorManAnimation,
-  BodyMirrorManAnimation,
   WalkMirrorManAnimation,
   JumpMirrorManAnimation,
 } from "./object/cubeman/animation";
@@ -95,7 +94,6 @@ obj1ResetBtn.addEventListener("click", () => {
 
   // Build mirror man
   scene.add(MirrorMan.build());
-
 });
 
 /**
@@ -215,187 +213,60 @@ app.start();
  * Setup Save/Load Action Button
  */
 
- let file: File | null = null;
- const fileInput = document.getElementById("file") as HTMLInputElement;
- fileInput.onchange = () => {
-   file = fileInput.files?.item(0) ?? null;
- };
+let file: File | null = null;
+const fileInput = document.getElementById("file") as HTMLInputElement;
+fileInput.onchange = () => {
+  file = fileInput.files?.item(0) ?? null;
+};
 
- // Save Load Module
-// const loadApp = (savedModel: SavedModel) => {
-//   try {
-//     let appObject: IAppObject;
-//     switch (savedModel.type) {
-//       case "cube-hollow":
-//         appObject = new CubeHollow(canvas, gl, savedModel.data);
-//         break;
-//       case "prism-hollow":
-//         appObject = new PrismHollow(canvas, gl, savedModel.data);
-//         break;
-//     }
-//     app.setShape(appObject);
-//     reset();
-//   } catch (error) {
-//     alert(error);
-//   }
-// };
+const loadButton = document.getElementById("load") as HTMLButtonElement;
+loadButton.onclick = () => {
+  if (!file) {
+    alert("Belum ada file yang dipilih");
+    return;
+  }
+  const reader = new FileReader();
+  reader.addEventListener("load", (event) => {
+    const result = event.target?.result;
+    if (typeof result === "string") {
+      const [type, ] = result.split("\n");
+      switch (type) {
+        case "Knight":
+          knightBtn.click();
+          scene.add(Knight.build().load(result), true);
+          break;
+        case "MirrorMan" :
+          mirrorBtn.click();
+          scene.add(MirrorMan.build().load(result), true)
+          break;
+        default:
+          alert("Invalid save file");
+      }
+    }
+  });
+  reader.readAsText(file);
+};
 
+function download(filename: string, content: string) {
+  var element = document.createElement("a");
+  element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
+  element.setAttribute("download", filename);
 
- const loadButton = document.getElementById("load") as HTMLButtonElement;
- loadButton.onclick = () => {
-   if (!file) {
-     alert("Belum ada file yang dipilih");
-     return;
-   }
-   const reader = new FileReader();
-   reader.addEventListener("load", (event) => {
-     const result = event.target?.result;
-     if (typeof result === "string") {
-       const [type, body] = result.split("\n");
-       if (type == "Knight") {
-         knightBtn.click();
-         scene.add(Knight.build().load(result), true);
-       } else {
-         alert("Invalid save file");
-       }
-     }
-   });
-   reader.readAsText(file);
- };
+  element.style.display = "none";
+  document.body.appendChild(element);
 
- function download(filename: string, content: string) {
-   var element = document.createElement("a");
-   element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
-   element.setAttribute("download", filename);
+  element.click();
 
-   element.style.display = "none";
-   document.body.appendChild(element);
+  document.body.removeChild(element);
+}
 
-   element.click();
-
-   document.body.removeChild(element);
- }
-
- const saveButton = document.getElementById("save") as HTMLButtonElement;
- saveButton.onclick = () => {
-   const data = scene.objects[0].save();
-   if (data) {
-     download("articulate-model.json", data);
-   } else {
-     alert("No shape found.");
-   }
- };
-
-
-/**
- * Archive Old Application
- */
-
-// Pick hollow object buttons event handler
-// const prismBtn = document.getElementById("prism") as HTMLElement;
-// prismBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("prism"));
-// });
-
-// const cubeBtn = document.getElementById("cube") as HTMLElement;
-// cubeBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("cube"));
-// });
-
-// const blockBtn = document.getElementById("block") as HTMLElement;
-// blockBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("block"));
-// });
-
-// Perspective buttons event handler
-// const orthographicBtn = document.getElementById("orthographic") as HTMLElement;
-// orthographicBtn.addEventListener("click", () => {
-//   app.setSceneProjection("orthographic");
-// });
-
-// const obliqueBtn = document.getElementById("oblique") as HTMLElement;
-// obliqueBtn.addEventListener("click", () => {
-//   app.setSceneProjection("oblique");
-// });
-
-// const perspectiveBtn = document.getElementById("perspective") as HTMLElement;
-// perspectiveBtn.addEventListener("click", () => {
-//   app.setSceneProjection("perspective");
-// });
-
-// // function for debugging block / cube as well
-// function initShape(shapeName: ShapeType): Shape {
-//   let obj: Shape;
-//   switch (shapeName) {
-//     case "prism":
-//       obj = new TriangularPrism(canvas);
-//       break;
-//   }
-//   const shadingElmt = document.getElementById("shading") as HTMLInputElement;
-//   obj.setUseShading(shadingElmt.checked);
-//   return obj;
-// }
-//
-// // Init default shapes
-// // change this to prism later
-// const defaultObj = initShape("prism");
-//
-// // Init app
-// const app = new App();
-// app.setShape(defaultObj);
-//
-// // Pick hollow object buttons event handler
-// const prismBtn = document.getElementById("prism") as HTMLElement;
-// prismBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("prism"));
-// });
-//
-// const cubeBtn = document.getElementById("cube") as HTMLElement;
-// cubeBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("cube"));
-// });
-//
-// const blockBtn = document.getElementById("block") as HTMLElement;
-// blockBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("block"));
-// });
-//
-// // Perspective buttons event handler
-// const orthographicBtn = document.getElementById("orthographic") as HTMLElement;
-// orthographicBtn.addEventListener("click", () => {
-//   app.setShapeProjection("orthographic");
-// });
-//
-// const obliqueBtn = document.getElementById("oblique") as HTMLElement;
-// obliqueBtn.addEventListener("click", () => {
-//   app.setShapeProjection("oblique");
-// });
-//
-// const perspectiveBtn = document.getElementById("perspective") as HTMLElement;
-// perspectiveBtn.addEventListener("click", () => {
-//   app.setShapeProjection("perspective");
-// });
-//
-// // Reset button event handler
-// const resetBtn = document.getElementById("reset") as HTMLElement;
-// resetBtn.addEventListener("click", () => {
-//   app.resetShape();
-// });
-//
-// const camResetBtn = document.getElementById("cam-reset") as HTMLElement;
-// camResetBtn.addEventListener("click", () => {
-//   app.resetCamera();
-// });
-//
-// const shadingToggle = document.getElementById("shading") as HTMLInputElement;
-// shadingToggle.addEventListener("change", () => {
-//   app.toggleShading(shadingToggle.checked);
-// });
-// // Start app
-// app.start();
+const saveButton = document.getElementById("save") as HTMLButtonElement;
+saveButton.onclick = () => {
+  const obj = scene.objects[0];
+  const data = obj.save();
+  if (data) {
+    download(`articulate-model-${obj.constructor.name}.json`, data);
+  } else {
+    alert("No shape found.");
+  }
+};

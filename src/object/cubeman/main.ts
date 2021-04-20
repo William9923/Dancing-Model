@@ -24,6 +24,23 @@ const X = 0;
 const Y = 1;
 const Z = 2;
 
+class MirrorManMovement {
+  // Main Body Parts
+  public head: number;
+  // Leg Parts
+  public ll: number;
+  public rl: number;
+  // Arm Parts
+  public la: number;
+  public ra: number;
+  // Shoulder Parts
+  public rs: number;
+  public ls: number;
+  // Hip Parts
+  public lh: number;
+  public rh: number;
+}
+
 class MirrorMan extends Node {
   // Main Body Parts
   public head: Node;
@@ -211,6 +228,52 @@ class MirrorMan extends Node {
     this._setTextureCallback!("environment");
     super.traverse();
     this._setTextureCallback!("none");
+  }
+
+  // override
+  public saveMovement(): MirrorManMovement {
+    const mmm = new MirrorManMovement();
+
+    mmm.head = this.head.getTransformation("rotate")[Y];
+    mmm.la = this.la.getTransformation("rotate")[X];
+    mmm.lh = this.lh.getTransformation("rotate")[X];
+    mmm.ll = this.ll.getTransformation("rotate")[X];
+    mmm.ls = this.ls.getTransformation("rotate")[X];
+    mmm.ra = this.ra.getTransformation("rotate")[X];
+    mmm.rh = this.rh.getTransformation("rotate")[X];
+    mmm.rl = this.rl.getTransformation("rotate")[X];
+    mmm.rs = this.rs.getTransformation("rotate")[X];
+
+    return mmm;
+  }
+
+  public loadMovement(mmm: MirrorManMovement) {
+    this.moveHead(mmm.head);
+
+    this.moveLeftArm(mmm.la);
+    this.moveLeftHips(mmm.lh);
+    this.moveLeftLeg(mmm.ll);
+    this.moveLeftShoulder(mmm.ls);
+
+    this.moveRightArm(mmm.ra);
+    this.moveRightHips(mmm.rh);
+    this.moveRightLeg(mmm.rl);
+    this.moveRightShoulder(mmm.rs);
+  }
+
+  public load(data: string) {
+    const [type, body] = data.split("\n");
+    if (type != "MirrorMan") {
+      throw "Failed to load mirror man";
+    }
+    this.loadMovement(JSON.parse(body));
+    return this;
+  }
+
+  public save() {
+    let data = "MirrorMan\n";
+    data += JSON.stringify(this.saveMovement());
+    return data;
   }
 }
 
