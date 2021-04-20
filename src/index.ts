@@ -125,7 +125,7 @@ const obj1WalkClipBtn = document.getElementById("animate-obj1-3") as HTMLElement
 obj1WalkClipBtn.addEventListener("click", () => {
   sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new WalkMirrorManAnimation(7)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new WalkMirrorManAnimation(5)),
   );
 });
 

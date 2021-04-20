@@ -1,6 +1,10 @@
 import MirrorMan from "../main";
 import IMirrorManAnimation from "./animation";
 
+const X = 0;
+const Y = 1;
+const Z = 2;
+
 class WalkMirrorManAnimation implements IMirrorManAnimation {
   private _walkingSpeed: number;
   private _headSpeed: number;
@@ -29,43 +33,33 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
     this.validateAndReset(obj);
 
     // Get data
-    const leftLegRotation = obj.ll.getTransformation("rotate");
-    const rightLegRotation = obj.rl.getTransformation("rotate");
+    const leftLegRotation = obj.ll.getTransformation("rotate")[X];
+    const rightLegRotation = obj.rl.getTransformation("rotate")[X];
 
-    const [x_leg_left, y_leg_left, z_leg_left] = leftLegRotation;
-    const [x_leg_right, y_leg_right, z_leg_right] = rightLegRotation;
+    const leftHipRotation = obj.lh.getTransformation("rotate")[X];
+    const rightHipRotation = obj.rh.getTransformation("rotate")[X];
 
-    const leftHipRotation = obj.lh.getTransformation("rotate");
-    const rightHipRotation = obj.rh.getTransformation("rotate");
+    const leftShoulderRotation = obj.ls.getTransformation("rotate")[X];
+    const rightShoulderRotation = obj.rs.getTransformation("rotate")[X];
 
-    const [x_left_hip, y_left_hip, z_left_hip] = leftHipRotation;
-    const [x_right_hip, y_right_hip, z_right_hip] = rightHipRotation;
-
-    const leftShoulderRotation = obj.ls.getTransformation("rotate");
-    const rightShoulderRotation = obj.rs.getTransformation("rotate");
-
-    const [x_left_shoulder, y_left_shoulder, z_left_shoulder] = leftShoulderRotation;
-    const [x_right_shoulder, y_right_shoulder, z_right_shoulder] = rightShoulderRotation;
-
-    const headRotation = obj.head.getTransformation("rotate");
-    const [x_head, y_head, z_head] = headRotation;
+    const headRotation = obj.head.getTransformation("rotate")[Y];
 
     // Check direction
-    this.updateDirection(x_left_hip, delta);
+    this.updateDirection(obj, leftHipRotation, delta);
 
     const direction = this._reverse ? -1 : 1;
 
     // Calculate new angle
-    const newAngleLeft = x_leg_left + this._walkingSpeed * delta * direction;
-    const newAngleRight = x_leg_right + this._walkingSpeed * delta * direction * -1;
+    const newAngleLeft = leftLegRotation + this._walkingSpeed * delta * direction;
+    const newAngleRight = rightLegRotation + this._walkingSpeed * delta * direction * -1;
 
-    const newHipAngleLeft = x_left_hip + this._walkingSpeed * delta * direction;
-    const newHipAngleRight = x_right_hip + this._walkingSpeed * delta * direction * -1;
+    const newHipAngleLeft = leftHipRotation + this._walkingSpeed * delta * direction;
+    const newHipAngleRight = rightHipRotation + this._walkingSpeed * delta * direction * -1;
 
-    const newShoulderAngleLeft = x_left_shoulder + this._handSpeed * delta * direction;
-    const newShoulderAngleRigth = x_right_shoulder + this._handSpeed * delta * direction * -1;
+    const newShoulderAngleLeft = leftShoulderRotation + this._handSpeed * delta * direction;
+    const newShoulderAngleRigth = rightShoulderRotation + this._handSpeed * delta * direction * -1;
 
-    const newHeadAngle = y_head + this._headSpeed * delta * direction;
+    const newHeadAngle = headRotation + this._headSpeed * delta * direction;
 
     // Apply new angle
     obj.moveLeftShoulder(newShoulderAngleLeft);
@@ -80,10 +74,12 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
     obj.moveHead(newHeadAngle);
   }
 
-  private updateDirection(footAngle: number, delta: number) {
-    if (footAngle >= 30 && delta != this._lastCheck) {
+  private updateDirection(obj: MirrorMan, footAngle: number, delta: number) {
+    if (footAngle > 30 && delta != this._lastCheck && !this._reverse) {
+      this.resetDirection(obj, this._reverse);
       this._reverse = true;
-    } else if (footAngle <= -30 && delta != this._lastCheck) {
+    } else if (footAngle < -30 && delta != this._lastCheck && this._reverse) {
+      this.resetDirection(obj, this._reverse);
       this._reverse = false;
     }
 
@@ -98,8 +94,27 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
       obj.moveRightHips(0);
       obj.moveLeftLeg(0);
       obj.moveRightLeg(0);
-
       this._started = !this._started;
+    }
+  }
+
+  private resetDirection(obj: MirrorMan, reversed: boolean) {
+    if (reversed) {
+      obj.moveLeftShoulder(-22.5);
+      obj.moveRightShoulder(-22.5);
+      obj.moveLeftHips(-30);
+      obj.moveRightHips(-30);
+      obj.moveLeftLeg(0);
+      obj.moveRightLeg(0);
+      obj.moveHead(-6);
+    } else {
+      obj.moveLeftShoulder(22.5);
+      obj.moveRightShoulder(22.5);
+      obj.moveLeftHips(30);
+      obj.moveRightHips(30);
+      obj.moveLeftLeg(0);
+      obj.moveRightLeg(0);
+      obj.moveHead(6);
     }
   }
 }

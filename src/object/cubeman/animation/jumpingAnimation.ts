@@ -1,6 +1,10 @@
 import MirrorMan from "../main";
 import IMirrorManAnimation from "./animation";
 
+const X = 0;
+const Y = 1;
+const Z = 2;
+
 class JumpMirrorManAnimation implements IMirrorManAnimation {
   private _jumpSpeed: number;
   private _handSpeed: number;
@@ -22,7 +26,7 @@ class JumpMirrorManAnimation implements IMirrorManAnimation {
   public set speed(speed: number) {
     this._legSpeed = speed;
     this._handSpeed = speed * 2;
-    this._jumpSpeed = speed * 0.5;
+    this._jumpSpeed = speed * 0.125;
   }
 
   public doAnimation(delta: number, obj: MirrorMan) {
@@ -30,41 +34,33 @@ class JumpMirrorManAnimation implements IMirrorManAnimation {
     this.validateAndReset(obj);
 
     // Get data
-    const leftLegRotation = obj.ll.getTransformation("rotate");
-    const rightLegRotation = obj.rl.getTransformation("rotate");
+    const leftLegRotation = obj.ll.getTransformation("rotate")[X];
+    const rightLegRotation = obj.rl.getTransformation("rotate")[X];
 
-    const [x_leg_left, y_leg_left, z_leg_left] = leftLegRotation;
-    const [x_leg_right, y_leg_right, z_leg_right] = rightLegRotation;
+    const leftHipRotation = obj.lh.getTransformation("rotate")[X];
+    const rightHipRotation = obj.rh.getTransformation("rotate")[X];
 
-    const leftHipRotation = obj.lh.getTransformation("rotate");
-    const rightHipRotation = obj.rh.getTransformation("rotate");
+    const leftArmRotation = obj.la.getTransformation("rotate")[X];
+    const rightArmRotation = obj.ra.getTransformation("rotate")[X];
 
-    const [x_left_hip, y_left_hip, z_left_hip] = leftHipRotation;
-    const [x_right_hip, y_right_hip, z_right_hip] = rightHipRotation;
-
-    const leftArmRotation = obj.la.getTransformation("rotate");
-    const rightArmRotation = obj.ra.getTransformation("rotate");
-
-    const [x_arm_left, y_arm_left, z_arm_left] = leftArmRotation;
-    const [x_arm_right, y_arm_right, z_arm_right] = rightArmRotation;
-
-    const [x, y, z] = obj.getTransformation("translate");
+    const bodyTranslation = obj.getTransformation("translate")[Y];
 
     // Check direction
-    this.updateDirection(x_arm_left, delta);
+    this.updateDirection(obj, leftArmRotation, delta);
 
     const direction = this._reverse ? -1 : 1;
 
     // Calculate new angle
-    const newLegAngleLeft = x_leg_left + this._legSpeed * delta * direction ;
-    const newLegAngleRight = x_leg_right + this._legSpeed * delta * direction ;
+    const newLegAngleLeft = leftLegRotation + this._legSpeed * delta * direction;
+    const newLegAngleRight = rightLegRotation + this._legSpeed * delta * direction;
 
-    const newHipAngleLeft = x_left_hip + this._legSpeed * delta * direction;
-    const newHipAngleRight = x_right_hip + this._legSpeed * delta * direction;
+    const newHipAngleLeft = leftHipRotation + this._legSpeed * delta * direction;
+    const newHipAngleRight = rightHipRotation + this._legSpeed * delta * direction;
 
-    const newArmAngleLeft = x_arm_left + this._handSpeed * delta * direction;
-    const newArmAngleRight = x_arm_right + this._handSpeed * delta * direction;
+    const newArmAngleLeft = leftArmRotation + this._handSpeed * delta * direction;
+    const newArmAngleRight = rightArmRotation + this._handSpeed * delta * direction;
 
+    const newBodyTranslation = bodyTranslation + this._jumpSpeed * delta * direction;
 
     // Apply new angle & translation
 
@@ -76,13 +72,16 @@ class JumpMirrorManAnimation implements IMirrorManAnimation {
 
     obj.moveLeftArm(newArmAngleLeft);
     obj.moveRightArm(newArmAngleRight);
-    obj.chest.setTransformation("translate", [x, y + this._jumpSpeed * delta * direction, z]);
+
+    obj.moveBodyUpDown(newBodyTranslation);
   }
 
-  private updateDirection(handAngle: number, delta: number) {
-    if (handAngle >= 0 && delta != this._lastCheck) {
+  private updateDirection(obj: MirrorMan, handAngle: number, delta: number) {
+    if (handAngle > 0 && delta != this._lastCheck && !this._reverse) {
+      this.resetDirection(obj, this._reverse);
       this._reverse = true;
-    } else if (handAngle <= -60 && delta != this._lastCheck) {
+    } else if (handAngle < -60 && delta != this._lastCheck && this._reverse) {
+      this.resetDirection(obj, this._reverse);
       this._reverse = false;
     }
 
@@ -100,6 +99,24 @@ class JumpMirrorManAnimation implements IMirrorManAnimation {
       obj.moveLeftLeg(0);
       obj.moveRightLeg(0);
       this._started = !this._started;
+    }
+  }
+
+  private resetDirection(obj: MirrorMan, reversed: boolean) {
+    if (reversed) {
+      obj.moveLeftArm(0);
+      obj.moveRightArm(0);
+      obj.moveLeftHips(30);
+      obj.moveRightHips(30);
+      obj.moveLeftLeg(30);
+      obj.moveRightLeg(30);
+    } else {
+      obj.moveLeftArm(-60);
+      obj.moveRightArm(-60);
+      obj.moveLeftHips(0);
+      obj.moveRightHips(0);
+      obj.moveLeftLeg(0);
+      obj.moveRightLeg(0);
     }
   }
 }
