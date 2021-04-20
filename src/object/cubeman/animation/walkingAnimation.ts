@@ -14,6 +14,8 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
   private _started: boolean;
   private _lastCheck: number;
 
+  private _count: number;
+
   constructor(speed: number) {
     this._walkingSpeed = speed;
     this._headSpeed = speed * 0.2;
@@ -57,13 +59,13 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
     const newHipAngleRight = rightHipRotation + this._walkingSpeed * delta * direction * -1;
 
     const newShoulderAngleLeft = leftShoulderRotation + this._handSpeed * delta * direction;
-    const newShoulderAngleRigth = rightShoulderRotation + this._handSpeed * delta * direction * -1;
+    const newShoulderAngleRight = rightShoulderRotation + this._handSpeed * delta * direction * -1;
 
     const newHeadAngle = headRotation + this._headSpeed * delta * direction;
 
     // Apply new angle
     obj.moveLeftShoulder(newShoulderAngleLeft);
-    obj.moveRightShoulder(newShoulderAngleRigth);
+    obj.moveRightShoulder(newShoulderAngleRight);
 
     obj.moveLeftHips(newHipAngleLeft);
     obj.moveRightHips(newHipAngleRight);
@@ -75,14 +77,21 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
   }
 
   private updateDirection(obj: MirrorMan, footAngle: number, delta: number) {
-    if (footAngle > 30 && delta != this._lastCheck && !this._reverse) {
-      this.resetDirection(obj, this._reverse);
-      this._reverse = true;
-    } else if (footAngle < -30 && delta != this._lastCheck && this._reverse) {
-      this.resetDirection(obj, this._reverse);
-      this._reverse = false;
-    }
 
+    if (this._count > 5) {
+      this.resetDirection(obj, this._reverse);
+      this._count=0;
+    } else {
+      if (footAngle > 30 && delta != this._lastCheck && !this._reverse) {
+        this.resetDirection(obj, this._reverse);
+        this._reverse = true;
+        this._count++;
+      } else if (footAngle < -30 && delta != this._lastCheck && this._reverse) {
+        this.resetDirection(obj, this._reverse);
+        this._reverse = false;
+        this._count++;
+      }
+    }
     this._lastCheck = delta;
   }
 
@@ -101,17 +110,17 @@ class WalkMirrorManAnimation implements IMirrorManAnimation {
   private resetDirection(obj: MirrorMan, reversed: boolean) {
     if (reversed) {
       obj.moveLeftShoulder(-22.5);
-      obj.moveRightShoulder(-22.5);
+      obj.moveRightShoulder(22.5);
       obj.moveLeftHips(-30);
-      obj.moveRightHips(-30);
+      obj.moveRightHips(30);
       obj.moveLeftLeg(0);
       obj.moveRightLeg(0);
       obj.moveHead(-6);
     } else {
       obj.moveLeftShoulder(22.5);
-      obj.moveRightShoulder(22.5);
+      obj.moveRightShoulder(-22.5);
       obj.moveLeftHips(30);
-      obj.moveRightHips(30);
+      obj.moveRightHips(-30);
       obj.moveLeftLeg(0);
       obj.moveRightLeg(0);
       obj.moveHead(6);
