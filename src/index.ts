@@ -212,6 +212,80 @@ camResetBtn.addEventListener("click", () => {
 app.start();
 
 /**
+ * Setup Save/Load Action Button
+ */
+
+ let file: File | null = null;
+ const fileInput = document.getElementById("file") as HTMLInputElement;
+ fileInput.onchange = () => {
+   file = fileInput.files?.item(0) ?? null;
+ };
+
+ // Save Load Module
+// const loadApp = (savedModel: SavedModel) => {
+//   try {
+//     let appObject: IAppObject;
+//     switch (savedModel.type) {
+//       case "cube-hollow":
+//         appObject = new CubeHollow(canvas, gl, savedModel.data);
+//         break;
+//       case "prism-hollow":
+//         appObject = new PrismHollow(canvas, gl, savedModel.data);
+//         break;
+//     }
+//     app.setShape(appObject);
+//     reset();
+//   } catch (error) {
+//     alert(error);
+//   }
+// };
+
+
+ const loadButton = document.getElementById("load") as HTMLButtonElement;
+ loadButton.onclick = () => {
+   if (!file) {
+     alert("Belum ada file yang dipilih");
+     return;
+   }
+   const reader = new FileReader();
+   reader.addEventListener("load", (event) => {
+     const result = event.target?.result;
+     if (typeof result === "string") {
+       console.log(JSON.parse(result))
+      //  loadApp(JSON.parse(result));
+     }
+   });
+   reader.readAsText(file);
+ };
+ 
+ function download(filename: string, content: string) {
+   var element = document.createElement("a");
+   element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
+   element.setAttribute("download", filename);
+ 
+   element.style.display = "none";
+   document.body.appendChild(element);
+ 
+   element.click();
+ 
+   document.body.removeChild(element);
+ }
+ 
+ const saveButton = document.getElementById("save") as HTMLButtonElement;
+ saveButton.onclick = () => {
+  //  const data = app.getShape()?.getDataInstance();
+   const data = {
+    type : "Model",
+   }
+   if (data) {
+     download("articulate-model.json", JSON.stringify(data));
+   } else {
+     alert("No shape found.");
+   }
+ };
+ 
+
+/**
  * Archive Old Application
  */
 
