@@ -40,6 +40,7 @@ const obj3Section = document.getElementById("obj3-section") as HTMLElement;
 
 const animObj1Section = document.getElementById("anim-obj1-section") as HTMLElement;
 const animObj2Section = document.getElementById("anim-obj2-section") as HTMLElement;
+const animObj3Section = document.getElementById("anim-obj3-section") as HTMLElement;
 
 // Default : Hide all
 const resetDisplay = () => {
@@ -49,6 +50,7 @@ const resetDisplay = () => {
 
   animObj1Section.style.display = "none";
   animObj2Section.style.display = "none";
+  animObj3Section.style.display = "none";
 };
 resetDisplay();
 
@@ -80,6 +82,7 @@ const cowBtn = document.getElementById("cow") as HTMLElement;
 cowBtn.addEventListener("click", () => {
   resetDisplay();
   obj3Section.style.display = "block";
+  animObj3Section.style.display = "block";
   // TODO : Build your model here
 
   scene.add(Cow.build(), true);

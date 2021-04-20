@@ -180,10 +180,24 @@ class App {
     //  * Cow Event Listener
     // */
 
-    // // Head
-    // SliderManager.assignInputEvent("cow-head-slider", (val: number) => {
-    //   this.scene?.objects.forEach((object) => isCow(object) && object.moveHead(val));
-    // });
+    SliderManager.assignInputEvent("cow-head-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveHead(val));
+    });
+    SliderManager.assignInputEvent("cow-body-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveBody(val));
+    });
+    SliderManager.assignInputEvent("cow-lfl-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveLeftFrontLeg(val));
+    });
+    SliderManager.assignInputEvent("cow-rfl-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveRightFrontLeg(val));
+    });
+    SliderManager.assignInputEvent("cow-lbl-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveLeftBackLeg(val));
+    });
+    SliderManager.assignInputEvent("cow-rbl-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveRightBackLeg(val));
+    });
   }
 
   public setScene(scene: Scene) {

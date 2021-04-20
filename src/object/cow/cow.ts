@@ -5,6 +5,10 @@ import SliderManager from "../../SliderManager";
 import { Body, Head, LeftBackLeg, LeftFrontLeg, RightBackLeg, RightFrontLeg} from "./parts";
 // import {IMirrorManAnimation} from "./animation";
 
+const X = 0;
+const Y = 1;
+const Z = 2;
+
 class Cow extends Node {
   // Main Body Parts
   public head: Node;
@@ -74,33 +78,31 @@ class Cow extends Node {
   // Range : -45, 45
   public moveLeftFrontLeg(angle: number) {
     const rotatePoint = this.lfl.getTransformation("rotate");
-    const [x, y, _] = rotatePoint;
-    this.lfl.setTransformation("rotate", [x, y, angle]);
+    const [_, y, z] = rotatePoint;
+    this.lfl.setTransformation("rotate", [angle, y, z]);
   }
 
   // Range : -45, 45
   public moveRightFrontLeg(angle: number) {
     const rotatePoint = this.rfl.getTransformation("rotate");
-    const [x, y, _] = rotatePoint;
-    this.rfl.setTransformation("rotate", [x, y, angle]);
+    const [_, y, z] = rotatePoint;
+    this.rfl.setTransformation("rotate", [angle, y, z]);
   }
 
   public moveLeftBackLeg(angle: number) {
     const rotatePoint = this.lbl.getTransformation("rotate");
-    const [x, y, _] = rotatePoint;
-    this.lbl.setTransformation("rotate", [x, y, angle]);
+    const [_, y, z] = rotatePoint;
+    this.lbl.setTransformation("rotate", [angle, y, z]);
   }
 
   public moveRightBackLeg(angle: number) {
     const rotatePoint = this.rbl.getTransformation("rotate");
-    const [x, y, _] = rotatePoint;
-    this.rbl.setTransformation("rotate", [x, y, angle]);
+    const [_, y, z] = rotatePoint;
+    this.rbl.setTransformation("rotate", [angle, y, z]);
   }
 
   public moveHead(angle: number) {
-    const rotatePoint = this.head.getTransformation("rotate");
-    const [x, _, z] = rotatePoint;
-    this.head.setTransformation("rotate", [x, angle, z]);
+    this.getAndSetRotation(this.head, X, angle);
   }
 
   public moveBody(angle: number) {
@@ -109,8 +111,20 @@ class Cow extends Node {
     this.body.setTransformation("rotate", [x, angle, z]);
   }
 
+  private getAndSetRotation(part: Node, index: number, angle: number) {
+    let rotatePoint = part.getTransformation("rotate");
+    rotatePoint[index] = angle;
+    part.setTransformation("rotate", rotatePoint, true);
+  }
+
+  private getAndSetTranslation(part: Node, index: number, value: number) {
+    let translatePoint = part.getTransformation("translate");
+    translatePoint[index] = value;
+    part.setTransformation("translate", translatePoint, true);
+  }
+
   public reset() {
-    SliderManager.resetMMSliderValue();
+    SliderManager.resetCowSliderValue();
   }
 
   // override

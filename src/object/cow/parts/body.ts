@@ -6,9 +6,17 @@ import { buildCubePoints } from "../../utils/cubePoints";
 class Body extends Node {
   constructor() {
     super();
+
+    this.setInstanceMatrix(
+      mat4.mMult(
+        mat4.scale(0.3, 0.3, 0.6),
+        mat4.translation(0, 0, 0)
+      )
+    );
+
+    this.centralPoint = [0.3, -0.25, 0.15];
+
     this.setupPoints();
-    this.setTransformation("translate", [0, 0, 0]);
-    this.setTransformation("scale", [0.3, 0.3, 0.6]);
   }
 
   public setupPoints() {
@@ -20,7 +28,7 @@ class Body extends Node {
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(baseTransformMatrix);
+    this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     // render each rectangle separately
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {

@@ -6,9 +6,17 @@ import { buildCubePoints } from "../../utils/cubePoints";
 class RightBackLeg extends Node {
   constructor() {
     super();
+
+    this.setInstanceMatrix(
+      mat4.mMult(
+        mat4.scale(0.12, 0.4, 0.12),
+        mat4.translation(-0.08, -0.2, -0.14)
+      )
+    );
+
+    this.centralPoint = [-0.08, -0.2, -0.14];
+
     this.setupPoints();
-    this.setTransformation("scale", [0.3, 0.8, 0.2]);
-    this.setTransformation("translate", [-0.1, -0.25, -0.15]);
   }
 
   public setupPoints() {
@@ -20,7 +28,7 @@ class RightBackLeg extends Node {
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
-    this._transformMatrixChangedCallback!(baseTransformMatrix);
+    this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
       this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
