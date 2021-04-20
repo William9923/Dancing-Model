@@ -204,6 +204,23 @@ obj2ResetClipBtn.addEventListener("click", () => {
  * Knight Section End
  */
 
+/**
+ * Cow Section Start
+ */
+
+const obj3ResetBtn = document.getElementById("reset-obj3") as HTMLElement;
+obj3ResetBtn.addEventListener("click", () => {
+  scene?.objects.forEach((object) => isCow(object) && object.reset());
+
+  // Build cow
+  scene.add(Cow.build(), true);
+});
+
+/**
+ * Cow Section End
+ */
+
+
 /*
  * Camera Reset
  */

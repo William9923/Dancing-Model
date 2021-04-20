@@ -193,7 +193,7 @@ class SliderManager {
 
   static resetCowSliderValue() {
     sliderIds.forEach((sliderId) => {
-      if (kSliderDefaultValues.hasOwnProperty(sliderId)) {
+      if (cowSliderDefaultValues.hasOwnProperty(sliderId)) {
         sliders[sliderId].value = String(cowSliderDefaultValues[sliderId]);
         sliders[sliderId].dispatchEvent(new Event("input"));
       }
