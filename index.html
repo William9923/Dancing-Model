@@ -26,7 +26,7 @@
         <div class="card-body">
           <button class="btn btn-dark" id="mirror-man">Mirror Man</button>
           <button class="btn btn-dark" id="knight">Knight</button>
-          <button class="btn btn-dark" id="obj3">Object 3</button>
+          <button class="btn btn-dark" id="cow">Cow</button>
         </div>
       </div>
 
@@ -211,9 +211,51 @@
 
 
       <div class="card" id="obj3-section">
-        <div class="card-header">Object 3 Movement</div>
+        <div class="card-header">
+          <a data-toggle="collapse" href="#obj3-section>.card-body">Cow Movement</a>
+        </div>
         <div class="card-body">
-          <button class="btn btn-dark" id="reset">Reset</button>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Head :</div>
+            <input type="range" min="-60" max="60" value="0" class="slider slider-move" id="cow-head-slider" />
+            <span id="cow-head-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Body :</div>
+            <input type="range" min="-45" max="45" value="0" class="slider slider-move" id="cow-body-slider" />
+            <span id="cow-body-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Left Front Leg :</div>
+            <input type="range" min="-180" max="180" value="0" class="slider slider-move" id="cow-lfl-slider" />
+            <span id="cow-lfl-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Front Leg :</div>
+            <input type="range" min="-180" max="90" value="0" class="slider slider-move" id="cow-rfl-slider" />
+            <span id="cow-rfl-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Left Back Leg :</div>
+            <input type="range" min="-90" max="25" value="0" class="slider slider-move" id="cow-lbl-slider" />
+            <span id="cow-lbl-slider-value"></span>
+          </div>
+          <div class="form-group d-flex">
+            <div class="form-label mr-3">Right Back Leg :</div>
+            <input type="range" min="-30" max="120" value="0" class="slider slider-move" id="cow-rbl-slider" />
+            <span id="cow-rbl-slider-value"></span>
+          </div>
+          <button class="btn btn-dark" id="reset-obj2">Reset</button>
+        </div>
+      </div>
+
+      <div class="card" id="anim-obj3-section">
+        <div class="card-header">
+          <a data-toggle="collapse" href="#anim-obj3-section>.card-body">Cow Animation</a>
+        </div>
+        <div class="card-body">
+          <button class="btn btn-dark" id="animate-obj3-1">Walk</button>
+          <button class="btn btn-dark" id="animate-reset-obj3">Reset</button>
         </div>
       </div>
 

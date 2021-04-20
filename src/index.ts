@@ -13,6 +13,7 @@ import {
   SlashKnightAnimation,
   DanceKnightAnimation,
 } from "./object/knight/animation";
+import Cow, {isCow} from "./object/cow";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -75,11 +76,13 @@ knightBtn.addEventListener("click", () => {
   scene.add(Knight.build(), true);
 });
 
-const obj3Btn = document.getElementById("obj3") as HTMLElement;
-obj3Btn.addEventListener("click", () => {
+const cowBtn = document.getElementById("cow") as HTMLElement;
+cowBtn.addEventListener("click", () => {
   resetDisplay();
   obj3Section.style.display = "block";
   // TODO : Build your model here
+
+  scene.add(Cow.build(), true);
 });
 
 /**

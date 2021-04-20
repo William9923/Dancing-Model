@@ -3,6 +3,7 @@ import SliderManager from "./SliderManager";
 
 import {isMirrorMan} from "./object/cubeman";
 import {isKnight} from "./object/knight";
+import {isCow} from "./object/cow";
 
 const X = 0;
 const Y = 1;
@@ -174,6 +175,15 @@ class App {
     SliderManager.assignInputEvent("k-bend-rll-slider", (val: number) => {
       this.scene?.objects.forEach((object) => isKnight(object) && object.bendRightLowerLeg(val));
     });
+
+    // /**
+    //  * Cow Event Listener
+    // */
+
+    // // Head
+    // SliderManager.assignInputEvent("cow-head-slider", (val: number) => {
+    //   this.scene?.objects.forEach((object) => isCow(object) && object.moveHead(val));
+    // });
   }
 
   public setScene(scene: Scene) {
