@@ -251,39 +251,41 @@ app.start();
    reader.addEventListener("load", (event) => {
      const result = event.target?.result;
      if (typeof result === "string") {
-       console.log(JSON.parse(result))
-      //  loadApp(JSON.parse(result));
+       const [type, body] = result.split("\n");
+       if (type == "Knight") {
+         knightBtn.click();
+         scene.add(Knight.build().load(result), true);
+       } else {
+         alert("Invalid save file");
+       }
      }
    });
    reader.readAsText(file);
  };
- 
+
  function download(filename: string, content: string) {
    var element = document.createElement("a");
    element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
    element.setAttribute("download", filename);
- 
+
    element.style.display = "none";
    document.body.appendChild(element);
- 
+
    element.click();
- 
+
    document.body.removeChild(element);
  }
- 
+
  const saveButton = document.getElementById("save") as HTMLButtonElement;
  saveButton.onclick = () => {
-  //  const data = app.getShape()?.getDataInstance();
-   const data = {
-    type : "Model",
-   }
+   const data = scene.objects[0].save();
    if (data) {
-     download("articulate-model.json", JSON.stringify(data));
+     download("articulate-model.json", data);
    } else {
      alert("No shape found.");
    }
  };
- 
+
 
 /**
  * Archive Old Application
