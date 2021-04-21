@@ -44,7 +44,7 @@ class WebGLWrapper {
     // Load the environment
     this.loadEnvMapAndCreateTexture();
 
-    // TODO: remove
+    // Load bump texture
     this.applyTexCoord();
     this.loadBumpMapAndCreateTexture();
     this.applyUseNormalMap(false);
