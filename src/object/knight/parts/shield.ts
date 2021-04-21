@@ -126,11 +126,17 @@ class Shield extends Node {
     this._transformMatrixChangedCallback!(mat4.multiply(this.instanceMatrix, baseTransformMatrix));
 
     // render each rectangle separately
-    for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
+    // front shield
+    for (let i = 0; i < 2; i++) {
       this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
     }
 
     this._useNormalMapCallback!(false);
+
+    // other parts
+    for (let i = 2; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
+      this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
+    }
   }
 }
 
