@@ -7,10 +7,6 @@ class Head extends Node {
   constructor() {
     super();
 
-    this.Kd = [0.1953125, 0.50390625, 0.65625];
-    this.Ks = [0.6171875, 0.87109375, 0.99609375];
-    this.Ka = [0.1953125, 0.50390625, 0.65625];
-
     this.setInstanceMatrix(
       mat4.mMult(
         mat4.scale(0.2, 0.2, 0.16),
@@ -29,7 +25,6 @@ class Head extends Node {
   }
 
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    this._setTextureCallback!("none");
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
@@ -39,7 +34,6 @@ class Head extends Node {
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
       this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
     }
-    this._setTextureCallback!("image");
   }
 }
 
