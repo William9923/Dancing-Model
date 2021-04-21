@@ -48,6 +48,10 @@ class WebGLWrapper {
     this.applyTexCoord();
     this.loadBumpMapAndCreateTexture();
     this.applyUseNormalMap(false);
+
+    // Load image texture
+    this.applyTexCoordImg();
+    this.loadImageMapAndCreateTexture();
   }
 
   /*
@@ -90,6 +94,7 @@ class WebGLWrapper {
       attribute vec3 position;
       attribute vec3 vertNormal;
       attribute vec2 texCoord;
+      attribute vec2 texCoordImg;
 
       uniform vec3 lightPosition;
 
@@ -106,6 +111,7 @@ class WebGLWrapper {
 
       // UV coordinate
       varying vec2 fTexCoord;
+      varying vec2 fTexCoordImg;
 
       // Env texture properties
       varying vec3 R;
@@ -130,6 +136,7 @@ class WebGLWrapper {
 
         // Pass UV coordinate
         fTexCoord = texCoord;
+        fTexCoordImg = texCoordImg;
       }
       `,
     );
@@ -159,6 +166,7 @@ class WebGLWrapper {
 
       // UV coordinate
       varying vec2 fTexCoord;
+      varying vec2 fTexCoordImg;
 
       // Texture type
       uniform int textureType;
@@ -170,6 +178,9 @@ class WebGLWrapper {
       // Bump texture variable
       uniform sampler2D bumpNormalMap;
       uniform int useNormalMap;
+
+      // Image texture variable
+      uniform sampler2D imageTexture;
 
       vec4 calculateColor(vec3 normal) {
         vec3 color;
@@ -212,6 +223,10 @@ class WebGLWrapper {
             normal = N;
           }
           gl_FragColor = calculateColor(normal);
+        }
+
+        else if (textureType == 3) {  // image
+          gl_FragColor = texture2D(imageTexture, fTexCoordImg);
         }
 
         else {  // no texture
@@ -315,6 +330,41 @@ class WebGLWrapper {
     gl.vertexAttribPointer(texCoordPos, 2, gl.FLOAT, false, 0, 0);
   }
 
+  protected applyTexCoordImg() {
+    const {gl, program} = this;
+
+    // prettier-ignore
+    const texCoordData = [
+      // quad 1
+      -1, 1,
+      -1, -1,
+      1, -1,
+      1, -1,
+      // quad 2
+      -1, 1,
+      -1, -1,
+      1, -1,
+      1, -1,
+      -1, 1,
+      -1, -1,
+      1, -1,
+      1, -1,
+      -1, 1,
+      -1, -1,
+      1, -1,
+      1, -1,
+    ];
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texCoordData), gl.STATIC_DRAW);
+
+    const texCoordPos = gl.getAttribLocation(program, "texCoordImg");
+    gl.enableVertexAttribArray(texCoordPos);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.vertexAttribPointer(texCoordPos, 2, gl.FLOAT, false, 0, 0);
+  }
+
   protected applyTexture(textureType: Texture) {
     const {gl, program} = this;
 
@@ -324,6 +374,9 @@ class WebGLWrapper {
         break;
       case "bump":
         gl.uniform1i(gl.getUniformLocation(program, "textureType"), 2);
+        break;
+      case "image":
+        gl.uniform1i(gl.getUniformLocation(program, "textureType"), 3);
         break;
       default:
         gl.uniform1i(gl.getUniformLocation(program, "textureType"), 0); // no texture
@@ -425,6 +478,31 @@ class WebGLWrapper {
 
     // Tell the shader to use texture unit 0 for u_texture
     gl.uniform1i(gl.getUniformLocation(program, "bumpNormalMap"), 1);
+  }
+
+  protected loadImageMapAndCreateTexture() {
+    const {gl, program} = this;
+
+    var texture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // Fill the texture with a 1x1 blue pixel.
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+      new Uint8Array([0, 0, 255, 255]));
+
+    // Asynchronously load an image
+    var image = new Image();
+    image.addEventListener('load', function() {
+      // Now that the image has loaded make copy it to the texture.
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      gl.generateMipmap(gl.TEXTURE_2D);
+    });
+    image.src = require('../../res/cow.png');
+
+    // Tell the shader to use texture unit 0 for u_texture
+    gl.uniform1i(gl.getUniformLocation(program, "imageTexture"), 2);
   }
 
   /*

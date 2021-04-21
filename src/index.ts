@@ -12,8 +12,10 @@ import {
   SlashKnightAnimation,
   DanceKnightAnimation,
 } from "./object/knight/animation";
+import Cow, {isCow} from "./object/cow";
 
 import {ISaveableNode} from "./object/node";
+import WalkCowAnimation from "./object/cow/animation/walkCowAnimation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -40,6 +42,7 @@ const obj3Section = document.getElementById("obj3-section") as HTMLElement;
 
 const animObj1Section = document.getElementById("anim-obj1-section") as HTMLElement;
 const animObj2Section = document.getElementById("anim-obj2-section") as HTMLElement;
+const animObj3Section = document.getElementById("anim-obj3-section") as HTMLElement;
 
 // Default : Hide all
 const resetDisplay = () => {
@@ -49,6 +52,7 @@ const resetDisplay = () => {
 
   animObj1Section.style.display = "none";
   animObj2Section.style.display = "none";
+  animObj3Section.style.display = "none";
 };
 resetDisplay();
 
@@ -76,11 +80,13 @@ knightBtn.addEventListener("click", () => {
   scene.add(Knight.build(), true);
 });
 
-const obj3Btn = document.getElementById("obj3") as HTMLElement;
-obj3Btn.addEventListener("click", () => {
+const cowBtn = document.getElementById("cow") as HTMLElement;
+cowBtn.addEventListener("click", () => {
   resetDisplay();
   obj3Section.style.display = "block";
-  // TODO : Build your model here
+  animObj3Section.style.display = "block";
+
+  scene.add(Cow.build(), true);
 });
 
 /**
@@ -198,6 +204,39 @@ obj2ResetClipBtn.addEventListener("click", () => {
  * Knight Section End
  */
 
+/**
+ * Cow Section Start
+ */
+
+const obj3ResetBtn = document.getElementById("reset-obj3") as HTMLElement;
+obj3ResetBtn.addEventListener("click", () => {
+  scene?.objects.forEach((object) => isCow(object) && object.reset());
+
+  // Build cow
+  scene.add(Cow.build(), true);
+});
+
+const obj3WalkClipBtn = document.getElementById("animate-obj3-1") as HTMLElement;
+obj3WalkClipBtn.addEventListener("click", () => {
+  sliderUsage(false);
+  scene.objects.forEach(
+    (object) => {
+      isCow(object) && object.setAnimationClip(new WalkCowAnimation(1))
+    },
+  );
+});
+
+const obj3ResetClipBtn = document.getElementById("animate-reset-obj3") as HTMLElement;
+obj3ResetClipBtn.addEventListener("click", () => {
+  sliderUsage(true);
+  scene.objects.forEach((object) => isCow(object) && object.setAnimationClip(null));
+});
+
+/**
+ * Cow Section End
+ */
+
+
 /*
  * Camera Reset
  */
@@ -240,6 +279,10 @@ loadButton.onclick = () => {
         case "MirrorMan" :
           mirrorBtn.click();
           scene.add(MirrorMan.build().load(result), true)
+          break;
+        case "Cow":
+          cowBtn.click();
+          scene.add(Cow.build().load(result), true)
           break;
         default:
           alert("Invalid save file");

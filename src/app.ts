@@ -3,6 +3,7 @@ import SliderManager from "./SliderManager";
 
 import {isMirrorMan} from "./object/cubeman";
 import {isKnight} from "./object/knight";
+import {isCow} from "./object/cow";
 
 const X = 0;
 const Y = 1;
@@ -173,6 +174,29 @@ class App {
 
     SliderManager.assignInputEvent("k-bend-rll-slider", (val: number) => {
       this.scene?.objects.forEach((object) => isKnight(object) && object.bendRightLowerLeg(val));
+    });
+
+    // /**
+    //  * Cow Event Listener
+    // */
+
+    SliderManager.assignInputEvent("cow-head-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveHead(val));
+    });
+    SliderManager.assignInputEvent("cow-body-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveBody(val));
+    });
+    SliderManager.assignInputEvent("cow-lfl-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveLeftFrontLeg(val));
+    });
+    SliderManager.assignInputEvent("cow-rfl-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveRightFrontLeg(val));
+    });
+    SliderManager.assignInputEvent("cow-lbl-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveLeftBackLeg(val));
+    });
+    SliderManager.assignInputEvent("cow-rbl-slider", (val: number) => {
+      this.scene?.objects.forEach((object) => isCow(object) && object.moveRightBackLeg(val));
     });
   }
 

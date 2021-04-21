@@ -44,6 +44,14 @@ type SliderId =
   | "k-rul-x-slider"
   | "k-rul-z-slider"
   | "k-bend-rll-slider"
+
+  // Cow Slider
+  | "cow-head-slider"
+  | "cow-body-slider"
+  | "cow-lfl-slider"
+  | "cow-rfl-slider"
+  | "cow-lbl-slider"
+  | "cow-rbl-slider"
   ;
 
 const sliderIds: SliderId[] = [
@@ -75,6 +83,12 @@ const sliderIds: SliderId[] = [
   "k-rul-x-slider",
   "k-rul-z-slider",
   "k-bend-rll-slider",
+  "cow-head-slider",
+  "cow-body-slider",
+  "cow-lfl-slider",
+  "cow-rfl-slider",
+  "cow-lbl-slider",
+  "cow-rbl-slider",
   "cam-radius",
   "cam-theta",
   "cam-phi",
@@ -123,6 +137,15 @@ const kSliderDefaultValues: SliderDefaultValue = {
   "k-rul-x-slider": -8,
   "k-rul-z-slider": 0,
   "k-bend-rll-slider": 16,
+
+}
+const cowSliderDefaultValues: SliderDefaultValue = {
+  "cow-head-slider": 0,
+  "cow-body-slider": 0,
+  "cow-lfl-slider": 0,
+  "cow-rfl-slider": 0,
+  "cow-lbl-slider": 0,
+  "cow-rbl-slider": 0
 }
 const cSliderDefaultValues: SliderDefaultValue = {
   "cam-radius": 1,
@@ -163,6 +186,15 @@ class SliderManager {
     sliderIds.forEach((sliderId) => {
       if (kSliderDefaultValues.hasOwnProperty(sliderId)) {
         sliders[sliderId].value = String(kSliderDefaultValues[sliderId]);
+        sliders[sliderId].dispatchEvent(new Event("input"));
+      }
+    });
+  }
+
+  static resetCowSliderValue() {
+    sliderIds.forEach((sliderId) => {
+      if (cowSliderDefaultValues.hasOwnProperty(sliderId)) {
+        sliders[sliderId].value = String(cowSliderDefaultValues[sliderId]);
         sliders[sliderId].dispatchEvent(new Event("input"));
       }
     });
