@@ -5,11 +5,11 @@ const animation = {
     {
       index: 0,
       position: {
-        head: -25,
-        lfl: 50,
-        rfl: -50,
-        lbl: -50,
-        rbl: 50
+        head: -10,
+        lfl: 10,
+        rfl: -10,
+        lbl: -10,
+        rbl: 10
       },
     },
     {
@@ -25,11 +25,11 @@ const animation = {
     {
       index: 50,
       position: {
-        head: 25,
-        lfl: -50,
-        rfl: 50,
-        lbl: 50,
-        rbl: -50
+        head: 10,
+        lfl: -10,
+        rfl: 10,
+        lbl: 10,
+        rbl: -10
       },
     },
     {
@@ -45,7 +45,7 @@ const animation = {
     {
       index: 100,
       position: {
-        head: -25,
+        head: -10,
         lfl: 50,
         rfl: -50,
         lbl: -50,
