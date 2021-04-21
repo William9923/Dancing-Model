@@ -161,6 +161,10 @@ class MirrorMan extends Node {
     this.getAndSetRotation(this.head, Y, angle);
   }
 
+  public moveStomach(angle: number) {
+    this.getAndSetRotation(this.stomach, Y, angle);
+  }
+
   // Shoulder Component
 
   public moveLeftShoulder(angle: number) {
@@ -201,6 +205,8 @@ class MirrorMan extends Node {
   public moveRightLeg(angle: number) {
     this.getAndSetRotation(this.rl, X, angle);
   }
+
+  // Body
 
   public moveBodyUpDown(length: number) {
     this.getAndSetTranslation(this.chest, Y, length);

@@ -1,130 +1,109 @@
-import MirrorMan from "../main";
-import IMirrorManAnimation from "./animation";
+import MirrorManAnimation from "./mirrormanAnimation";
 
-const X = 0;
-const Y = 1;
-const Z = 2;
+const animation = {
+  keyframes: [
+    {
+      index: 0,
+      position: {
+        // Moving Head
+        head: 0,
+        // Moving Shoulder
+        rs: 0,
+        ls: 0,
+        // Moving Hand
+        ra: 0,
+        la: 0,
+        // Moving Leg
+        rl: 0,
+        ll: 0,
+        // Moving Hip
+        rh: 0,
+        lh: 0,
+      },
+    },
+    {
+      index: 25,
+      position: {
+        // Moving Head
+        head: 15,
+        // Moving Shoulder
+        rs: -15,
+        ls: 15,
+        // Moving Hand
+        ra: -60,
+        la: -30,
+        // Moving Leg
+        rl: 30,
+        ll: 0,
+        // Moving Hip
+        rh: 30,
+        lh: -30,
+      },
+    },
+    {
+      index: 50,
+      position: {
+        // Moving Head
+        head: 0,
+        // Moving Shoulder
+        rs: 0,
+        ls: 0,
+        // Moving Hand
+        ra: 0,
+        la: 0,
+        // Moving Leg
+        rl: 0,
+        ll: 0,
+        // Moving Hip
+        rh: 0,
+        lh: 0,
+      },
+    },
+    {
+      index: 75,
+      position: {
+        // Moving Head
+        head: -15,
+        // Moving Shoulder
+        rs: 15,
+        ls: -15,
+        // Moving Hand
+        ra: -30,
+        la: -60,
+        // Moving Leg
+        rl: 0,
+        ll: 30,
+        // Moving Hip
+        rh: -30,
+        lh: 30,
+      },
+    },
+    {
+      index: 100,
+      position: {
+        // Moving Head
+        head: 0,
+        // Moving Shoulder
+        rs: 0,
+        ls: 0,
+        // Moving Hand
+        ra: 0,
+        la: 0,
+        // Moving Leg
+        rl: 0,
+        ll: 0,
+        // Moving Hip
+        rh: 0,
+        lh: 0,
+      },
+    },
+  ],
+  duration: 5,
+};
 
-class WalkMirrorManAnimation implements IMirrorManAnimation {
-  private _walkingSpeed: number;
-  private _headSpeed: number;
-  private _handSpeed: number;
-  private _reverse: boolean = false;
-
-  private _started: boolean;
-  private _lastCheck: number;
-
-  private _count: number;
-
-  constructor(speed: number) {
-    this._walkingSpeed = speed;
-    this._headSpeed = speed * 0.2;
-    this._handSpeed = speed * 0.75;
-    this._started = false;
-    this._lastCheck = 0;
-  }
-
-  public set speed(speed: number) {
-    this._walkingSpeed = speed;
-    this._headSpeed = speed * 0.2;
-    this._handSpeed = speed * 0.75;
-  }
-
-  public doAnimation(delta: number, obj: MirrorMan) {
-    // Reset for first time
-    this.validateAndReset(obj);
-
-    // Get data
-    const leftLegRotation = obj.ll.getTransformation("rotate")[X];
-    const rightLegRotation = obj.rl.getTransformation("rotate")[X];
-
-    const leftHipRotation = obj.lh.getTransformation("rotate")[X];
-    const rightHipRotation = obj.rh.getTransformation("rotate")[X];
-
-    const leftShoulderRotation = obj.ls.getTransformation("rotate")[X];
-    const rightShoulderRotation = obj.rs.getTransformation("rotate")[X];
-
-    const headRotation = obj.head.getTransformation("rotate")[Y];
-
-    // Check direction
-    this.updateDirection(obj, leftHipRotation, delta);
-
-    const direction = this._reverse ? -1 : 1;
-
-    // Calculate new angle
-    const newAngleLeft = leftLegRotation + this._walkingSpeed * delta * direction;
-    const newAngleRight = rightLegRotation + this._walkingSpeed * delta * direction * -1;
-
-    const newHipAngleLeft = leftHipRotation + this._walkingSpeed * delta * direction;
-    const newHipAngleRight = rightHipRotation + this._walkingSpeed * delta * direction * -1;
-
-    const newShoulderAngleLeft = leftShoulderRotation + this._handSpeed * delta * direction;
-    const newShoulderAngleRight = rightShoulderRotation + this._handSpeed * delta * direction * -1;
-
-    const newHeadAngle = headRotation + this._headSpeed * delta * direction;
-
-    // Apply new angle
-    obj.moveLeftShoulder(newShoulderAngleLeft);
-    obj.moveRightShoulder(newShoulderAngleRight);
-
-    obj.moveLeftHips(newHipAngleLeft);
-    obj.moveRightHips(newHipAngleRight);
-
-    obj.moveLeftLeg(Math.max(0, newAngleLeft));
-    obj.moveRightLeg(Math.max(0, newAngleRight));
-
-    obj.moveHead(newHeadAngle);
-  }
-
-  private updateDirection(obj: MirrorMan, footAngle: number, delta: number) {
-
-    if (this._count > 5) {
-      this.resetDirection(obj, this._reverse);
-      this._count=0;
-    } else {
-      if (footAngle > 30 && delta != this._lastCheck && !this._reverse) {
-        this.resetDirection(obj, this._reverse);
-        this._reverse = true;
-        this._count++;
-      } else if (footAngle < -30 && delta != this._lastCheck && this._reverse) {
-        this.resetDirection(obj, this._reverse);
-        this._reverse = false;
-        this._count++;
-      }
-    }
-    this._lastCheck = delta;
-  }
-
-  private validateAndReset(obj: MirrorMan) {
-    if (!this._started) {
-      obj.moveLeftShoulder(0);
-      obj.moveRightShoulder(0);
-      obj.moveLeftHips(0);
-      obj.moveRightHips(0);
-      obj.moveLeftLeg(0);
-      obj.moveRightLeg(0);
-      this._started = !this._started;
-    }
-  }
-
-  private resetDirection(obj: MirrorMan, reversed: boolean) {
-    if (reversed) {
-      obj.moveLeftShoulder(-22.5);
-      obj.moveRightShoulder(22.5);
-      obj.moveLeftHips(-30);
-      obj.moveRightHips(30);
-      obj.moveLeftLeg(0);
-      obj.moveRightLeg(0);
-      obj.moveHead(-6);
-    } else {
-      obj.moveLeftShoulder(22.5);
-      obj.moveRightShoulder(-22.5);
-      obj.moveLeftHips(30);
-      obj.moveRightHips(-30);
-      obj.moveLeftLeg(0);
-      obj.moveRightLeg(0);
-      obj.moveHead(6);
-    }
+class WalkMirrorManAnimation extends MirrorManAnimation {
+  constructor(speed: number = 1) {
+    super(animation.keyframes, animation.duration / speed);
   }
 }
 

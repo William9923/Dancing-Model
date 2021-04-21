@@ -2,7 +2,7 @@ import App from "./app";
 import Scene from "./scene";
 import MirrorMan, {isMirrorMan} from "./object/cubeman";
 import {
-  HeadMirrorManAnimation,
+  DanceMirrorManAnimation,
   WalkMirrorManAnimation,
   JumpMirrorManAnimation,
 } from "./object/cubeman/animation";
@@ -111,11 +111,11 @@ const sliderUsage = (clickable: boolean) => {
  * Attach Animation Listener
  */
 
-const obj1HeadClipBtn = document.getElementById("animate-obj1-1") as HTMLElement;
-obj1HeadClipBtn.addEventListener("click", () => {
+const obj1DanceClipBtn = document.getElementById("animate-obj1-1") as HTMLElement;
+obj1DanceClipBtn.addEventListener("click", () => {
   sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(5)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new DanceMirrorManAnimation(5)),
   );
 });
 
@@ -132,7 +132,7 @@ obj1JumpClipBtn.addEventListener("click", () => {
   scene?.objects.forEach((object) => isMirrorMan(object) && object.reset());
   sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new JumpMirrorManAnimation(3)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new JumpMirrorManAnimation(2)),
   );
 });
 
