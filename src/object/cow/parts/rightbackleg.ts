@@ -7,6 +7,10 @@ class RightBackLeg extends Node {
   constructor() {
     super();
 
+    this.Kd = [0.54, 0.27, 0.07];
+    this.Ks = [0.54, 0.27, 0.07];
+    this.Ka = [0.54, 0.27, 0.07];
+
     this.setInstanceMatrix(
       mat4.mMult(
         mat4.scale(0.12, 0.4, 0.12),
@@ -25,6 +29,7 @@ class RightBackLeg extends Node {
   }
 
   public render(baseTransformMatrix: number[] = mat4.identity()) {
+    this._setTextureCallback!("none");
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
@@ -33,6 +38,7 @@ class RightBackLeg extends Node {
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
       this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
     }
+    this._setTextureCallback!("image");
   }
 }
 

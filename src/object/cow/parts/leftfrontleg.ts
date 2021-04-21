@@ -25,6 +25,7 @@ class LeftFrontLeg extends Node {
   }
 
   public render(baseTransformMatrix: number[] = mat4.identity()) {
+    this._setTextureCallback!("none");
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
@@ -33,6 +34,7 @@ class LeftFrontLeg extends Node {
     for (let i = 0; i < Math.floor(this.points.length / (this.dimension * 4)); i++) {
       this.draw(DrawMode.TRIANGLE_FAN, 4 * i, 4);
     }
+    this._setTextureCallback!("image");
   }
 }
 

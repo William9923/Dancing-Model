@@ -345,6 +345,14 @@ class WebGLWrapper {
       -1, -1,
       1, -1,
       1, -1,
+      -1, 1,
+      -1, -1,
+      1, -1,
+      1, -1,
+      -1, 1,
+      -1, -1,
+      1, -1,
+      1, -1,
     ];
 
     const buffer = gl.createBuffer();
@@ -491,7 +499,7 @@ class WebGLWrapper {
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.generateMipmap(gl.TEXTURE_2D);
     });
-    image.src = require('../../res/normal.png');
+    image.src = require('../../res/cow.png');
 
     // Tell the shader to use texture unit 0 for u_texture
     gl.uniform1i(gl.getUniformLocation(program, "imageTexture"), 2);

@@ -10,6 +10,15 @@ const X = 0;
 const Y = 1;
 const Z = 2;
 
+class CowMovement {
+  public head: number;
+  public body: number;
+  public lfl: number;
+  public rfl: number;
+  public lbl: number;
+  public rbl: number;
+}
+
 class Cow extends Node {
   // Main Body Parts
   public head: Node;
@@ -62,6 +71,42 @@ class Cow extends Node {
     lbl.sibling = rbl;
 
     return cow;
+  }
+
+  public saveMovement(): CowMovement {
+    const cm = new CowMovement();
+
+    cm.head = this.head.getTransformation("rotate")[X];
+    cm.body = this.body.getTransformation("rotate")[Y];
+    cm.lfl = this.lfl.getTransformation("rotate")[X];
+    cm.rfl = this.rfl.getTransformation("rotate")[X];
+    cm.lbl = this.lbl.getTransformation("rotate")[X];
+    cm.rbl = this.rbl.getTransformation("rotate")[X];
+    return cm;
+  }
+
+  public loadMovement(cm: CowMovement) {
+    this.moveHead(cm.head);
+    this.moveBody(cm.body);
+    this.moveLeftFrontLeg(cm.lfl);
+    this.moveRightFrontLeg(cm.rfl);
+    this.moveLeftBackLeg(cm.lbl);
+    this.moveRightBackLeg(cm.rbl);
+  }
+
+  public save() {
+    let data = "Cow\n";
+    data += JSON.stringify(this.saveMovement());
+    return data;
+  }
+
+  public load(data: string) {
+    const [type, body] = data.split("\n");
+    if (type != "Cow") {
+      throw "Failed to load cow";
+    }
+    this.loadMovement(JSON.parse(body));
+    return this;
   }
 
   public setupPoints() {}

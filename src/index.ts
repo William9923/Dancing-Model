@@ -85,7 +85,6 @@ cowBtn.addEventListener("click", () => {
   resetDisplay();
   obj3Section.style.display = "block";
   animObj3Section.style.display = "block";
-  // TODO : Build your model here
 
   scene.add(Cow.build(), true);
 });
@@ -280,6 +279,10 @@ loadButton.onclick = () => {
         case "MirrorMan" :
           mirrorBtn.click();
           scene.add(MirrorMan.build().load(result), true)
+          break;
+        case "Cow":
+          cowBtn.click();
+          scene.add(Cow.build().load(result), true)
           break;
         default:
           alert("Invalid save file");
