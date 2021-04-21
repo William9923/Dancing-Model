@@ -127,7 +127,7 @@ class Cow extends Node {
 
   // override
   public traverse() {
-    this._setTextureCallback!("environment");
+    this._setTextureCallback!("image");
     super.traverse();
     this._setTextureCallback!("none");
   }
