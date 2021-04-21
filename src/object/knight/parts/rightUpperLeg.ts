@@ -25,15 +25,10 @@ class RightUpperLeg extends Node {
     // empty the normals array
     this.normals = [];
     this.points = buildCubePoints(this.normals);
-
-    this.euy = 0;
   }
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    // this.setTransformation("rotate", [-8 / 90 * this.euy, 0, 0], true);
-    this.euy = (this.euy + 1) % 90;
-
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();

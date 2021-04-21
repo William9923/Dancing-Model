@@ -1,4 +1,4 @@
-import Node from "../node";
+import Node, {ISaveableNode} from "../node";
 import * as parts from "./parts";
 import { IKnightAnimation } from "./animation";
 import SliderManager from "../../SliderManager";
@@ -32,7 +32,7 @@ class KnightMovement {
   public shieldX: number;
 }
 
-class Knight extends Node {
+class Knight extends Node implements ISaveableNode {
   // Body Parts
   // main
   public hip: Node;

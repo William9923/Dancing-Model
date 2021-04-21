@@ -34,82 +34,77 @@ class Hip extends Node {
     this.points = [
       // pentagon front
       ...buildQuad(
-        [...p1, ht],
-        [...p4, ht],
-        [...p3, ht],
-        [...p2, ht],
+        [...p1, ht] as Point,
+        [...p4, ht] as Point,
+        [...p3, ht] as Point,
+        [...p2, ht] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p1, ht],
-        [...p6, ht],
-        [...p5, ht],
-        [...p4, ht],
+        [...p1, ht] as Point,
+        [...p6, ht] as Point,
+        [...p5, ht] as Point,
+        [...p4, ht] as Point,
         this.normals
       ),
       // pentagon back
       ...buildQuad(
-        [...p1, -ht],
-        [...p4, -ht],
-        [...p3, -ht],
-        [...p2, -ht],
+        [...p1, -ht] as Point,
+        [...p4, -ht] as Point,
+        [...p3, -ht] as Point,
+        [...p2, -ht] as Point,
         this.normals,
         true
       ),
       ...buildQuad(
-        [...p1, -ht],
-        [...p6, -ht],
-        [...p5, -ht],
-        [...p4, -ht],
+        [...p1, -ht] as Point,
+        [...p6, -ht] as Point,
+        [...p5, -ht] as Point,
+        [...p4, -ht] as Point,
         this.normals,
         true
       ),
       // connector, from top then clocwise
       ...buildQuad(
-        [...p6, -ht],
-        [...p6, ht],
-        [...p2, ht],
-        [...p2, -ht],
+        [...p6, -ht] as Point,
+        [...p6, ht] as Point,
+        [...p2, ht] as Point,
+        [...p2, -ht] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p2, -ht],
-        [...p2, ht],
-        [...p3, ht],
-        [...p3, -ht],
+        [...p2, -ht] as Point,
+        [...p2, ht] as Point,
+        [...p3, ht] as Point,
+        [...p3, -ht] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p3, -ht],
-        [...p3, ht],
-        [...p4, ht],
-        [...p4, -ht],
+        [...p3, -ht] as Point,
+        [...p3, ht] as Point,
+        [...p4, ht] as Point,
+        [...p4, -ht] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p4, -ht],
-        [...p4, ht],
-        [...p5, ht],
-        [...p5, -ht],
+        [...p4, -ht] as Point,
+        [...p4, ht] as Point,
+        [...p5, ht] as Point,
+        [...p5, -ht] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p5, -ht],
-        [...p5, ht],
-        [...p6, ht],
-        [...p6, -ht],
+        [...p5, -ht] as Point,
+        [...p5, ht] as Point,
+        [...p6, ht] as Point,
+        [...p6, -ht] as Point,
         this.normals
       ),
     ];
-
-    this.euy = 0;
   }
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    // this.setTransformation("translate", [0, -0.02 / 90 * this.euy, 0], true);
-    this.euy = (this.euy + 1) % 90;
-
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();
