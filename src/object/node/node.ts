@@ -16,9 +16,9 @@ abstract class Node {
   protected normals: number[] = [];
 
   // Material properties
-  public Kd: number[] = [1.0, 1.0, 1.0];
-  public Ks: number[] = [1.0, 1.0, 1.0];
-  public Ka: number[] = [0.25, 0.25, 0.25];
+  public Kd: number[] = [0.1953125, 0.50390625, 0.65625];
+  public Ks: number[] = [0.6171875, 0.87109375, 0.99609375];
+  public Ka: number[] = [0.1953125, 0.50390625, 0.65625];
   public shininess: number = 100;
 
   // Object transformations
