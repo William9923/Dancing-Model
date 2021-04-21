@@ -59,7 +59,6 @@ const animation = {
 class WalkCowAnimation extends CowAnimation {
   constructor(speed: number = 1) {
     super(animation.keyframes, animation.duration / speed);
-    console.log('a');
   }
 }
 

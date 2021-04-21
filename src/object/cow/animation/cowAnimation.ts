@@ -63,26 +63,26 @@ class CowAnimation implements ICowAnimation {
   }
 
   private generateTargetMap(obj: Cow) {
-    this._targetMap["body"] = { part: obj.body, idx: X };
-    this._targetMap["head"] = { part: obj.head, idx: Y };
-    this._targetMap["lbl"] = { part: obj.lbl, idx: Z };
-    this._targetMap["lfl"] = { part: obj.lfl, idx: Z };
-    this._targetMap["rbl"] = { part: obj.rbl, idx: Z };
-    this._targetMap["rfl"] = { part: obj.rfl, idx: Z };
+    this._targetMap["body"] = { part: obj.body, idx: Y };
+    this._targetMap["head"] = { part: obj.head, idx: X };
+    this._targetMap["lbl"] = { part: obj.lbl, idx: X };
+    this._targetMap["lfl"] = { part: obj.lfl, idx: X };
+    this._targetMap["rbl"] = { part: obj.rbl, idx: X };
+    this._targetMap["rfl"] = { part: obj.rfl, idx: X };
   }
 
   public doAnimation(delta: number, obj: Cow) {
 
     if (this._keyframes.length <= 1) return;
-    console.log("Lewat sini");
+    // console.log("Lewat sini");
     // Reset for first time
     this.validateAndReset(obj);
 
     // Run the keyframes
     let doIncrementKf = false;
     const deltaKf = this._deltaKeyframes[this._currKeyframe] || {};
-    console.debug("Check delta:")
-    console.debug(deltaKf);
+    console.log("Check delta:")
+    console.log(deltaKf);
     for (const k in deltaKf) {
       const target = this._targetMap[k];
       const callback = this._callbackMap[k];
