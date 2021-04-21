@@ -6,6 +6,7 @@ import Node from "../object/index";
 
 import {isMirrorMan} from "../object/cubeman";
 import {isKnight} from "../object/knight";
+import { isCow } from "../object/cow";
 
 class Scene extends WebGLWrapper {
   // Object, camera, and light used
@@ -197,7 +198,7 @@ class Scene extends WebGLWrapper {
   public animate(delta: number) {
     for (const object of this._objects) {
       // Animate each object
-      if (isMirrorMan(object) || isKnight(object))
+      if (isMirrorMan(object) || isKnight(object) || isCow(object))
         object.animate(delta);
     }
   }

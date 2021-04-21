@@ -15,6 +15,7 @@ import {
 import Cow, {isCow} from "./object/cow";
 
 import {ISaveableNode} from "./object/node";
+import WalkCowAnimation from "./object/cow/animation/walkCowAnimation";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -214,6 +215,22 @@ obj3ResetBtn.addEventListener("click", () => {
 
   // Build cow
   scene.add(Cow.build(), true);
+});
+
+const obj3WalkClipBtn = document.getElementById("animate-obj3-1") as HTMLElement;
+obj3WalkClipBtn.addEventListener("click", () => {
+  sliderUsage(false);
+  scene.objects.forEach(
+    (object) => {
+      isCow(object) && object.setAnimationClip(new WalkCowAnimation(1))
+    },
+  );
+});
+
+const obj3ResetClipBtn = document.getElementById("animate-reset-obj3") as HTMLElement;
+obj3ResetClipBtn.addEventListener("click", () => {
+  sliderUsage(true);
+  scene.objects.forEach((object) => isCow(object) && object.setAnimationClip(null));
 });
 
 /**

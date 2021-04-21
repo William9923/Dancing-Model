@@ -3,6 +3,7 @@ import { mat4 } from "../../util/matrix";
 import SliderManager from "../../SliderManager";
 
 import { Body, Head, LeftBackLeg, LeftFrontLeg, RightBackLeg, RightFrontLeg} from "./parts";
+import { ICowAnimation } from "./animation";
 // import {IMirrorManAnimation} from "./animation";
 
 const X = 0;
@@ -20,23 +21,20 @@ class Cow extends Node {
   public rbl: Node;
   public rfl: Node;
 
-  // Object type
-  // private type: ObjMode = "obj2";
-
   // Animation clip
-  // private _animationClip: IMirrorManAnimation | null = null; // change the animationClip
+  private _animationClip: ICowAnimation | null = null; // change the animationClip
 
-  // public get animation() {
-  //   return this._animationClip;
-  // }
+  public get animation() {
+    return this._animationClip;
+  }
 
-  // public set animation(clip: IMirrorManAnimation | null) {
-  //   this._animationClip = clip;
-  // }
+  public set animation(clip: ICowAnimation | null) {
+    this._animationClip = clip;
+  }
 
-  // public setAnimationClip(clip: IMirrorManAnimation | null) {
-  //   this._animationClip = clip;
-  // }
+  public setAnimationClip(clip: ICowAnimation | null) {
+    this._animationClip = clip;
+  }
 
   public static build() {
     const cow = new Cow();
@@ -50,7 +48,7 @@ class Cow extends Node {
     cow.head = head;
     cow.body = body;
     cow.lbl = lbl;
-    cow.lfl =lfl;
+    cow.lfl = lfl;
     cow.rbl = rbl;
     cow.rfl = rfl;
 
@@ -69,11 +67,11 @@ class Cow extends Node {
   public setupPoints() {}
   public render(baseTransformMatrix: number[] = mat4.identity()) {}
 
-  // public animate(delta: number) {
-  //   if (!!this._animationClip) {
-  //     this._animationClip.doAnimation(delta, this);
-  //   } 
-  // }
+  public animate(delta: number) {
+    if (!!this._animationClip) {
+      this._animationClip.doAnimation(delta, this);
+    } 
+  }
 
   // Range : -45, 45
   public moveLeftFrontLeg(angle: number) {
