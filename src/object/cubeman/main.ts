@@ -1,4 +1,4 @@
-import Node from "../node";
+import Node, {ISaveableNode} from "../node";
 import {mat4} from "../../util/matrix";
 import SliderManager from "../../SliderManager";
 
@@ -17,9 +17,31 @@ import {
   LeftHip,
   RightHip,
 } from "./parts";
+
 import {IMirrorManAnimation} from "./animation";
 
-class MirrorMan extends Node {
+const X = 0;
+const Y = 1;
+const Z = 2;
+
+class MirrorManMovement {
+  // Main Body Parts
+  public head: number;
+  // Leg Parts
+  public ll: number;
+  public rl: number;
+  // Arm Parts
+  public la: number;
+  public ra: number;
+  // Shoulder Parts
+  public rs: number;
+  public ls: number;
+  // Hip Parts
+  public lh: number;
+  public rh: number;
+}
+
+class MirrorMan extends Node implements ISaveableNode {
   // Main Body Parts
   public head: Node;
   public chest: Node;
@@ -126,7 +148,6 @@ class MirrorMan extends Node {
 
   public animate(delta: number) {
     if (!!this._animationClip) {
-      
       this._animationClip.doAnimation(delta, this);
     }
   }
@@ -137,66 +158,71 @@ class MirrorMan extends Node {
 
   // Head Component
   public moveHead(angle: number) {
-    const rotatePoint = this.head.getTransformation("rotate");
-    const [x, _, z] = rotatePoint;
-    this.head.setTransformation("rotate", [x, angle, z], true);
+    this.getAndSetRotation(this.head, Y, angle);
+  }
+
+  public moveStomach(angle: number) {
+    this.getAndSetRotation(this.stomach, Y, angle);
   }
 
   // Shoulder Component
 
   public moveLeftShoulder(angle: number) {
-    const rotatePoint = this.ls.getTransformation("rotate");
-    const [_, y, z] = rotatePoint;
-    this.ls.setTransformation("rotate", [angle, y, z], true);
+    this.getAndSetRotation(this.ls, X, angle);
   }
 
   public moveRightShoulder(angle: number) {
-    const rotatePoint = this.rs.getTransformation("rotate");
-    const [_, y, z] = rotatePoint;
-    this.rs.setTransformation("rotate", [angle, y, z], true);
+    this.getAndSetRotation(this.rs, X, angle);
   }
 
   // Hips Component
   public moveLeftHips(angle: number) {
-    const rotatePoint = this.lh.getTransformation("rotate");
-    const [_, y, z] = rotatePoint;
-    this.lh.setTransformation("rotate", [angle, y, z], true);
+    this.getAndSetRotation(this.lh, X, angle);
   }
 
   public moveRightHips(angle: number) {
-    const rotatePoint = this.rh.getTransformation("rotate");
-    const [_, y, z] = rotatePoint;
-    this.rh.setTransformation("rotate", [angle, y, z], true);
+    this.getAndSetRotation(this.rh, X, angle);
   }
 
   // Arm Component
 
   // Range : -45, 45
   public moveLeftArm(angle: number) {
-    const rotatePoint = this.la.getTransformation("rotate");
-    const [_, y, z] = rotatePoint;
-    this.la.setTransformation("rotate", [angle, y, z], true);
+    this.getAndSetRotation(this.la, X, angle);
   }
 
   // Range : -45, 45
   public moveRightArm(angle: number) {
-    const rotatePoint = this.ra.getTransformation("rotate");
-    const [_, y, z] = rotatePoint;
-    this.ra.setTransformation("rotate", [angle, y, z], true);
+    this.getAndSetRotation(this.ra, X, angle);
   }
 
   // Leg Component
 
   public moveLeftLeg(angle: number) {
-    const rotatePoint = this.ll.getTransformation("rotate");
-    const [_, y, z] = rotatePoint;
-    this.ll.setTransformation("rotate", [angle, y, z], true);
+    this.getAndSetRotation(this.ll, X, angle);
   }
 
   public moveRightLeg(angle: number) {
-    const rotatePoint = this.rl.getTransformation("rotate");
-    const [_, y, z] = rotatePoint;
-    this.rl.setTransformation("rotate", [angle, y, z], true);
+    this.getAndSetRotation(this.rl, X, angle);
+  }
+
+  // Body
+
+  public moveBodyUpDown(length: number) {
+    this.getAndSetTranslation(this.chest, Y, length);
+  }
+
+  // Helper
+  private getAndSetRotation(part: Node, index: number, angle: number) {
+    let rotatePoint = part.getTransformation("rotate");
+    rotatePoint[index] = angle;
+    part.setTransformation("rotate", rotatePoint, true);
+  }
+
+  private getAndSetTranslation(part: Node, index: number, value: number) {
+    let translatePoint = part.getTransformation("translate");
+    translatePoint[index] = value;
+    part.setTransformation("translate", translatePoint, true);
   }
 
   public reset() {
@@ -208,6 +234,52 @@ class MirrorMan extends Node {
     this._setTextureCallback!("environment");
     super.traverse();
     this._setTextureCallback!("none");
+  }
+
+  // override
+  public saveMovement(): MirrorManMovement {
+    const mmm = new MirrorManMovement();
+
+    mmm.head = this.head.getTransformation("rotate")[Y];
+    mmm.la = this.la.getTransformation("rotate")[X];
+    mmm.lh = this.lh.getTransformation("rotate")[X];
+    mmm.ll = this.ll.getTransformation("rotate")[X];
+    mmm.ls = this.ls.getTransformation("rotate")[X];
+    mmm.ra = this.ra.getTransformation("rotate")[X];
+    mmm.rh = this.rh.getTransformation("rotate")[X];
+    mmm.rl = this.rl.getTransformation("rotate")[X];
+    mmm.rs = this.rs.getTransformation("rotate")[X];
+
+    return mmm;
+  }
+
+  public loadMovement(mmm: MirrorManMovement) {
+    this.moveHead(mmm.head);
+
+    this.moveLeftArm(mmm.la);
+    this.moveLeftHips(mmm.lh);
+    this.moveLeftLeg(mmm.ll);
+    this.moveLeftShoulder(mmm.ls);
+
+    this.moveRightArm(mmm.ra);
+    this.moveRightHips(mmm.rh);
+    this.moveRightLeg(mmm.rl);
+    this.moveRightShoulder(mmm.rs);
+  }
+
+  public load(data: string) {
+    const [type, body] = data.split("\n");
+    if (type != "MirrorMan") {
+      throw "Failed to load mirror man";
+    }
+    this.loadMovement(JSON.parse(body));
+    return this;
+  }
+
+  public save() {
+    let data = "MirrorMan\n";
+    data += JSON.stringify(this.saveMovement());
+    return data;
   }
 }
 

@@ -213,7 +213,6 @@ abstract class Node {
    */
 
   public traverse(baseTransformMatrix: number[] = mat4.identity(), reverseMatrixOrder: boolean = false) {
-    // TODO: fully migrate to new order
     let transformMatrix;
     if (reverseMatrixOrder)
       transformMatrix = mat4.multiply(this.transformMatrix, baseTransformMatrix);
@@ -231,9 +230,12 @@ abstract class Node {
    */
 
   public abstract setupPoints(): void;
-
   public abstract render(baseTransformMatrix: number[]): void;
 
+}
+
+export interface ISaveableNode {
+  save(): string;
 }
 
 export default Node;

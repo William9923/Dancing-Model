@@ -34,77 +34,77 @@ class Chest extends Node {
     this.points = [
       // hexagon front
       ...buildQuad(
-        [...p1, ht1],
-        [...p6, ht2],
-        [...p3, ht2],
-        [...p2, ht1],
+        [...p1, ht1] as Point,
+        [...p6, ht2] as Point,
+        [...p3, ht2] as Point,
+        [...p2, ht1] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p6, ht2],
-        [...p5, ht1],
-        [...p4, ht1],
-        [...p3, ht2],
+        [...p6, ht2] as Point,
+        [...p5, ht1] as Point,
+        [...p4, ht1] as Point,
+        [...p3, ht2] as Point,
         this.normals
       ),
       // hexagon back
       ...buildQuad(
-        [...p1, -ht1],
-        [...p6, -ht2],
-        [...p3, -ht2],
-        [...p2, -ht1],
+        [...p1, -ht1] as Point,
+        [...p6, -ht2] as Point,
+        [...p3, -ht2] as Point,
+        [...p2, -ht1] as Point,
         this.normals,
         true
       ),
       ...buildQuad(
-        [...p6, -ht2],
-        [...p5, -ht1],
-        [...p4, -ht1],
-        [...p3, -ht2],
+        [...p6, -ht2] as Point,
+        [...p5, -ht1] as Point,
+        [...p4, -ht1] as Point,
+        [...p3, -ht2] as Point,
         this.normals,
         true
       ),
       // connector, top then clocwise
       ...buildQuad(
-        [...p1, -ht1],
-        [...p1,  ht1],
-        [...p2,  ht1],
-        [...p2, -ht1],
+        [...p1, -ht1] as Point,
+        [...p1,  ht1] as Point,
+        [...p2,  ht1] as Point,
+        [...p2, -ht1] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p2, -ht1],
-        [...p2,  ht1],
-        [...p3,  ht2],
-        [...p3, -ht2],
+        [...p2, -ht1] as Point,
+        [...p2,  ht1] as Point,
+        [...p3,  ht2] as Point,
+        [...p3, -ht2] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p3, -ht2],
-        [...p3,  ht2],
-        [...p4,  ht1],
-        [...p4, -ht1],
+        [...p3, -ht2] as Point,
+        [...p3,  ht2] as Point,
+        [...p4,  ht1] as Point,
+        [...p4, -ht1] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p4, -ht1],
-        [...p4,  ht1],
-        [...p5,  ht1],
-        [...p5, -ht1],
+        [...p4, -ht1] as Point,
+        [...p4,  ht1] as Point,
+        [...p5,  ht1] as Point,
+        [...p5, -ht1] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p5, -ht1],
-        [...p5,  ht1],
-        [...p6,  ht2],
-        [...p6, -ht2],
+        [...p5, -ht1] as Point,
+        [...p5,  ht1] as Point,
+        [...p6,  ht2] as Point,
+        [...p6, -ht2] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...p6, -ht2],
-        [...p6,  ht2],
-        [...p1,  ht1],
-        [...p1, -ht1],
+        [...p6, -ht2] as Point,
+        [...p6,  ht2] as Point,
+        [...p1,  ht1] as Point,
+        [...p1, -ht1] as Point,
         this.normals
       ),
     ];

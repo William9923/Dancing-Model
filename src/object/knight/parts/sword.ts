@@ -2,16 +2,15 @@ import Node from "../../node";
 import DrawMode from "../../../util/drawMode";
 import { mat4 } from "../../../util/matrix";
 import { buildQuad } from "../../utils/util";
-import { buildCubePoints } from "../../utils/cubePoints";
 
 const buildWrapper = (points: number[][], ht: number, normalArray: number[]) => {
   const out = [];
   for (let i = 0; i < points.length; i++) {
     out.push(...buildQuad(
-      [...points[i], -ht],
-      [...points[i], ht],
-      [...points[(i + 1) % points.length], ht],
-      [...points[(i + 1) % points.length], -ht],
+      [...points[i], -ht] as Point,
+      [...points[i], ht] as Point,
+      [...points[(i + 1) % points.length], ht] as Point,
+      [...points[(i + 1) % points.length], -ht] as Point,
       normalArray
     ));
   }
@@ -29,12 +28,6 @@ class Sword extends Node {
       mat4.xRotation(90),
       mat4.translation(-0.45, -0.2, 0.51),
     ));
-
-    // 0.25 = xtranslation
-    // -0.25 = ytranslation + 1 / 2 * height
-    // this.centralPoint = [0.25, -0.75, 0];
-
-    // this.setTransformation("rotate", [0, 0, 0], true);
 
     this.setupPoints();
   }
@@ -126,62 +119,151 @@ class Sword extends Node {
     const pf5 = [0.090, 0.808];
     const pf6 = [0, 0.688];
     const pf7 = [-0.090, 0.808];
-    // const pf4 = [];
-    // const pf5 = [];
-    // const pf6 = [];
-    // const pf7 = [];
 
     // prettier-ignore
     this.points = [
-      // F front-back
+      // A front
       ...buildQuad(
-        [...pf4, ht3],
-        [...pf7, ht3],
-        [...pf6, ht3],
-        [...pf5, ht3],
+        [...pa8, ht1] as Point,
+        [...pa7, ht1] as Point,
+        [...pa6, ht1] as Point,
+        [...pa9, ht1] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...pf4, -ht3],
-        [...pf7, -ht3],
-        [...pf6, -ht3],
-        [...pf5, -ht3],
+        [...pa9, ht1] as Point,
+        [...pa6, ht1] as Point,
+        [...pa5, ht1] as Point,
+        [...pa0, ht1] as Point,
+        this.normals
+      ),
+      ...buildQuad(
+        [...pa0, ht1] as Point,
+        [...pa5, ht1] as Point,
+        [...pa4, ht1] as Point,
+        [...pa1, ht1] as Point,
+        this.normals
+      ),
+      ...buildQuad(
+        [...pa1, ht1] as Point,
+        [...pa4, ht1] as Point,
+        [...pa3, ht1] as Point,
+        [...pa2, ht1] as Point,
+        this.normals
+      ),
+      // A back
+      ...buildQuad(
+        [...pa8, -ht1] as Point,
+        [...pa7, -ht1] as Point,
+        [...pa6, -ht1] as Point,
+        [...pa9, -ht1] as Point,
         this.normals,
         true
       ),
-      // F connector front
       ...buildQuad(
-        [...pf0, 0], [...pf4, ht3], [...pf5, ht3], [...pf1, 0],
+        [...pa9, -ht1] as Point,
+        [...pa6, -ht1] as Point,
+        [...pa5, -ht1] as Point,
+        [...pa0, -ht1] as Point,
+        this.normals,
+        true
+      ),
+      ...buildQuad(
+        [...pa0, -ht1] as Point,
+        [...pa5, -ht1] as Point,
+        [...pa4, -ht1] as Point,
+        [...pa1, -ht1] as Point,
+        this.normals,
+        true
+      ),
+      ...buildQuad(
+        [...pa1, -ht1] as Point,
+        [...pa4, -ht1] as Point,
+        [...pa3, -ht1] as Point,
+        [...pa2, -ht1] as Point,
+        this.normals,
+        true
+      ),
+      // A connector
+      ...buildWrapper(
+        [pa0, pa1, pa2, pa3, pa4, pa5, pa6, pa7, pa8, pa9],
+        ht1,
+        this.normals
+      ),
+      // B front
+      ...buildQuad(
+        [...pb0, ht2] as Point,
+        [...pb3, ht2] as Point,
+        [...pb2, ht2] as Point,
+        [...pb1, ht2] as Point,
+        this.normals
+      ),
+      // B back
+      ...buildQuad(
+        [...pb0, -ht2] as Point,
+        [...pb3, -ht2] as Point,
+        [...pb2, -ht2] as Point,
+        [...pb1, -ht2] as Point,
+        this.normals,
+        true
+      ),
+      // B connector
+      ...buildWrapper(
+        [pb0, pb1, pb2, pb3],
+        ht2,
+        this.normals
+      ),
+      // C
+      ...buildQuad(
+        [pc0[0], pcyt, pc0[1]],
+        [pc0[0], pcyb, pc0[1]],
+        [pc1[0], pcyb, pc1[1]],
+        [pc1[0], pcyt, pc1[1]],
         this.normals
       ),
       ...buildQuad(
-        [...pf1, 0], [...pf5, ht3], [...pf6, ht3], [...pf2, 0],
+        [pc1[0], pcyt, pc1[1]],
+        [pc1[0], pcyb, pc1[1]],
+        [pc2[0], pcyb, pc2[1]],
+        [pc2[0], pcyt, pc2[1]],
         this.normals
       ),
       ...buildQuad(
-        [...pf2, 0], [...pf6, ht3], [...pf7, ht3], [...pf3, 0],
+        [pc2[0], pcyt, pc2[1]],
+        [pc2[0], pcyb, pc2[1]],
+        [pc3[0], pcyb, pc3[1]],
+        [pc3[0], pcyt, pc3[1]],
         this.normals
       ),
       ...buildQuad(
-        [...pf3, 0], [...pf7, ht3], [...pf4, ht3], [...pf0, 0],
+        [pc3[0], pcyt, pc3[1]],
+        [pc3[0], pcyb, pc3[1]],
+        [pc0[0], pcyb, pc0[1]],
+        [pc0[0], pcyt, pc0[1]],
         this.normals
       ),
-      // F connector back
+      // D front
       ...buildQuad(
-        [...pf0, 0], [...pf4, -ht3], [...pf5, -ht3], [...pf1, 0],
-        this.normals, true
+        [...pd0, ht1] as Point,
+        [...pd3, ht1] as Point,
+        [...pd2, ht1] as Point,
+        [...pd1, ht1] as Point,
+        this.normals
       ),
+      // D back
       ...buildQuad(
-        [...pf1, 0], [...pf5, -ht3], [...pf6, -ht3], [...pf2, 0],
-        this.normals, true
+        [...pd0, -ht1] as Point,
+        [...pd3, -ht1] as Point,
+        [...pd2, -ht1] as Point,
+        [...pd1, -ht1] as Point,
+        this.normals,
+        true
       ),
-      ...buildQuad(
-        [...pf2, 0], [...pf6, -ht3], [...pf7, -ht3], [...pf3, 0],
-        this.normals, true
-      ),
-      ...buildQuad(
-        [...pf3, 0], [...pf7, -ht3], [...pf4, -ht3], [...pf0, 0],
-        this.normals, true
+      // D connector
+      ...buildWrapper(
+        [pd0, pd1, pd2, pd3],
+        ht1,
+        this.normals
       ),
       // E
       ...buildQuad(
@@ -226,159 +308,85 @@ class Sword extends Node {
         [pe5[0], peyb, pe5[1]],
         this.normals
       ),
-      // A front
+      // F front-back
       ...buildQuad(
-        [...pa8, ht1],
-        [...pa7, ht1],
-        [...pa6, ht1],
-        [...pa9, ht1],
+        [...pf4, ht3] as Point,
+        [...pf7, ht3] as Point,
+        [...pf6, ht3] as Point,
+        [...pf5, ht3] as Point,
         this.normals
       ),
       ...buildQuad(
-        [...pa9, ht1],
-        [...pa6, ht1],
-        [...pa5, ht1],
-        [...pa0, ht1],
-        this.normals
-      ),
-      ...buildQuad(
-        [...pa0, ht1],
-        [...pa5, ht1],
-        [...pa4, ht1],
-        [...pa1, ht1],
-        this.normals
-      ),
-      ...buildQuad(
-        [...pa1, ht1],
-        [...pa4, ht1],
-        [...pa3, ht1],
-        [...pa2, ht1],
-        this.normals
-      ),
-      // A back
-      ...buildQuad(
-        [...pa8, -ht1],
-        [...pa7, -ht1],
-        [...pa6, -ht1],
-        [...pa9, -ht1],
+        [...pf4, -ht3] as Point,
+        [...pf7, -ht3] as Point,
+        [...pf6, -ht3] as Point,
+        [...pf5, -ht3] as Point,
         this.normals,
         true
       ),
+      // F connector front
       ...buildQuad(
-        [...pa9, -ht1],
-        [...pa6, -ht1],
-        [...pa5, -ht1],
-        [...pa0, -ht1],
-        this.normals,
-        true
-      ),
-      ...buildQuad(
-        [...pa0, -ht1],
-        [...pa5, -ht1],
-        [...pa4, -ht1],
-        [...pa1, -ht1],
-        this.normals,
-        true
-      ),
-      ...buildQuad(
-        [...pa1, -ht1],
-        [...pa4, -ht1],
-        [...pa3, -ht1],
-        [...pa2, -ht1],
-        this.normals,
-        true
-      ),
-      // A connector
-      ...buildWrapper(
-        [pa0, pa1, pa2, pa3, pa4, pa5, pa6, pa7, pa8, pa9],
-        ht1,
-        this.normals
-      ),
-      // B front
-      ...buildQuad(
-        [...pb0, ht2],
-        [...pb3, ht2],
-        [...pb2, ht2],
-        [...pb1, ht2],
-        this.normals
-      ),
-      // B back
-      ...buildQuad(
-        [...pb0, -ht2],
-        [...pb3, -ht2],
-        [...pb2, -ht2],
-        [...pb1, -ht2],
-        this.normals,
-        true
-      ),
-      // B connector
-      ...buildWrapper(
-        [pb0, pb1, pb2, pb3],
-        ht2,
-        this.normals
-      ),
-      // C
-      ...buildQuad(
-        [pc0[0], pcyt, pc0[1]],
-        [pc0[0], pcyb, pc0[1]],
-        [pc1[0], pcyb, pc1[1]],
-        [pc1[0], pcyt, pc1[1]],
+        [...pf0, 0] as Point,
+        [...pf4, ht3] as Point,
+        [...pf5, ht3] as Point,
+        [...pf1, 0] as Point,
         this.normals
       ),
       ...buildQuad(
-        [pc1[0], pcyt, pc1[1]],
-        [pc1[0], pcyb, pc1[1]],
-        [pc2[0], pcyb, pc2[1]],
-        [pc2[0], pcyt, pc2[1]],
+        [...pf1, 0] as Point,
+        [...pf5, ht3] as Point,
+        [...pf6, ht3] as Point,
+        [...pf2, 0] as Point,
         this.normals
       ),
       ...buildQuad(
-        [pc2[0], pcyt, pc2[1]],
-        [pc2[0], pcyb, pc2[1]],
-        [pc3[0], pcyb, pc3[1]],
-        [pc3[0], pcyt, pc3[1]],
+        [...pf2, 0] as Point,
+        [...pf6, ht3] as Point,
+        [...pf7, ht3] as Point,
+        [...pf3, 0] as Point,
         this.normals
       ),
       ...buildQuad(
-        [pc3[0], pcyt, pc3[1]],
-        [pc3[0], pcyb, pc3[1]],
-        [pc0[0], pcyb, pc0[1]],
-        [pc0[0], pcyt, pc0[1]],
+        [...pf3, 0] as Point,
+        [...pf7, ht3] as Point,
+        [...pf4, ht3] as Point,
+        [...pf0, 0] as Point,
         this.normals
       ),
-      // D front
+      // F connector back
       ...buildQuad(
-        [...pd0, ht1],
-        [...pd3, ht1],
-        [...pd2, ht1],
-        [...pd1, ht1],
-        this.normals
+        [...pf0, 0] as Point,
+        [...pf4, -ht3] as Point,
+        [...pf5, -ht3] as Point,
+        [...pf1, 0] as Point,
+        this.normals, true
       ),
-      // D back
       ...buildQuad(
-        [...pd0, -ht1],
-        [...pd3, -ht1],
-        [...pd2, -ht1],
-        [...pd1, -ht1],
-        this.normals,
-        true
+        [...pf1, 0] as Point,
+        [...pf5, -ht3] as Point,
+        [...pf6, -ht3] as Point,
+        [...pf2, 0] as Point,
+        this.normals, true
       ),
-      // D connector
-      ...buildWrapper(
-        [pd0, pd1, pd2, pd3],
-        ht1,
-        this.normals
+      ...buildQuad(
+        [...pf2, 0] as Point,
+        [...pf6, -ht3] as Point,
+        [...pf7, -ht3] as Point,
+        [...pf3, 0] as Point,
+        this.normals, true
+      ),
+      ...buildQuad(
+        [...pf3, 0] as Point,
+        [...pf7, -ht3] as Point,
+        [...pf4, -ht3] as Point,
+        [...pf0, 0] as Point,
+        this.normals, true
       ),
     ];
-
-    this.euy = 0;
   }
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    // this.setTransformation("rotate", [0, 0, this.euy], true);
-    this.euy = (this.euy - 1) % 90;
-
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();

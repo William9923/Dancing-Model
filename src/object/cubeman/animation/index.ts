@@ -1,13 +1,11 @@
 import IMirrorManAnimation from "./animation";
-import BodyMirrorManAnimation from "./bodyAnimation";
-import HeadMirrorManAnimation from "./headAnimation";
+import DanceMirrorManAnimation from "./danceAnimation";
 import JumpMirrorManAnimation from "./jumpingAnimation";
 import WalkMirrorManAnimation from "./walkingAnimation";
 
 export {
   IMirrorManAnimation,
-  BodyMirrorManAnimation,
-  HeadMirrorManAnimation,
+  DanceMirrorManAnimation,
   JumpMirrorManAnimation,
   WalkMirrorManAnimation,
 };

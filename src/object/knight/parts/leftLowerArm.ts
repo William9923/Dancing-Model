@@ -8,22 +8,6 @@ class LeftLowerArm extends Node {
   constructor() {
     super();
 
-    // this.setInstanceMatrix(mat4.mMult(
-    //   mat4.scale(0.20, 0.55, 0.20),
-    //   // mat4.zRotation(10),
-    //   // mat4.yRotation(0),
-    //   // mat4.xRotation(-30),
-    //   mat4.translation(0.45, 0.41, 0),
-    // ));
-    //
-    // // 0.25 = xtranslation
-    // // -0.25 = ytranslation + 1 / 2 * height
-    // this.centralPoint = [0.45, 0.57, 0];
-    //
-    // // set initial tranformation
-    // this.setTransformation("rotate", [0, -90, 45], true);
-    // // this.setTransformation("rotate", [0, 0, this.euy], true);
-
     this.setInstanceMatrix(mat4.mMult(
       mat4.scale(0.18, 0.55, 0.18),
       // mat4.zRotation(0),
@@ -46,14 +30,10 @@ class LeftLowerArm extends Node {
     // empty the normals array
     this.normals = [];
     this.points = buildCubePoints(this.normals);
-    this.euy = 0;
   }
 
   // override
   public render(baseTransformMatrix: number[] = mat4.identity()) {
-    // this.setTransformation("rotate", [1.3 * this.euy, -this.euy, 0], true);
-    this.euy = (this.euy - 1) % 90;
-
     this.applyMaterialProperties();
     this.applyPosition();
     this.applyNormal();

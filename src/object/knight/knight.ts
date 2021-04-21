@@ -1,4 +1,4 @@
-import Node from "../node";
+import Node, {ISaveableNode} from "../node";
 import * as parts from "./parts";
 import { IKnightAnimation } from "./animation";
 import SliderManager from "../../SliderManager";
@@ -8,7 +8,31 @@ const X = 0;
 const Y = 1;
 const Z = 2;
 
-class Knight extends Node {
+class KnightMovement {
+  public hip: number;
+  public chest: number;
+  public head: number;
+  public luaX: number;
+  public luaY: number;
+  public luaZ: number;
+  public ruaX: number;
+  public ruaY: number;
+  public ruaZ: number;
+  public llaBend: number;
+  public llaTwist: number;
+  public rlaBend: number;
+  public rlaTwist: number;
+  public lulX: number;
+  public lulZ: number;
+  public rulX: number;
+  public rulZ: number;
+  public lllBend: number;
+  public rllBend: number;
+  public translateHipY: number;
+  public shieldX: number;
+}
+
+class Knight extends Node implements ISaveableNode {
   // Body Parts
   // main
   public hip: Node;
@@ -233,6 +257,75 @@ class Knight extends Node {
 
   public reset() {
     SliderManager.resetKSliderValue();
+  }
+
+  /*
+   * Save and load
+   */
+
+  public saveMovement(): KnightMovement {
+    const km = new KnightMovement();
+    km.hip = this.hip.getTransformation("rotate")[Y];
+    km.chest = this.chest.getTransformation("rotate")[Y];
+    km.head = this.head.getTransformation("rotate")[Y];
+    km.luaX = this.lua.getTransformation("rotate")[X];
+    km.luaY = this.lua.getTransformation("rotate")[Y];
+    km.luaZ = this.lua.getTransformation("rotate")[Z];
+    km.ruaX = this.rua.getTransformation("rotate")[X];
+    km.ruaY = this.rua.getTransformation("rotate")[Y];
+    km.ruaZ = this.rua.getTransformation("rotate")[Z];
+    km.llaBend = this.lla.getTransformation("rotate")[X];
+    km.llaTwist = this.lla.getTransformation("rotate")[Y];
+    km.rlaBend = this.rla.getTransformation("rotate")[X];
+    km.rlaTwist = this.rla.getTransformation("rotate")[Y];
+    km.lulX = this.lul.getTransformation("rotate")[X];
+    km.lulZ = this.lul.getTransformation("rotate")[Z];
+    km.rulX = this.rul.getTransformation("rotate")[X];
+    km.rulZ = this.rul.getTransformation("rotate")[Z];
+    km.lllBend = this.lll.getTransformation("rotate")[X];
+    km.rllBend = this.rll.getTransformation("rotate")[X];
+    km.translateHipY = this.hip.getTransformation("translate")[Y];
+    km.shieldX = this.shield.getTransformation("rotate")[Z];
+    return km;
+  }
+
+  public loadMovement(km: KnightMovement) {
+    this.moveHip(km.hip);
+    this.moveChest(km.chest);
+    this.moveHead(km.head);
+    this.moveLeftUpperArmX(km.luaX);
+    this.moveLeftUpperArmY(km.luaY);
+    this.moveLeftUpperArmZ(km.luaZ);
+    this.moveRightUpperArmX(km.ruaX);
+    this.moveRightUpperArmY(km.ruaY);
+    this.moveRightUpperArmZ(km.ruaZ);
+    this.bendLeftLowerArm(km.llaBend);
+    this.twistLeftLowerArm(km.llaTwist);
+    this.bendRightLowerArm(km.rlaBend);
+    this.twistRightLowerArm(km.rlaTwist);
+    this.moveLeftUpperLegX(km.lulX);
+    this.moveLeftUpperLegZ(km.lulZ);
+    this.moveRightUpperLegX(km.rulX);
+    this.moveRightUpperLegZ(km.rulZ);
+    this.bendLeftLowerLeg(km.lllBend);
+    this.bendRightLowerLeg(km.rllBend);
+    this.translateHipY(km.translateHipY);
+    this.moveShieldX(km.shieldX);
+  }
+
+  public save() {
+    let data = "Knight\n";
+    data += JSON.stringify(this.saveMovement());
+    return data;
+  }
+
+  public load(data: string) {
+    const [type, body] = data.split("\n");
+    if (type != "Knight") {
+      throw "Failed to load knight";
+    }
+    this.loadMovement(JSON.parse(body));
+    return this;
   }
 
   /*

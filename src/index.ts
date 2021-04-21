@@ -2,8 +2,7 @@ import App from "./app";
 import Scene from "./scene";
 import MirrorMan, {isMirrorMan} from "./object/cubeman";
 import {
-  HeadMirrorManAnimation,
-  BodyMirrorManAnimation,
+  DanceMirrorManAnimation,
   WalkMirrorManAnimation,
   JumpMirrorManAnimation,
 } from "./object/cubeman/animation";
@@ -14,6 +13,8 @@ import {
   DanceKnightAnimation,
 } from "./object/knight/animation";
 import Cow, {isCow} from "./object/cow";
+
+import {ISaveableNode} from "./object/node";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -101,7 +102,6 @@ obj1ResetBtn.addEventListener("click", () => {
 
   // Build mirror man
   scene.add(MirrorMan.build());
-
 });
 
 /**
@@ -119,11 +119,11 @@ const sliderUsage = (clickable: boolean) => {
  * Attach Animation Listener
  */
 
-const obj1HeadClipBtn = document.getElementById("animate-obj1-1") as HTMLElement;
-obj1HeadClipBtn.addEventListener("click", () => {
+const obj1DanceClipBtn = document.getElementById("animate-obj1-1") as HTMLElement;
+obj1DanceClipBtn.addEventListener("click", () => {
   sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new HeadMirrorManAnimation(5)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new DanceMirrorManAnimation(5)),
   );
 });
 
@@ -131,7 +131,7 @@ const obj1WalkClipBtn = document.getElementById("animate-obj1-3") as HTMLElement
 obj1WalkClipBtn.addEventListener("click", () => {
   sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new WalkMirrorManAnimation(7)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new WalkMirrorManAnimation(5)),
   );
 });
 
@@ -140,7 +140,7 @@ obj1JumpClipBtn.addEventListener("click", () => {
   scene?.objects.forEach((object) => isMirrorMan(object) && object.reset());
   sliderUsage(false);
   scene.objects.forEach(
-    (object) => isMirrorMan(object) && object.setAnimationClip(new JumpMirrorManAnimation(3)),
+    (object) => isMirrorMan(object) && object.setAnimationClip(new JumpMirrorManAnimation(2)),
   );
 });
 
@@ -235,114 +235,63 @@ camResetBtn.addEventListener("click", () => {
 app.start();
 
 /**
- * Archive Old Application
+ * Setup Save/Load Action Button
  */
 
-// Pick hollow object buttons event handler
-// const prismBtn = document.getElementById("prism") as HTMLElement;
-// prismBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("prism"));
-// });
+let file: File | null = null;
+const fileInput = document.getElementById("file") as HTMLInputElement;
+fileInput.onchange = () => {
+  file = fileInput.files?.item(0) ?? null;
+};
 
-// const cubeBtn = document.getElementById("cube") as HTMLElement;
-// cubeBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("cube"));
-// });
+const loadButton = document.getElementById("load") as HTMLButtonElement;
+loadButton.onclick = () => {
+  if (!file) {
+    alert("Belum ada file yang dipilih");
+    return;
+  }
+  const reader = new FileReader();
+  reader.addEventListener("load", (event) => {
+    const result = event.target?.result;
+    if (typeof result === "string") {
+      const [type, ] = result.split("\n");
+      switch (type) {
+        case "Knight":
+          knightBtn.click();
+          scene.add(Knight.build().load(result), true);
+          break;
+        case "MirrorMan" :
+          mirrorBtn.click();
+          scene.add(MirrorMan.build().load(result), true)
+          break;
+        default:
+          alert("Invalid save file");
+      }
+    }
+  });
+  reader.readAsText(file);
+};
 
-// const blockBtn = document.getElementById("block") as HTMLElement;
-// blockBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("block"));
-// });
+function download(filename: string, content: string) {
+  var element = document.createElement("a");
+  element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
+  element.setAttribute("download", filename);
 
-// Perspective buttons event handler
-// const orthographicBtn = document.getElementById("orthographic") as HTMLElement;
-// orthographicBtn.addEventListener("click", () => {
-//   app.setSceneProjection("orthographic");
-// });
+  element.style.display = "none";
+  document.body.appendChild(element);
 
-// const obliqueBtn = document.getElementById("oblique") as HTMLElement;
-// obliqueBtn.addEventListener("click", () => {
-//   app.setSceneProjection("oblique");
-// });
+  element.click();
 
-// const perspectiveBtn = document.getElementById("perspective") as HTMLElement;
-// perspectiveBtn.addEventListener("click", () => {
-//   app.setSceneProjection("perspective");
-// });
+  document.body.removeChild(element);
+}
 
-// // function for debugging block / cube as well
-// function initShape(shapeName: ShapeType): Shape {
-//   let obj: Shape;
-//   switch (shapeName) {
-//     case "prism":
-//       obj = new TriangularPrism(canvas);
-//       break;
-//   }
-//   const shadingElmt = document.getElementById("shading") as HTMLInputElement;
-//   obj.setUseShading(shadingElmt.checked);
-//   return obj;
-// }
-//
-// // Init default shapes
-// // change this to prism later
-// const defaultObj = initShape("prism");
-//
-// // Init app
-// const app = new App();
-// app.setShape(defaultObj);
-//
-// // Pick hollow object buttons event handler
-// const prismBtn = document.getElementById("prism") as HTMLElement;
-// prismBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("prism"));
-// });
-//
-// const cubeBtn = document.getElementById("cube") as HTMLElement;
-// cubeBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("cube"));
-// });
-//
-// const blockBtn = document.getElementById("block") as HTMLElement;
-// blockBtn.addEventListener("click", () => {
-//   app.resetAll();
-//   app.setShape(initShape("block"));
-// });
-//
-// // Perspective buttons event handler
-// const orthographicBtn = document.getElementById("orthographic") as HTMLElement;
-// orthographicBtn.addEventListener("click", () => {
-//   app.setShapeProjection("orthographic");
-// });
-//
-// const obliqueBtn = document.getElementById("oblique") as HTMLElement;
-// obliqueBtn.addEventListener("click", () => {
-//   app.setShapeProjection("oblique");
-// });
-//
-// const perspectiveBtn = document.getElementById("perspective") as HTMLElement;
-// perspectiveBtn.addEventListener("click", () => {
-//   app.setShapeProjection("perspective");
-// });
-//
-// // Reset button event handler
-// const resetBtn = document.getElementById("reset") as HTMLElement;
-// resetBtn.addEventListener("click", () => {
-//   app.resetShape();
-// });
-//
-// const camResetBtn = document.getElementById("cam-reset") as HTMLElement;
-// camResetBtn.addEventListener("click", () => {
-//   app.resetCamera();
-// });
-//
-// const shadingToggle = document.getElementById("shading") as HTMLInputElement;
-// shadingToggle.addEventListener("change", () => {
-//   app.toggleShading(shadingToggle.checked);
-// });
-// // Start app
-// app.start();
+const saveButton = document.getElementById("save") as HTMLButtonElement;
+saveButton.onclick = () => {
+  const obj: ISaveableNode = scene.objects[0] as unknown as ISaveableNode;
+  const data = obj.save();
+  if (data) {
+    download(`articulate-model-${obj.constructor.name}.json`, data);
+  } else {
+    alert("No shape found.");
+  }
+};
