@@ -1,4 +1,4 @@
-import Node from "../node";
+import Node, {ISaveableNode} from "../node";
 import {mat4} from "../../util/matrix";
 import SliderManager from "../../SliderManager";
 
@@ -41,7 +41,7 @@ class MirrorManMovement {
   public rh: number;
 }
 
-class MirrorMan extends Node {
+class MirrorMan extends Node implements ISaveableNode {
   // Main Body Parts
   public head: Node;
   public chest: Node;

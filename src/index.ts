@@ -13,6 +13,8 @@ import {
   DanceKnightAnimation,
 } from "./object/knight/animation";
 
+import {ISaveableNode} from "./object/node";
+
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
 const scene = new Scene(canvas);
@@ -262,7 +264,7 @@ function download(filename: string, content: string) {
 
 const saveButton = document.getElementById("save") as HTMLButtonElement;
 saveButton.onclick = () => {
-  const obj = scene.objects[0];
+  const obj: ISaveableNode = scene.objects[0] as unknown as ISaveableNode;
   const data = obj.save();
   if (data) {
     download(`articulate-model-${obj.constructor.name}.json`, data);
