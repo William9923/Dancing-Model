@@ -231,11 +231,12 @@ abstract class Node {
    */
 
   public abstract setupPoints(): void;
-
-  public abstract save(): string;
-
   public abstract render(baseTransformMatrix: number[]): void;
 
+}
+
+export interface ISaveableNode {
+  save(): string;
 }
 
 export default Node;

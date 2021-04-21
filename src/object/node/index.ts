@@ -1,4 +1,8 @@
-import Node from "./node";
+import Node, {ISaveableNode} from "./node";
 
 // prettier-ignore
 export default Node;
+
+export {
+    ISaveableNode
+}
