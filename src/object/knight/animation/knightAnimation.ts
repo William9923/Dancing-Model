@@ -1,3 +1,4 @@
+import Node from "../../node";
 import Knight from "../knight";
 import IKnightAnimation from "./animation";
 
@@ -5,14 +6,19 @@ const X = 0;
 const Y = 1;
 const Z = 2;
 
+type KeyframesType = { index: number, position: { [key: string]: number } }[];
+type DeltaKeyframesType = { [key: string]: number }[];
+type CallbackMapType = { [key: string]: (arg0: number) => void };
+type TargetMapType = { [key: string]: { part: Node, idx: number } };
+
 class KnightAnimation implements IKnightAnimation {
   private _started: boolean;
 
-  private _keyframes: any;
-  private _deltaKeyframes: any = [];
-  private _duration: number;  // in 1/10 second
-  private _callbackMap: object = {};
-  private _targetMap: object = {};
+  private readonly _keyframes: KeyframesType;
+  private _deltaKeyframes: DeltaKeyframesType = [];
+  private readonly _duration: number;  // in 1/10 second
+  private _callbackMap: CallbackMapType = {};
+  private _targetMap: TargetMapType = {};
   private _currKeyframe: number = 0;
 
   constructor(keyframes: any, duration: number) {
@@ -35,7 +41,7 @@ class KnightAnimation implements IKnightAnimation {
         return kfToKeys.indexOf(el) !== -1;
       });
 
-      let deltaKf = {};
+      let deltaKf: { [key: string]: number } = {};
       for (const k of deltaKfKeys) {
         const deltaPos = kfTo.position[k] - kfFrom.position[k];
         if (deltaPos == 0) continue;
