@@ -14,7 +14,7 @@ Menggunakan library tambahan untuk membantu development:
 
 ## Identitas
 
-- Vincent Lienardo 13518114
+- Vincentius Lienardo 13518081
 - Naufal Dean Anugrah 13518123
 - William 13518138
 
